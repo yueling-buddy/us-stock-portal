@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>美股研究终端 · 聚合入口</title>
+<meta name="description" content="一个网址聚合全部美股研究工具与栏目：选股器、RPS画廊、拥挤度、周策略（AI解读）、动量选股。">
+<meta name="theme-color" content="#2563eb">
+<link rel="icon" href="logo.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="logo.svg">
+<meta property="og:type" content="website">
+<meta property="og:title" content="美股研究终端 · 聚合入口">
+<meta property="og:description" content="一个网址聚合全部美股研究工具与栏目：选股器、RPS画廊、拥挤度、周策略（AI解读）、动量选股。">
+<meta property="og:image" content="og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<style>
+  :root{
+    --bg:#f5f7fa; --card:#ffffff; --ink:#1f2937; --muted:#6b7280;
+    --line:#e5e7eb; --accent:#2563eb; --accent-soft:#eff6ff;
+    --green:#16a34a; --amber:#d97706; --gray:#9ca3af;
+    --violet:#7c3aed; --blue:#2563eb;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:-apple-system,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;
+       background:var(--bg);color:var(--ink);line-height:1.6;}
+  .wrap{max-width:1080px;margin:0 auto;padding:34px 20px 60px;}
+  header h1{font-size:26px;font-weight:700;letter-spacing:.5px;}
+  header p{color:var(--muted);margin-top:6px;font-size:14px;}
+  nav{position:sticky;top:0;background:rgba(245,247,250,.92);backdrop-filter:blur(8px);
+      z-index:10;padding:14px 0;margin:22px 0 6px;border-bottom:1px solid var(--line);
+      display:flex;gap:10px;flex-wrap:wrap;}
+  nav button{border:1px solid var(--line);background:var(--card);color:var(--ink);
+      padding:8px 18px;border-radius:999px;cursor:pointer;font-size:14px;font-weight:600;transition:.15s;}
+  nav button.active{background:var(--accent);color:#fff;border-color:var(--accent);}
+  .group{margin-top:26px;}
+  .group h2{font-size:18px;margin-bottom:14px;display:flex;align-items:center;gap:8px;}
+  .group h2 .cnt{font-size:12px;color:var(--muted);font-weight:400;}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px;}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:20px;
+      text-decoration:none;color:inherit;display:flex;flex-direction:column;gap:10px;
+      transition:.15s;position:relative;}
+  .card:hover{transform:translateY(-3px);box-shadow:0 10px 28px rgba(0,0,0,.08);border-color:var(--accent);}
+  .card .ico{font-size:26px;}
+  .card h3{font-size:17px;font-weight:700;}
+  .card p{font-size:13px;color:var(--muted);flex:1;}
+  .tag{align-self:flex-start;font-size:11px;font-weight:700;padding:3px 9px;border-radius:999px;}
+  .tag.pub{background:#dcfce7;color:var(--green);}
+  .tag.local{background:#fef3c7;color:var(--amber);}
+  .tag.soon{background:#f3f4f6;color:var(--gray);}
+  .card .go{font-size:13px;color:var(--accent);font-weight:600;}
+  .card.disabled{opacity:.72;cursor:default;}
+  .card.disabled:hover{transform:none;box-shadow:none;border-color:var(--line);}
+
+  /* 历史栏目归档 */
+  .archive{margin-top:28px;border-top:1px dashed var(--line);padding-top:20px;}
+  .arch-title{font-size:15px;color:var(--muted);margin-bottom:14px;font-weight:600;display:flex;align-items:center;gap:8px;}
+  .arch-title .cnt{font-size:12px;color:var(--gray);}
+  .arch-list{list-style:none;display:flex;flex-direction:column;gap:9px;}
+  .arch-item{display:flex;align-items:center;gap:12px;padding:11px 15px;background:var(--card);
+      border:1px solid var(--line);border-radius:11px;transition:.15s;}
+  .arch-item:hover{border-color:var(--accent);box-shadow:0 4px 14px rgba(0,0,0,.05);}
+  .arch-date{font-weight:700;font-size:13px;min-width:96px;color:var(--ink);}
+  .arch-badge{font-size:11px;font-weight:700;padding:2px 9px;border-radius:999px;white-space:nowrap;}
+  .arch-badge.strategy{background:#ede9fe;color:var(--violet);}
+  .arch-badge.momentum{background:#dbeafe;color:var(--blue);}
+  .arch-ttl{flex:1;font-size:13px;color:var(--muted);}
+  .arch-item a{font-size:13px;color:var(--accent);font-weight:600;text-decoration:none;white-space:nowrap;}
+  .arch-item a:hover{text-decoration:underline;}
+
+  footer{margin-top:42px;font-size:12px;color:var(--muted);border-top:1px solid var(--line);padding-top:16px;}
+  .hidden{display:none;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>美股研究终端</h1>
+    <p>选股工具与定期栏目的统一入口 · 所有子工具在新标签页打开</p>
+  </header>
+
+  <nav>
+    <button data-g="tools" class="active">选股功能</button>
+    <button data-g="columns">栏目</button>
+  </nav>
+
+  <section class="group" id="g-tools">
+    <h2>选股功能 <span class="cnt" id="c-tools"></span></h2>
+    <div class="grid" id="grid-tools"></div>
+  </section>
+
+  <section class="group hidden" id="g-columns">
+    <h2>栏目 <span class="cnt" id="c-columns"></span></h2>
+    <div class="grid" id="grid-columns"></div>
+
+    <div class="archive">
+      <div class="arch-title">历史栏目 <span class="cnt" id="c-archive"></span></div>
+      <ul class="arch-list" id="arch-list"></ul>
+    </div>
+  </section>
+
+  <footer>
+    点击卡片会在新标签页打开对应工具或栏目；若某个功能卡片暂时打不开，刷新或稍后再试即可。<br>
+    收藏本页网址就够了，子工具地址更新时这里会自动保持最新。
+  </footer>
+</div>
+
+<script>
+/* ===== 菜单数据：以后加工具只改这里 ===== */
+const APPS = [
+  // ---- 选股功能（你操作的工具）----
+  // 工具网址不再写死：统一从同沙箱 tools.json 运行时解析（见底部 resolveToolUrls）。
+  // 卡片位置固定不变；若某工具沙箱回收换了新网址 → 只改 tools.json + 重部署 portal，
+  // 用户收藏的这一个聚合页网址不变，卡片自动接上新地址。
+  { group:'tools', id:'us-screener', title:'美股选股器', ico:'🔍',
+    desc:'RPS 强度 + 基本面 + 板块拥挤度综合筛选，支持多维排序与预设榜单。',
+    tag:'公开', tagType:'pub' },
+  { group:'tools', id:'rps-gallery', title:'RPS 画廊', ico:'📈',
+    desc:'个股 RPS 强度 K 线画廊，可搜索 / 排序 / 杯柄与突破信号筛选，点开即单图。',
+    tag:'公开', tagType:'pub' },
+  { group:'tools', id:'crowding', title:'美股拥挤度', ico:'🌡️',
+    desc:'个股与板块量价拥挤度仪表盘，识别追高风险与赛道过热。',
+    tag:'公开', tagType:'pub' },
+  { group:'tools', id:'paper', title:'模拟盘', ico:'💼',
+    desc:'基于选股信号的回测与每日模拟交易，接入 DPWD 大盘温度做仓位管理。',
+    url:'',
+    tag:'占位·待上线', tagType:'soon' },
+];
+
+/* ===== 栏目内容：单一数据源，按日期倒序 =====
+   渲染规则（自动派生，新增一期只加一行）：
+   - 每个 type 的第一条（最新）= 栏目主卡片
+   - 其余（更早的期）= 历史栏目归档
+   - 只挂此处真实存在的文件，绝不出现失效链接
+*/
+const COLUMNS = [
+  { date:'2026-08-16', type:'strategy',  typeLabel:'周策略',   title:'AI解读（英文）', ico:'📝',
+    desc:'AI 解读版（English）：每周美股大盘温度、领涨行业、机构观点与风险跟踪（最新一期）。',
+    file:'us_market_report_2026-08-16_narrative_en.html' },
+  { date:'2026-08-14', type:'momentum', typeLabel:'动量选股', title:'个股筛选',     ico:'🚀',
+    desc:'个股筛选：每周动量选股名单、行业门控与买卖点信号解读（最新一期）。',
+    file:'momentum_column_2026-08-14.html' },
+  { date:'2026-08-10', type:'strategy',  typeLabel:'周策略',   title:'AI解读（英文）', ico:'📝',
+    desc:'AI 解读版（English）：每周美股大盘温度、领涨行业、机构观点与风险跟踪。',
+    file:'us_market_report_2026-08-10_narrative_en.html' },
+  { date:'2026-08-08', type:'momentum', typeLabel:'动量选股', title:'个股筛选',     ico:'🚀',
+    desc:'个股筛选：每周动量选股名单、行业门控与买卖点信号解读。',
+    file:'momentum_column_2026-08-08.html' },
+  { date:'2026-08-07', type:'momentum', typeLabel:'动量选股', title:'个股筛选',     ico:'🚀',
+    desc:'个股筛选：每周动量选股名单、行业门控与买卖点信号解读。',
+    file:'momentum_column_2026-08-07.html' },
+  { date:'2026-08-06', type:'strategy',  typeLabel:'周策略',   title:'AI解读（英文）', ico:'📝',
+    desc:'AI 解读版（English）：每周美股大盘温度、领涨行业、机构观点与风险跟踪。',
+    file:'us_market_report_2026-08-06_narrative_en.html' },
+];
+
+/* ===== 工具网址注册表：唯一动态源 =====
+   工具各自部署在独立沙箱，平台回收后会换网址。为避免每次都要重新收藏，
+   卡片网址统一从这里（同沙箱 tools.json，固定可访问）运行时解析；
+   某工具网址更新 → 只改 tools.json + 重部署 portal，卡片自动接上新址。
+   TOOL_FALLBACK 为离线兜底：tools.json 拉取失败时仍用最后已知网址。
+*/
+const TOOL_FALLBACK = {
+  'us-screener': 'https://fd07ae362dd84887a44f5e9471e0ff97.app.workbuddy.link',
+  'rps-gallery': 'https://9e305f1937164227966247d2163ba47c.app.workbuddy.link',
+  'crowding':    'https://cc602ab69c3746f2adbeb3e0fa69c4a6.gz2.agentos-app.net/'
+};
+function resolveToolUrls(){
+  return fetch('tools.json')
+    .then(r => r.ok ? r.json() : {})
+    .catch(()=> ({}))
+    .then(map => Object.assign({}, TOOL_FALLBACK, map||{}));
+}
+function renderTools(urlMap){
+  const grid = document.getElementById('grid-tools');
+  grid.innerHTML = '';
+  let n = 0;
+  APPS.forEach(a=>{
+    if(a.group!=='tools') return;
+    n++;
+    const url = (a.url || urlMap[a.id] || '');
+    const disabled = !url;
+    const el = document.createElement(disabled ? 'div' : 'a');
+    el.className = 'card' + (disabled ? ' disabled' : '');
+    if(!disabled){ el.href = url; el.target = '_blank'; el.rel = 'noopener'; }
+    el.innerHTML =
+      '<div class="ico">'+a.ico+'</div>'+
+      '<h3>'+a.title+'</h3>'+
+      '<p>'+a.desc+'</p>'+
+      '<span class="tag '+a.tagType+'">'+a.tag+'</span>'+
+      (disabled ? '<span class="go">即将上线</span>' : '<span class="go">打开 →</span>');
+    grid.appendChild(el);
+  });
+  document.getElementById('c-tools').textContent = '（'+n+'）';
+}
+
+(function render(){
+  // ---- 选股功能（tools）：网址从 tools.json 动态解析，卡片位置固定不变 ----
+  resolveToolUrls().then(function(urlMap){ renderTools(urlMap); });
+
+  // ---- 栏目：每个 type 的第一条（最新）作主卡片，其余进历史归档 ----
+  const latestByType = {};
+  COLUMNS.forEach(c=>{ if(!(c.type in latestByType)) latestByType[c.type] = c; });
+
+  const gridCol = document.getElementById('grid-columns');
+  Object.values(latestByType).forEach(c=>{
+    const a = document.createElement('a');
+    a.className = 'card';
+    a.href = c.file; a.target = '_blank'; a.rel = 'noopener';
+    a.innerHTML =
+      '<div class="ico">'+c.ico+'</div>'+
+      '<h3>'+c.typeLabel+' <span style="font-size:12px;color:var(--muted);font-weight:400;">'+c.date+' 最新</span></h3>'+
+      '<p>'+c.desc+'</p>'+
+      '<span class="tag pub">公开</span>'+
+      '<span class="go">打开 →</span>';
+    gridCol.appendChild(a);
+  });
+  document.getElementById('c-columns').textContent = '（'+Object.keys(latestByType).length+' 个栏目）';
+
+  // ---- 历史栏目归档：排除各栏目最新期，空则占位 ----
+  const al = document.getElementById('arch-list');
+  const back = COLUMNS.filter(c => latestByType[c.type] !== c);
+  if(back.length === 0){
+    al.innerHTML = '<li class="arch-item" style="color:var(--muted);">暂无历史栏目</li>';
+  } else {
+    back.forEach(it=>{
+      const li = document.createElement('li');
+      li.className = 'arch-item';
+      li.innerHTML =
+        '<span class="arch-date">'+it.date+'</span>'+
+        '<span class="arch-badge '+it.type+'">'+it.typeLabel+'</span>'+
+        '<span class="arch-ttl">'+it.title+'</span>'+
+        '<a href="'+it.file+'" target="_blank" rel="noopener">查看 →</a>';
+      al.appendChild(li);
+    });
+  }
+})();
+
+const btns = document.querySelectorAll('nav button');
+btns.forEach(b=>b.addEventListener('click',()=>{
+  btns.forEach(x=>x.classList.remove('active'));
+  b.classList.add('active');
+  const g = b.dataset.g;
+  document.getElementById('g-tools').classList.toggle('hidden', g!=='tools');
+  document.getElementById('g-columns').classList.toggle('hidden', g!=='columns');
+}));
+</script>
+</body>
+</html>
