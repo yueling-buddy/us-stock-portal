@@ -44,9 +44,15 @@ portal/                          # 本地权威源（推送到 GitHub Pages 后�
 - **门户主文件**：`portal-design/deploy_github.py`（走 GitHub Contents API，规避本沙箱 git `receive-pack` 被阻断的问题）
   - 用法：`export GH_TOKEN='ghp_xxx'` 后 `python portal-design/deploy_github.py`
   - 幂等：文件已存在则 update（带 sha），不存在则 create；仓库绑定，地址不变。
-- **子工具子目录**（screener / rps-gallery / crowding）：`portal-design/deploy_subtree.py`
-  - 用法：`export GH_TOKEN='ghp_xxx'` 后 `python portal-design/deploy_subtree.py "<本地目录>" <子路径>`
-  - 例：`python deploy_subtree.py "D:/Workbuddy Space/us-stock-screener/rps/static_dist_pub" screener`
+- **子工具子目录**（screener / rps-gallery / crowding）：
+  - 小目录用 `portal-design/deploy_subtree.py`（Git Data API）
+  - 大目录（如 RPS 画廊 193MB/1818 文件）用 `portal-design/deploy_subtree_ssh.py`（SSH deploy key + git push，默认读 `.workbuddy/github_portal_deploy_key`）
+  - 例：
+    ```bash
+    python deploy_subtree_ssh.py "D:/Workbuddy Space/us-stock-screener/rps/static_dist_pub" screener
+    python deploy_subtree_ssh.py "D:/Workbuddy Space/us-stock-screener/rps/crowding_pub" crowding
+    python deploy_subtree_ssh.py "D:/Workbuddy Space/us-stock-screener/rps/chart_comp60_max_mainrps_pub" rps-gallery
+    ```
 - 首次/更新后约 1 分钟生效。
 
 ## 注意事项
