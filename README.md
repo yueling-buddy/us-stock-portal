@@ -8,10 +8,13 @@
 - **选股功能**：你操作的工具（美股选股器 / RPS 画廊 / 美股拥挤度 / 模拟盘占位）
 - **栏目**：你阅读的定期内容（周策略 / 动量选股 + 历史栏目归档）
 
-## 总入口（已部署）
-**https://7e7ae130f67b430c8793fadf3f6e23f1.app.workbuddy.link**
+## 总入口（已部署 · 固定网址）
+**https://yueling-buddy.github.io/us-stock-portal/**
 
-栏目区（最新 + 历史）已打包进本站 `columns/`，链接稳定；选股功能子工具为外链，可能因沙箱回收临时失效。
+> 托管于 GitHub Pages（仓库 `yueling-buddy/us-stock-portal`，main 分支）。地址与仓库绑定、**永不变、不过期**，彻底告别之前 CloudStudio 沙箱被回收导致「workspace not ready / 域名失效」的问题。
+> 旧 CloudStudio 聚合页 `7e7ae130…app.workbuddy.link` 已弃用下线。
+
+栏目区（最新 + 历史）已打包进本站根目录，链接稳定；选股功能子工具为外链，可能因沙箱回收临时失效（统一在 `tools.json` 维护，换链只改它）。
 
 ## 目录结构
 ```
@@ -29,11 +32,13 @@ portal/
 - **补一期历史归档**：把 HTML 放进 `columns/`，在 `COLUMNS_ARCHIVE` 加一行。
 
 ## 部署
-用 CloudStudio 部署 `portal/` 目录（同目录 → 复用同一 sandbox，总入口 URL 不变）：
-- 工具：`workbuddy_cloudstudio_deploy`，action=`deploy`，directory=`D:\Workbuddy Space\us-stock-screener\portal`
-- 历史 HTML 随目录一并上传，无需单独部署。
+推送 `portal/` 目录到 GitHub 仓库 `yueling-buddy/us-stock-portal`（main 分支根目录），GitHub Pages 自动发布：
+- 脚本：`portal-design/deploy_github.py`（走 GitHub Contents API，规避本沙箱 git `receive-pack` 被阻断的问题）
+- 用法：`export GH_TOKEN='ghp_xxx'` 后 `python portal-design/deploy_github.py`
+- 幂等：文件已存在则 update（带 sha），不存在则 create；仓库仓库绑定，地址不变。
+- 首次/更新后约 1 分钟生效。
 
 ## 注意事项
-- ⚠️ 选股功能子工具的外链（fd07ae3 / 9e305f… / cc602ab…）随平台回收沙箱可能失效，**勿写死进任何自动化 prompt**；某卡片打不开时「重部署 XX」即可。
-- 本地 `index.html` 若丢失，可从线上拉回（`curl 总入口 -o portal/index.html`），CloudStudio 沙箱保留已部署快照、独立于本地文件。
-- `columns/` 体积约 1.9MB（历史报告含 base64 内联图），重部署会一并上传，属可接受范围。
+- ⚠️ 选股功能子工具的外链（fd07ae3 / 9e305f… / cc602ab…）随平台回收沙箱可能失效，**勿写死进任何自动化 prompt**；某卡片打不开时「重部署 XX」即可。换链只改 `tools.json` 后重跑 `deploy_github.py`。
+- **本地 `portal/` 是权威源**：与 CloudStudio 不同，GitHub Pages 是 push 模式，本地改完推上去即生效，不存在「本地源被部署回同步覆盖」的问题。
+- `og:image` 已用相对路径 `og-image.png`，门户 host 无关，换任何托管方都无需再改。
