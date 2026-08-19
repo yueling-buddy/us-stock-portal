@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>ANGX 全部 K线+综合RPS</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+html,body{background:#f7f8fa;color:#1f2329;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"PingFang SC","Microsoft YaHei",sans-serif;}
+.wrap{padding:10px 8px 16px;}
+.hd{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;margin-bottom:2px;}
+.hd h1{font-size:18px;font-weight:700;}
+.hd .sub{font-size:12px;color:#8a9099;}
+.metricbar{display:flex;gap:8px;flex-wrap:wrap;margin:6px 0 10px;}
+.metric{background:#fff;border:1px solid #e6e8eb;border-radius:8px;padding:6px 10px;font-size:12px;line-height:1.35;min-width:72px;}
+.metric .lab{display:block;font-size:10px;color:#8a9099;margin-bottom:1px;}
+.metric .val{font-weight:700;color:#1f2329;font-size:13px;}
+.metric .chg{margin-left:3px;font-size:11px;}
+.legend{display:flex;gap:14px;flex-wrap:wrap;font-size:11px;color:#5b6168;margin:4px 2px 8px;}
+.legend i{display:inline-block;width:14px;height:3px;vertical-align:middle;margin-right:4px;border-radius:2px;}
+.canvas-box{position:relative;width:100%;background:#fff;border:1px solid #e6e8eb;border-radius:10px;overflow:hidden;touch-action:none;}
+canvas{display:block;width:100%;}
+.tip{position:absolute;pointer-events:none;background:rgba(31,35,41,.94);color:#fff;font-size:11px;line-height:1.5;padding:7px 9px;border-radius:7px;white-space:nowrap;display:none;z-index:5;box-shadow:0 4px 14px rgba(0,0,0,.25);}
+.tip b{color:#ffd666;}
+.foot{font-size:11px;color:#9aa0a6;margin-top:8px;line-height:1.6;}
+.btnrow{display:flex;gap:8px;margin:8px 0;}
+.btn{flex:1;text-align:center;background:#fff;border:1px solid #d8dce0;border-radius:8px;padding:7px 0;font-size:13px;color:#3a3f45;}
+.btn:active{background:#eef1f4;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="hd">
+    <h1>ANGX 全部</h1>
+    <span class="sub">K线 · MA50/MA200 · 综合RPS(副图·独立坐标·&gt;70绿) · S&P500顶部趋势 · 量能</span>
+  </div>
+  <div id="metricbar" class="metricbar"></div>
+  <div class="legend">
+    <span><i style="background:#26a69a"></i>涨</span>
+    <span><i style="background:#ef5350"></i>跌</span>
+    <span><i style="background:#f5a623"></i>MA50</span>
+    <span><i style="background:#9b59b6"></i>MA200</span>
+    <span><i style="background:#2d7ff9"></i>综合RPS(默认)</span>
+    <span><i style="background:#2e7d32"></i>RPS&gt;70</span>
+    <span><i style="background:#607d8b"></i>S&P 500</span>
+    <span><i style="background:#5b6168"></i>Vol MA20</span>
+  </div>
+  <div class="btnrow">
+    <div class="btn" id="bReset">重置视图</div>
+    <div class="btn" id="b3m">3月</div>
+    <div class="btn" id="b6m">6月</div>
+    <div class="btn" id="b1y">全部</div>
+  </div>
+  <div class="canvas-box">
+    <canvas id="cv"></canvas>
+    <div class="tip" id="tip"></div>
+  </div>
+  <div class="foot">
+    综合RPS = 0.4×RPS(3M) + 0.3×RPS(6M) + 0.3×RPS(1Y)，按选股器同口径将区间收益在全宇宙(~5312 只)百分位排名逐交易日复算。现已置于独立副图、拥有 0–100 专属坐标系，RPS&gt;70 段染绿以突出强势区。<br>
+    S&P 500 顶部趋势 = ^GSPC 相对窗口首日累计涨跌幅，以独立顶部小图呈现，只看市场大致趋势、不与个股价格重叠。<br>
+    绿涨红跌（美股习惯）。K线/MA/成交量用未复权价；RPS 用复权收益。
+  </div>
+</div>
+<script>
+const DATA = {"ticker": "ANGX", "dates": ["2025-09-11", "2025-09-12", "2025-09-15", "2025-09-16", "2025-09-17", "2025-09-18", "2025-09-19", "2025-09-22", "2025-09-23", "2025-09-24", "2025-09-25", "2025-09-26", "2025-09-29", "2025-09-30", "2025-10-01", "2025-10-02", "2025-10-03", "2025-10-06", "2025-10-07", "2025-10-08", "2025-10-09", "2025-10-10", "2025-10-13", "2025-10-14", "2025-10-15", "2025-10-16", "2025-10-17", "2025-10-20", "2025-10-21", "2025-10-22", "2025-10-23", "2025-10-24", "2025-10-27", "2025-10-28", "2025-10-29", "2025-10-30", "2025-10-31", "2025-11-03", "2025-11-04", "2025-11-05", "2025-11-06", "2025-11-07", "2025-11-10", "2025-11-11", "2025-11-12", "2025-11-13", "2025-11-14", "2025-11-17", "2025-11-18", "2025-11-19", "2025-11-20", "2025-11-21", "2025-11-24", "2025-11-25", "2025-11-26", "2025-11-28", "2025-12-01", "2025-12-02", "2025-12-03", "2025-12-04", "2025-12-05", "2025-12-08", "2025-12-09", "2025-12-10", "2025-12-11", "2025-12-12", "2025-12-15", "2025-12-16", "2025-12-17", "2025-12-18", "2025-12-19", "2025-12-22", "2025-12-23", "2025-12-24", "2025-12-26", "2025-12-29", "2025-12-30", "2025-12-31", "2026-01-02", "2026-01-05", "2026-01-06", "2026-01-07", "2026-01-08", "2026-01-09", "2026-01-12", "2026-01-13", "2026-01-14", "2026-01-15", "2026-01-16", "2026-01-20", "2026-01-21", "2026-01-22", "2026-01-23", "2026-01-26", "2026-01-27", "2026-01-28", "2026-01-29", "2026-01-30", "2026-02-02", "2026-02-03", "2026-02-04", "2026-02-05", "2026-02-06", "2026-02-09", "2026-02-10", "2026-02-11", "2026-02-12", "2026-02-13", "2026-02-17", "2026-02-18", "2026-02-19", "2026-02-20", "2026-02-23", "2026-02-24", "2026-02-25", "2026-02-26", "2026-02-27", "2026-03-02", "2026-03-03", "2026-03-04", "2026-03-05", "2026-03-06", "2026-03-09", "2026-03-10", "2026-03-11", "2026-03-12", "2026-03-13", "2026-03-16", "2026-03-17", "2026-03-18", "2026-03-19", "2026-03-20", "2026-03-23", "2026-03-24", "2026-03-25", "2026-03-26", "2026-03-27", "2026-03-30", "2026-03-31", "2026-04-01", "2026-04-02", "2026-04-06", "2026-04-07", "2026-04-08", "2026-04-09", "2026-04-10", "2026-04-13", "2026-04-14", "2026-04-15", "2026-04-16", "2026-04-17", "2026-04-20", "2026-04-21", "2026-04-22", "2026-04-23", "2026-04-24", "2026-04-27", "2026-04-28", "2026-04-29", "2026-04-30", "2026-05-01", "2026-05-04", "2026-05-05", "2026-05-06", "2026-05-07", "2026-05-08", "2026-05-11", "2026-05-12", "2026-05-13", "2026-05-14", "2026-05-15", "2026-05-18", "2026-05-19", "2026-05-20", "2026-05-21", "2026-05-22", "2026-05-26", "2026-05-27", "2026-05-28", "2026-05-29", "2026-06-01", "2026-06-02", "2026-06-03", "2026-06-04", "2026-06-05", "2026-06-08", "2026-06-09", "2026-06-10", "2026-06-11", "2026-06-12", "2026-06-15", "2026-06-16", "2026-06-17", "2026-06-18", "2026-06-22", "2026-06-23", "2026-06-24", "2026-06-25", "2026-06-26", "2026-06-29", "2026-06-30", "2026-07-01", "2026-07-02", "2026-07-06", "2026-07-07", "2026-07-08", "2026-07-09", "2026-07-10", "2026-07-13", "2026-07-14", "2026-07-15", "2026-07-16", "2026-07-17", "2026-07-20", "2026-07-21", "2026-07-22", "2026-07-23", "2026-07-24", "2026-07-27", "2026-07-28", "2026-07-29", "2026-07-30", "2026-08-03", "2026-08-04", "2026-08-05", "2026-08-06", "2026-08-07", "2026-08-10", "2026-08-11", "2026-08-12", "2026-08-13", "2026-08-14", "2026-08-17", "2026-08-18"], "open": [17.91, 16.95, 14.64, 17.5, 13.06, 9.05, 7.0, 6.5, 5.9, 5.0, 4.36, 3.98, 4.37, 5.27, 5.94, 9.76, 9.59, 8.6, 8.15, 7.38, 6.78, 6.93, 6.75, 6.62, 7.58, 6.96, 6.93, 7.0, 7.35, 7.0, 6.93, 6.99, 6.88, 6.71, 6.5, 6.3, 6.3, 6.64, 6.39, 6.3, 6.26, 6.25, 6.31, 5.76, 5.58, 5.33, 5.25, 6.2, 6.05, 5.83, 5.36, 5.2, 5.16, 4.79, 4.7, 4.77, 4.75, 4.42, 4.38, 4.74, 5.07, 5.0, 5.14, 5.23, 5.31, 5.18, 5.08, 5.15, 5.24, 5.15, 5.31, 5.5, 5.1, 5.0, 5.0, 4.79, 4.72, 4.68, 4.71, 4.86, 4.6, 4.35, 4.19, 4.18, 4.23, 4.31, 4.15, 4.21, 4.36, 4.18, 4.47, 4.58, 4.55, 4.34, 4.2, 4.19, 4.04, 4.0, 3.9, 3.77, 3.54, 3.26, 3.06, 3.38, 3.49, 3.74, 3.54, 3.21, 3.26, 3.17, 3.34, 3.41, 3.46, 3.26, 3.39, 3.67, 3.81, 3.785, 4.0, 4.26, 4.4, 4.16, 4.36, 4.52, 4.31, 4.3, 4.15, 3.71, 3.84, 3.45, 3.25, 3.07, 3.18, 3.36, 3.17, 3.25, 3.14, 3.1, 3.2, 3.04, 2.92, 2.98, 2.98, 3.02, 2.83, 2.26, 2.11, 2.2, 2.35, 2.5, 2.58, 2.65, 2.69, 2.51, 2.35, 2.4, 2.5, 2.6, 2.39, 2.52, 2.82, 3.13, 3.05, 3.1, 3.04, 2.98, 3.33, 3.02, 2.96, 2.84, 2.79, 2.67, 2.65, 2.53, 2.45, 2.66, 2.81, 2.7, 2.79, 2.82, 2.75, 2.75, 2.79, 2.7, 3.06, 2.76, 2.75, 2.79, 2.8, 2.9, 2.94, 3.2, 3.18, 3.16, 3.19, 3.02, 3.17, 3.18, 2.93, 3.21, 3.59, 3.65, 3.57, 3.61, 3.55, 3.69, 3.83, 3.99, 3.94, 4.02, 4.13, 4.19, 4.07, 4.11, 4.33, 4.27, 4.17, 4.05, 4.12, 4.35, 4.07, 3.99, 4.03, 4.23, 4.1, 4.25, 4.43, 4.3, 4.22, 3.84, 3.73, 4.31, 4.6, 4.79], "high": [20.385, 17.98, 18.9, 18.0, 13.34, 9.5, 7.09, 6.97, 5.978, 5.049, 4.45, 4.2, 5.73, 5.82, 8.16, 9.85, 9.673, 8.8, 8.261, 7.54, 6.98, 6.991, 6.88, 7.466, 7.58, 7.05, 7.245, 7.36, 7.35, 7.17, 7.05, 7.0, 6.9, 6.8, 6.581, 6.37, 6.55, 6.78, 6.55, 6.62, 6.64, 6.32, 6.34, 5.775, 5.72, 5.375, 6.02, 6.75, 6.051, 6.15, 5.42, 5.25, 5.28, 4.886, 4.87, 5.2, 4.78, 4.44, 4.5, 5.42, 5.2, 5.19, 5.33, 5.62, 5.43, 5.3, 5.4, 5.29, 5.341, 5.56, 5.67, 5.624, 5.14, 5.06, 5.088, 4.898, 4.84, 4.727, 4.86, 4.951, 4.66, 4.396, 4.26, 4.27, 4.31, 4.343, 4.33, 4.36, 4.36, 4.58, 4.64, 4.69, 4.64, 4.37, 4.255, 4.24, 4.09, 4.09, 3.993, 3.78, 3.667, 3.26, 3.51, 3.53, 3.97, 3.78, 3.6, 3.345, 3.342, 3.43, 3.495, 3.7, 3.53, 3.35, 3.79, 3.89, 4.0, 4.16, 4.3, 4.56, 4.4, 4.55, 4.54, 4.54, 4.46, 4.54, 4.28, 4.01, 3.94, 3.48, 3.27, 3.23, 3.4, 3.36, 3.31, 3.38, 3.24, 3.24, 3.23, 3.09, 3.04, 3.12, 3.12, 3.04, 2.9, 2.3, 2.231, 2.3, 2.43, 2.5, 2.83, 2.75, 2.7, 2.58, 2.4, 2.565, 2.74, 2.64, 2.57, 2.64, 3.15, 3.2, 3.169, 3.123, 3.06, 3.35, 3.4, 3.155, 3.005, 2.91, 2.845, 2.759, 2.675, 2.56, 2.62, 2.845, 2.91, 2.86, 2.89, 2.848, 2.89, 2.91, 2.79, 3.15, 3.1, 2.93, 2.97, 2.895, 2.98, 2.966, 3.3, 3.31, 3.325, 3.22, 3.35, 3.205, 3.246, 3.2, 3.21, 3.565, 3.73, 3.66, 3.71, 3.8, 3.775, 3.955, 4.029, 4.12, 4.15, 4.13, 4.25, 4.23, 4.17, 4.49, 4.44, 4.4, 4.2, 4.11, 4.4, 4.365, 4.202, 4.139, 4.24, 4.5, 4.37, 4.4, 4.45, 4.38, 4.3, 3.88, 4.36, 4.38, 4.87, 5.33], "low": [12.06, 10.35, 13.52, 12.02, 7.67, 6.75, 5.92, 5.75, 4.52, 4.35, 3.98, 3.77, 4.294, 5.21, 5.926, 8.63, 8.51, 7.75, 7.39, 6.774, 6.59, 6.4, 6.42, 6.35, 6.85, 6.67, 6.82, 6.9, 6.98, 6.82, 6.81, 6.6, 6.53, 6.34, 6.2, 5.95, 5.9, 6.24, 6.13, 6.0, 6.16, 5.92, 5.6, 5.41, 5.2, 5.08, 5.06, 6.05, 5.72, 5.28, 5.1, 4.7, 4.71, 4.6, 4.47, 4.649, 4.41, 4.25, 4.2, 4.725, 4.82, 4.74, 5.03, 5.05, 5.1, 4.9, 5.05, 5.03, 5.0, 5.14, 5.2, 4.85, 4.85, 4.9, 4.815, 4.695, 4.66, 4.51, 4.53, 4.66, 4.26, 4.142, 4.13, 4.06, 4.02, 4.13, 4.06, 4.05, 4.14, 4.14, 4.32, 4.52, 4.29, 4.15, 4.15, 4.04, 3.87, 3.85, 3.775, 3.47, 3.181, 2.99, 3.03, 3.202, 3.49, 3.37, 3.21, 3.2, 3.125, 3.15, 3.25, 3.39, 3.21, 3.17, 3.325, 3.59, 3.73, 3.75, 3.9, 4.16, 4.1, 4.1, 4.23, 4.26, 4.31, 4.15, 3.65, 3.7, 3.45, 3.231, 3.02, 2.97, 3.13, 3.11, 3.08, 3.14, 3.06, 3.09, 3.025, 2.91, 2.88, 2.98, 2.9, 2.83, 2.7, 2.045, 2.1, 2.16, 2.22, 2.37, 2.55, 2.59, 2.45, 2.33, 2.265, 2.325, 2.485, 2.395, 2.39, 2.485, 2.77, 2.98, 2.88, 2.97, 2.735, 2.935, 3.01, 2.93, 2.83, 2.735, 2.7, 2.56, 2.54, 2.36, 2.42, 2.65, 2.695, 2.69, 2.78, 2.74, 2.73, 2.72, 2.66, 2.685, 2.715, 2.675, 2.75, 2.76, 2.78, 2.79, 2.94, 3.155, 3.135, 3.11, 3.03, 2.95, 3.045, 2.91, 2.9, 3.2, 3.505, 3.42, 3.425, 3.463, 3.525, 3.605, 3.73, 3.825, 3.91, 3.97, 4.07, 4.085, 3.98, 4.11, 4.2, 4.125, 4.0, 3.87, 4.12, 4.06, 3.84, 3.9, 4.02, 4.187, 3.99, 4.13, 4.255, 4.15, 3.83, 3.65, 3.72, 4.2, 4.55, 4.76], "close": [13.0, 13.26, 16.0, 13.01, 8.81, 6.93, 6.0, 5.79, 5.0, 4.36, 4.0, 3.96, 5.54, 5.81, 7.76, 9.32, 8.59, 8.31, 7.49, 6.89, 6.91, 6.61, 6.67, 7.4, 6.97, 6.81, 6.99, 7.36, 7.15, 6.83, 6.93, 6.83, 6.69, 6.45, 6.33, 6.25, 6.4, 6.59, 6.17, 6.54, 6.42, 6.03, 5.63, 5.52, 5.36, 5.25, 5.98, 6.14, 5.95, 5.28, 5.18, 5.04, 4.76, 4.66, 4.74, 4.88, 4.41, 4.37, 4.48, 5.14, 5.0, 5.12, 5.32, 5.28, 5.22, 5.07, 5.07, 5.25, 5.0, 5.26, 5.39, 4.96, 4.95, 5.04, 4.82, 4.71, 4.67, 4.67, 4.83, 4.66, 4.31, 4.21, 4.15, 4.21, 4.31, 4.18, 4.2, 4.35, 4.23, 4.45, 4.44, 4.55, 4.32, 4.2, 4.18, 4.06, 4.04, 3.94, 3.78, 3.56, 3.25, 3.03, 3.39, 3.51, 3.75, 3.56, 3.22, 3.27, 3.18, 3.38, 3.44, 3.51, 3.3, 3.26, 3.63, 3.86, 3.92, 4.14, 4.2, 4.43, 4.27, 4.44, 4.52, 4.32, 4.34, 4.46, 3.7, 3.85, 3.49, 3.31, 3.04, 3.16, 3.3, 3.13, 3.31, 3.19, 3.13, 3.15, 3.05, 3.0, 2.99, 2.99, 2.93, 2.87, 2.87, 2.18, 2.18, 2.3, 2.43, 2.5, 2.62, 2.63, 2.47, 2.34, 2.36, 2.52, 2.61, 2.42, 2.56, 2.57, 3.15, 3.03, 3.15, 3.04, 2.99, 3.35, 3.04, 3.02, 2.86, 2.83, 2.7, 2.67, 2.54, 2.49, 2.62, 2.84, 2.76, 2.79, 2.83, 2.77, 2.79, 2.86, 2.67, 3.08, 2.74, 2.79, 2.85, 2.84, 2.92, 2.9, 3.21, 3.16, 3.14, 3.2, 3.08, 3.17, 3.16, 2.93, 3.21, 3.56, 3.67, 3.54, 3.54, 3.53, 3.67, 3.88, 3.96, 4.0, 4.05, 4.09, 4.17, 4.15, 4.11, 4.41, 4.32, 4.19, 4.06, 4.05, 4.37, 4.09, 3.92, 4.09, 4.21, 4.46, 4.24, 4.3, 4.29, 4.22, 3.83, 3.68, 4.32, 4.37, 4.71, 4.85], "vol": [577800.0, 1069100.0, 1169600.0, 1039800.0, 2907000.0, 1702300.0, 1399400.0, 1224900.0, 2316900.0, 1111900.0, 1279900.0, 1267000.0, 2869100.0, 1012300.0, 3099400.0, 6874300.0, 2443800.0, 1354600.0, 1018900.0, 1252200.0, 852400.0, 986400.0, 502100.0, 782800.0, 746600.0, 382900.0, 814300.0, 500700.0, 522100.0, 343800.0, 412600.0, 297300.0, 307100.0, 462000.0, 513600.0, 550800.0, 564100.0, 347100.0, 175100.0, 265500.0, 540300.0, 464900.0, 689600.0, 404900.0, 422700.0, 756500.0, 1185500.0, 880400.0, 696400.0, 417800.0, 576900.0, 1116500.0, 749400.0, 567000.0, 672700.0, 869200.0, 843300.0, 765900.0, 722200.0, 1687100.0, 815200.0, 1207400.0, 912300.0, 1309600.0, 947500.0, 707600.0, 1180800.0, 967500.0, 891900.0, 1495100.0, 6213300.0, 1206100.0, 764900.0, 252000.0, 684500.0, 622700.0, 585200.0, 895800.0, 639000.0, 603800.0, 1421200.0, 687800.0, 671900.0, 507100.0, 559300.0, 514400.0, 658700.0, 1012700.0, 523700.0, 800600.0, 445800.0, 564700.0, 423900.0, 627300.0, 429200.0, 505500.0, 1021700.0, 835900.0, 648500.0, 1423500.0, 1100900.0, 942400.0, 1030200.0, 628500.0, 781300.0, 746900.0, 463200.0, 587900.0, 685200.0, 814300.0, 724800.0, 590000.0, 497500.0, 585100.0, 1035400.0, 988400.0, 893700.0, 1029400.0, 628200.0, 947900.0, 752600.0, 665700.0, 730000.0, 509000.0, 329400.0, 992200.0, 1637400.0, 749500.0, 1055200.0, 1362700.0, 1207500.0, 851600.0, 791900.0, 435500.0, 599600.0, 584800.0, 680400.0, 538500.0, 784400.0, 638300.0, 623800.0, 510200.0, 568200.0, 1143400.0, 1026400.0, 11958000.0, 2972600.0, 2530400.0, 2229000.0, 1507200.0, 2414400.0, 1364800.0, 1509100.0, 1862400.0, 2000800.0, 1229600.0, 1393700.0, 796100.0, 1421400.0, 1414400.0, 3780500.0, 1461000.0, 1841700.0, 1239800.0, 1531100.0, 2116800.0, 1628800.0, 1203800.0, 916800.0, 901300.0, 1037100.0, 1023900.0, 711300.0, 2032200.0, 1283800.0, 1463300.0, 1254600.0, 671100.0, 531200.0, 547800.0, 1500800.0, 863800.0, 851000.0, 2346100.0, 1184500.0, 1054600.0, 1095500.0, 679000.0, 934600.0, 748400.0, 2067600.0, 1044900.0, 1060400.0, 1334300.0, 1025800.0, 821400.0, 1048100.0, 1186800.0, 1328600.0, 2104900.0, 1333900.0, 1361400.0, 1277400.0, 1585900.0, 1119600.0, 1903300.0, 1488000.0, 1683100.0, 1293600.0, 821300.0, 1344400.0, 1266600.0, 1514000.0, 1963800.0, 1451800.0, 1021500.0, 749600.0, 1407600.0, 1213300.0, 1135700.0, 1320000.0, 686800.0, 896200.0, 1660900.0, 2396100.0, 1252700.0, 838800.0, 986900.0, 1762800.0, 2094400.0, 3079510.0, 1649900.0, 2507089.0, 3975541.0], "ma50": [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, 7.0454, 6.889, 6.7246, 6.4998, 6.3328, 6.2514, 6.2104, 6.1786, 6.1502, 6.1398, 6.1554, 6.1754, 6.1986, 6.1942, 6.1836, 6.1328, 6.0478, 5.9774, 5.9162, 5.8664, 5.8338, 5.8034, 5.7704, 5.736, 5.6888, 5.6458, 5.6038, 5.5574, 5.5036, 5.4572, 5.4138, 5.3614, 5.309, 5.2582, 5.2134, 5.173, 5.1316, 5.0876, 5.0428, 5.004, 4.9622, 4.9226, 4.893, 4.8668, 4.8404, 4.8168, 4.793, 4.7542, 4.7102, 4.6668, 4.6324, 4.5938, 4.5536, 4.5262, 4.5032, 4.4834, 4.457, 4.4332, 4.4112, 4.3852, 4.35, 4.3188, 4.2866, 4.2462, 4.2058, 4.174, 4.1498, 4.1268, 4.1046, 4.0886, 4.072, 4.0496, 4.0392, 4.0306, 4.0162, 4.0066, 4.0016, 3.9822, 3.9658, 3.939, 3.912, 3.8866, 3.8656, 3.8486, 3.827, 3.807, 3.7872, 3.7658, 3.7418, 3.7182, 3.6892, 3.6602, 3.629, 3.6012, 3.5746, 3.5484, 3.5108, 3.4736, 3.4408, 3.4138, 3.3926, 3.38, 3.372, 3.3536, 3.3302, 3.3024, 3.2816, 3.2694, 3.2524, 3.24, 3.2238, 3.218, 3.2084, 3.2054, 3.201, 3.1882, 3.178, 3.1604, 3.138, 3.1112, 3.0792, 3.0478, 3.0124, 2.9728, 2.9362, 2.9018, 2.8694, 2.8506, 2.8294, 2.8162, 2.8054, 2.8004, 2.7944, 2.7818, 2.7808, 2.7694, 2.7614, 2.7558, 2.7496, 2.747, 2.745, 2.7494, 2.7528, 2.757, 2.7636, 2.7678, 2.7876, 2.8072, 2.8198, 2.8354, 2.8566, 2.8776, 2.8958, 2.9172, 2.941, 2.9672, 2.9944, 3.0214, 3.053, 3.0828, 3.1132, 3.1336, 3.156, 3.1752, 3.2026, 3.2292, 3.246, 3.2664, 3.287, 3.3172, 3.3424, 3.3668, 3.3952, 3.4286, 3.468, 3.5004, 3.5296, 3.5602, 3.5888, 3.6088, 3.627, 3.6576, 3.6878, 3.7286, 3.764], "ma200": [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, 4.4817, 4.4351, 4.3865, 4.3242, 4.2768, 4.2511, 4.2358, 4.2256, 4.2167, 4.2119, 4.2106, 4.2114, 4.2124, 4.2052, 4.1982, 4.181, 4.1554, 4.1327, 4.1114, 4.0958, 4.0819, 4.0669, 4.0543, 4.042, 4.0273, 4.0137, 4.0011, 3.9876, 3.9719, 3.9553, 3.9396, 3.9265, 3.9142, 3.9043, 3.8963], "rps": [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, 69.74], "rps1y": [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, 12.33], "rps6m": [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, 4.5768, 4.9808, 3.2184, 4.1635, 6.3841, 10.3906, 14.6759, 15.1608, 22.1542, 28.535, 33.6055, 36.0204, 15.7103, 13.6665, 8.1804, 6.3949, 7.1847, 7.4395, 8.6624, 6.9282, 6.39, 6.5937, 6.9756, 6.4664, 7.4847, 7.1501, 6.285, 5.3676, 5.8509, 6.5632, 7.072, 6.6904, 7.4752, 7.2464, 9.9924, 9.2272, 9.6085, 8.3333, 8.3566, 9.7994, 8.1451, 9.2362, 9.896, 9.6676, 9.8223, 9.2616, 6.7496, 5.5809, 6.1882, 8.5468, 7.9128, 8.8489, 10.3955, 10.9533, 10.6491, 11.6633, 12.3986, 17.3174, 13.8621, 11.1955, 12.4113, 12.2087, 11.7528, 11.6738, 15.2911, 14.9367, 14.0435, 13.6387, 13.7835, 13.3502, 12.9204, 14.2099, 15.7775, 19.469, 22.933, 21.0367, 20.6068, 19.7977, 21.2895, 28.799, 37.2693, 40.6218, 44.4276, 44.669, 44.189, 45.8312, 45.6038, 51.4791, 51.2892, 41.1631, 41.3845, 39.4644, 50.4925, 45.5188, 42.6697, 49.3189, 55.2107, 69.4501, 71.1616, 81.9146, 83.8042, 76.5195, 58.6946, 41.9526, 71.7715, 80.1108, 84.8018, 88.95], "rps3m": [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, 2.3523, 2.2733, 1.6092, 2.7331, 7.6098, 16.1859, 31.9296, 40.7861, 51.8377, 77.3354, 86.1444, 84.7449, 27.9776, 22.9985, 10.3466, 6.5987, 7.1592, 6.5732, 8.2038, 10.0866, 10.4124, 10.4379, 10.336, 8.2739, 11.0998, 10.0, 10.687, 9.9211, 10.2264, 9.2852, 9.336, 9.6668, 10.1195, 11.162, 11.162, 9.939, 8.6426, 6.7073, 6.5786, 6.8545, 6.8764, 9.5661, 11.5453, 9.9975, 10.8122, 9.5661, 7.257, 6.2151, 7.507, 9.0794, 7.8367, 11.8154, 18.7373, 24.4168, 29.0822, 29.4118, 46.0446, 43.4077, 51.4445, 33.7133, 31.3323, 29.3566, 31.4843, 17.4475, 20.9873, 14.6329, 11.6397, 7.92, 10.9762, 10.0885, 8.2933, 14.4121, 12.3135, 12.4399, 15.6258, 12.2124, 11.378, 10.5689, 9.3552, 11.8078, 13.78, 15.5966, 6.8739, 5.9373, 6.2405, 7.1248, 7.3775, 7.4533, 8.1354, 5.6594, 4.7992, 5.2286, 7.197, 8.632, 7.3158, 10.237, 8.8687, 18.1864, 19.038, 28.5822, 35.3726, 42.566, 47.9135, 27.4189, 20.7087, 19.9246, 26.4876, 22.9224, 24.247, 16.1315, 12.4906, 13.218, 23.1946, 22.2111, 14.1855, 11.2281, 8.8176, 7.6615, 7.6114, 5.8338, 10.0401, 6.1827, 6.3329, 8.8088, 8.9067, 7.6788, 14.4322, 18.3342, 26.65, 31.9, 48.075, 32.7418, 33.0585, 39.7551, 24.8126, 36.7816, 54.659, 58.2563, 60.3147, 64.6941, 65.0524, 73.6645, 82.8258, 86.6733, 88.0459, 96.1318, 96.6309, 96.7806, 96.3813, 96.0339, 96.7573, 96.5087, 97.1322, 97.6582, 97.51, 97.6848, 96.2908, 97.0625, 96.3415, 90.5402, 94.0005, 90.5082, 93.0459, 92.9034, 84.8394, 83.5821, 78.9343, 93.0673, 93.9115, 97.0361, 98.38], "spx_cum": [0.0, -0.0483, 0.4222, 0.2928, 0.1955, 0.6754, 1.1672, 1.6134, 1.0543, 0.7666, 0.2619, 0.8536, 1.1194, 1.5331, 1.8783, 1.9413, 1.9479, 2.3197, 1.9297, 2.5237, 2.2412, -0.5307, 1.0209, 0.8628, 1.2689, 0.6315, 1.1619, 2.2415, 2.2449, 1.6991, 2.2918, 3.1001, 4.3672, 4.606, 4.6015, 3.5654, 3.8365, 4.0152, 2.7944, 3.17, 2.0167, 2.1454, 3.7186, 3.9338, 3.9993, 2.2774, 2.226, 1.2894, 0.4531, 0.8302, -0.7394, 0.2356, 1.786, 2.7083, 3.4177, 3.9715, 3.418, 3.6721, 3.981, 4.0934, 4.295, 3.9323, 3.8412, 4.5421, 4.7595, 3.6424, 3.4769, 3.2302, 2.0336, 2.8431, 3.75, 4.4178, 4.8929, 5.2308, 5.1988, 4.8314, 4.6872, 3.917, 4.1139, 4.7754, 5.4247, 5.062, 5.0701, 5.7505, 5.9173, 5.7119, 5.1481, 5.4194, 5.3517, 3.1786, 4.3742, 4.947, 4.9813, 5.5068, 5.9375, 5.9288, 5.7919, 5.3368, 5.9047, 5.0147, 4.482, 3.202, 5.2346, 5.7283, 5.379, 5.3738, 3.7236, 3.7753, 3.8824, 4.4606, 4.1658, 4.8887, 3.7993, 4.5936, 5.4446, 4.8788, 4.4237, 4.4653, 3.4787, 4.2813, 3.6925, 2.3158, 3.1654, 2.9451, 2.8589, 1.2926, 0.6789, 1.6988, 1.9525, 0.5652, 0.2887, -1.2295, -0.0982, -0.4721, 0.0672, -1.6745, -3.3187, -3.7002, -0.8949, -0.1844, -0.0726, 0.3698, 0.446, 2.9653, 3.6006, 3.4827, 4.5354, 5.7672, 6.6107, 6.889, 8.176, 7.9191, 7.234, 8.3557, 7.9079, 8.7683, 8.9024, 8.3694, 8.3261, 9.4352, 9.7556, 9.3098, 10.1974, 11.805, 11.3798, 12.3182, 12.5294, 12.349, 13.0062, 13.8713, 12.4635, 12.3808, 11.6303, 12.835, 13.0285, 13.4498, 14.1428, 14.1616, 14.8184, 15.0678, 15.3699, 15.519, 14.6674, 15.1324, 12.0876, 12.4215, 12.1318, 10.3153, 12.2479, 12.812, 14.6766, 14.0248, 12.6396, 13.8613, 13.4395, 11.8101, 11.7002, 11.6892, 11.6365, 12.9482, 13.8428, 13.5979, 13.5981, 14.4207, 13.911, 13.59, 14.515, 14.997, 14.0854, 14.5142, 14.9516, 14.3651, 13.2102, 12.9915, 13.9922, 13.8367, 12.4605, 12.5163, 12.5346, 12.7714, 11.0616, 12.9057, 15.3781, 17.443, 17.2461, 17.0398, 17.7636, 17.6948, 17.3167, 17.6248, 18.3913, 18.1904, 17.5726, 16.7635], "volma20": [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, 1849510.0, 1863240.0, 1859105.0, 1825730.0, 1812880.0, 1704860.0, 1638890.0, 1609635.0, 1573425.0, 1483685.0, 1445280.0, 1401915.0, 1353430.0, 1225330.0, 1197815.0, 1068525.0, 752350.0, 658365.0, 607990.0, 565800.0, 516465.0, 500860.0, 474785.0, 484160.0, 465265.0, 449070.0, 467750.0, 486310.0, 505295.0, 514010.0, 517710.0, 525925.0, 566885.0, 589000.0, 594250.0, 602205.0, 618125.0, 632085.0, 653025.0, 680380.0, 751460.0, 765205.0, 802330.0, 813465.0, 858700.0, 884940.0, 882495.0, 882260.0, 886615.0, 896390.0, 950255.0, 1232075.0, 1236555.0, 1237330.0, 1221580.0, 1222170.0, 1209845.0, 1196940.0, 1203435.0, 1199275.0, 1145110.0, 1175410.0, 1149430.0, 1137410.0, 1097285.0, 1077875.0, 1068215.0, 1042110.0, 1044370.0, 1025960.0, 991235.0, 702860.0, 670790.0, 653740.0, 672505.0, 659740.0, 653880.0, 675705.0, 672710.0, 673185.0, 714170.0, 698155.0, 710885.0, 728800.0, 734870.0, 745970.0, 757595.0, 747820.0, 726580.0, 734655.0, 735340.0, 749290.0, 750555.0, 754235.0, 752125.0, 782435.0, 806580.0, 800180.0, 809855.0, 808840.0, 785060.0, 767645.0, 753810.0, 738800.0, 732825.0, 710230.0, 722495.0, 781205.0, 789285.0, 807785.0, 835205.0, 859340.0, 872420.0, 887140.0, 879660.0, 857870.0, 837690.0, 827025.0, 802480.0, 810290.0, 794810.0, 788370.0, 780595.0, 772505.0, 804225.0, 839075.0, 1387365.0, 1454125.0, 1543170.0, 1601860.0, 1609085.0, 1669430.0, 1695090.0, 1730950.0, 1802295.0, 1872355.0, 1904595.0, 1940260.0, 1953140.0, 1984990.0, 2023795.0, 2181630.0, 2229170.0, 2292845.0, 2297665.0, 2322900.0, 1830840.0, 1763650.0, 1697320.0, 1631710.0, 1601415.0, 1532550.0, 1515505.0, 1475615.0, 1484105.0, 1448255.0, 1459940.0, 1452985.0, 1446735.0, 1402225.0, 1358895.0, 1244910.0, 1215050.0, 1165515.0, 1220830.0, 1203500.0, 1150390.0, 1123725.0, 1097485.0, 1098375.0, 1090730.0, 1142255.0, 1143305.0, 1160760.0, 1125865.0, 1112965.0, 1080870.0, 1070545.0, 1096330.0, 1136200.0, 1214055.0, 1205710.0, 1230590.0, 1251910.0, 1213900.0, 1210655.0, 1253090.0, 1272715.0, 1322920.0, 1340870.0, 1344515.0, 1308355.0, 1319440.0, 1342120.0, 1373595.0, 1394895.0, 1404900.0, 1389975.0, 1401015.0, 1395250.0, 1346790.0, 1346095.0, 1312365.0, 1293305.0, 1297055.0, 1360880.0, 1328350.0, 1295890.0, 1261080.0, 1284540.0, 1348195.0, 1434950.5, 1454115.5, 1503769.95, 1604357.0], "annotations": [], "marketCap": 905768190};
+
+function fillMetrics(){
+  const n=DATA.dates.length; if(n===0) return;
+  const last=n-1, prev=Math.max(0,n-2);
+  const price=DATA.close[last], prevClose=DATA.close[prev];
+  const chg = prevClose?((price/prevClose-1)*100):0;
+  const chgColor = chg>=0?'#26a69a':'#ef5350';
+  const sign = chg>=0?'+':'';
+  const recentHigh = Math.max(...DATA.high.slice(Math.max(0,n-252), n).filter(x=>x!=null));
+  const dist52 = recentHigh?((price/recentHigh-1)*100):0;
+  const vols = DATA.vol.slice(Math.max(0,n-20), n).filter(x=>x!=null);
+  const volAvg = vols.length?(vols.reduce((a,b)=>a+b,0)/vols.length):0;
+  const rps = DATA.rps[last];
+  const rpsColor = (rps!=null && rps>70)? '#2e7d32' : '#2d7ff9';
+  function fmtCap(v){
+    if(v==null||v===''||isNaN(v)) return '-';
+    if(v>=1e12) return '$'+(v/1e12).toFixed(2)+'T';
+    if(v>=1e9) return '$'+(v/1e9).toFixed(1)+'B';
+    if(v>=1e6) return '$'+(v/1e6).toFixed(1)+'M';
+    return '$'+v;
+  }
+  document.getElementById('metricbar').innerHTML = `
+    <div class="metric"><span class="lab">最新价</span><span class="val" style="color:${chgColor}">${price!=null?price.toFixed(2):'-'}</span><span class="chg" style="color:${chgColor}">${sign}${chg.toFixed(2)}%</span></div>
+    <div class="metric"><span class="lab">市值</span><span class="val">${fmtCap(DATA.marketCap)}</span></div>
+    <div class="metric"><span class="lab">52周高</span><span class="val" style="color:${dist52>=0?'#26a69a':'#ef5350'}">${dist52>=0?'+':''}${dist52.toFixed(1)}%</span></div>
+    <div class="metric"><span class="lab">成交量</span><span class="val">${DATA.vol[last]!=null?(DATA.vol[last]/1e6).toFixed(1)+'M':'-'}</span><span class="chg">均${volAvg?(volAvg/1e6).toFixed(1)+'M':'-'}</span></div>
+    <div class="metric"><span class="lab">综合RPS</span><span class="val" style="color:${rpsColor}">${rps!=null?rps.toFixed(1):'-'}</span></div>
+  `;
+}
+fillMetrics();
+
+const cv = document.getElementById('cv');
+const ctx = cv.getContext('2d');
+const tip = document.getElementById('tip');
+const box = cv.parentElement;
+let W=0, H=0, DPR=Math.min(window.devicePixelRatio||1, 2.5);
+const PADL=58, PADR=110, PADT=18, PADB=22, PANEL_GAP=6;
+let view = {a:0, b:0};
+const n = DATA.dates.length;
+
+function resize(){
+  W = box.clientWidth;
+  const vh = window.innerHeight || document.documentElement.clientHeight;
+  const top = box.getBoundingClientRect().top;   // 画布框距视口顶部的距离
+  const avail = Math.max(360, vh - top - 72);     // 预留底部说明文字+边距, 避免页面出现滚动条
+  H = Math.min(720, Math.max(420, Math.round(Math.min(W*0.64, avail))));
+  cv.width = W*DPR; cv.height = H*DPR;
+  cv.style.height = H+'px';
+  ctx.setTransform(DPR,0,0,DPR,0,0);
+  draw();
+}
+
+function layout(){
+  const plotH = H - PADT - PADB;
+  // 顶部独立 SPX 小图(约7% plotH, 用于看市场大致趋势)
+  const spxH = Math.max(28, Math.min(40, Math.round(plotH * 0.07)));
+  // 四区：SPX / 价格 / RPS副图 / 量能
+  const gaps = 3*PANEL_GAP;
+  const usable = plotH - spxH - gaps;
+  const priceH = Math.round(usable * 0.62);
+  const subH = Math.round((usable - priceH) / 2);
+  const rpsH = subH, volH = usable - priceH - subH;
+  return {
+    plotH,
+    spxTop: PADT,
+    spxBot: PADT + spxH,
+    priceTop: PADT + spxH + PANEL_GAP,
+    priceBot: PADT + spxH + PANEL_GAP + priceH,
+    rpsTop: PADT + spxH + PANEL_GAP + priceH + PANEL_GAP,
+    rpsBot: PADT + spxH + PANEL_GAP + priceH + PANEL_GAP + rpsH,
+    volTop: PADT + spxH + PANEL_GAP + priceH + PANEL_GAP + rpsH + PANEL_GAP,
+    volBot: H - PADB,
+    volH
+  };
+}
+
+function xOf(i){
+  const plotW = W-PADL-PADR;
+  const a=view.a, b=view.b;
+  return PADL + (i-a)/(b-a)*plotW;
+}
+function idxOf(px){
+  const plotW = W-PADL-PADR;
+  const a=view.a, b=view.b;
+  return a + (px-PADL)/plotW*(b-a);
+}
+
+function draw(){
+  if(n===0) return;
+  ctx.clearRect(0,0,W,H);
+  const L = layout();
+  let a=Math.max(0,Math.floor(view.a)), b=Math.min(n-1,Math.ceil(view.b));
+  if(b<=a) return;
+
+  // 价格范围
+  let pmin=1e18, pmax=-1e18;
+  for(let i=a;i<=b;i++){
+    const hi=DATA.high[i], lo=DATA.low[i];
+    if(hi!=null){ if(hi>pmax)pmax=hi; if(lo<pmin)pmin=lo; }
+    for(const key of ['ma50','ma200']){ const v=DATA[key][i]; if(v!=null){ if(v>pmax)pmax=v; if(v<pmin)pmin=v; } }
+  }
+  if(!isFinite(pmin)||!isFinite(pmax)) return;
+  const pad=(pmax-pmin)*0.06; pmin-=pad; pmax+=pad;
+  const yP = v => L.priceBot - (v-pmin)/(pmax-pmin)*(L.priceBot-L.priceTop);
+
+  // 成交量范围
+  let vmax=0; for(let i=a;i<=b;i++){ const v=DATA.vol[i], vm=DATA.volma20[i]; if(v!=null&&v>vmax)vmax=v; if(vm!=null&&vm>vmax)vmax=vm; }
+  const yV = v => L.volBot - (v/(vmax||1))*(L.volBot-L.volTop);
+
+  // SPX 累计收益范围（独立顶部小图，只看大致趋势）
+  let spmin=1e18, spmax=-1e18;
+  for(let i=a;i<=b;i++){ const v=DATA.spx_cum[i]; if(v!=null){ if(v>spmax)spmax=v; if(v<spmin)spmin=v; } }
+  let ySPX = v => 0;
+  if(isFinite(spmin)&&isFinite(spmax)){
+    const sppad=(spmax-spmin)*0.06; spmin-=sppad; spmax+=sppad;
+    ySPX = v => L.spxBot - (v-spmin)/(spmax-spmin)*(L.spxBot-L.spxTop);
+  }
+  // RPS 副图映射（独立 0-100 坐标系）
+  const yRPS = v => L.rpsBot - (Math.max(0,Math.min(100,v))/100)*(L.rpsBot-L.rpsTop);
+
+  ctx.font='10px sans-serif'; ctx.textBaseline='middle';
+  const ticks=5;
+
+  // ---- SPX 顶部趋势小图（网格+折线） ----
+  if(isFinite(spmin)&&isFinite(spmax)){
+    ctx.strokeStyle='#eef0f2'; ctx.lineWidth=1;
+    for(let k=0;k<=ticks;k++){
+      const v=spmin+(spmax-spmin)*k/ticks; const y=ySPX(v);
+      ctx.beginPath(); ctx.moveTo(PADL,y); ctx.lineTo(W-PADR,y); ctx.stroke();
+    }
+    ctx.strokeStyle='#607d8b'; ctx.lineWidth=1.2; ctx.beginPath(); let started=false;
+    for(let i=a;i<=b;i++){ const v=DATA.spx_cum[i]; if(v==null){started=false;continue;} const x=xOf(i),y=ySPX(v); if(!started){ctx.moveTo(x,y);started=true;} else ctx.lineTo(x,y);} ctx.stroke();
+    // SPX 名称标注（仅标识 S&P 500，不显示具体涨幅）
+    (function(){
+      let li=-1; for(let i=a;i<=b;i++){ if(DATA.spx_cum[i]!=null) li=i; }
+      if(li>=a){
+        const x=xOf(li), y=ySPX(DATA.spx_cum[li]);
+        ctx.fillStyle='#607d8b'; ctx.font='bold 10px sans-serif'; ctx.textAlign='left'; ctx.textBaseline='middle';
+        const txt = 'S&P 500';
+        let ly = y - 12;
+        if (ly < L.spxTop + 8) ly = Math.min(L.spxBot - 8, y + 12);
+        ctx.fillText(txt, x+10, ly);
+      }
+    })();
+  }
+
+  // ---- 面板分隔线（SPX/价格/RPS/量能 四区） ----
+  ctx.strokeStyle='#e6e8eb'; ctx.lineWidth=1;
+  ctx.beginPath(); ctx.moveTo(PADL, L.spxBot); ctx.lineTo(W-PADR, L.spxBot); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(PADL, L.priceBot); ctx.lineTo(W-PADR, L.priceBot); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(PADL, L.rpsBot); ctx.lineTo(W-PADR, L.rpsBot); ctx.stroke();
+
+  // ---- 网格 + 价格轴（左） ----
+  ctx.strokeStyle='#eef0f2'; ctx.lineWidth=1;
+  ctx.fillStyle='#9aa0a6'; ctx.textAlign='left';
+  for(let k=0;k<=ticks;k++){
+    const v=pmin+(pmax-pmin)*k/ticks; const y=yP(v);
+    ctx.beginPath(); ctx.moveTo(PADL,y); ctx.lineTo(W-PADR,y); ctx.stroke();
+    ctx.fillText(v.toFixed(1), 4, y);
+  }
+
+  const cw=Math.max(1,(W-PADL-PADR)/(b-a+1)*0.62);
+
+  // ---- 成交量柱（副区） ----
+  for(let i=a;i<=b;i++){
+    const v=DATA.vol[i]; if(v==null) continue;
+    const x=xOf(i); const y=yV(v);
+    const up = DATA.close[i]>=DATA.open[i];
+    ctx.fillStyle = up? 'rgba(38,166,154,.55)':'rgba(239,83,80,.55)';
+    ctx.fillRect(x-cw/2, y, cw, L.volBot-y);
+  }
+  // 成交量 MA
+  ctx.strokeStyle='#5b6168'; ctx.lineWidth=1.2; ctx.beginPath(); let started=false;
+  for(let i=a;i<=b;i++){ const v=DATA.volma20[i]; if(v==null){started=false;continue;} const x=xOf(i),y=yV(v); if(!started){ctx.moveTo(x,y);started=true;} else ctx.lineTo(x,y);} ctx.stroke();
+
+  // ---- K线 ----
+  for(let i=a;i<=b;i++){
+    const x=xOf(i); const o=DATA.open[i],cl=DATA.close[i],hi=DATA.high[i],lo=DATA.low[i];
+    if(o==null||cl==null) continue;
+    const up=cl>=o;
+    ctx.strokeStyle= up?'#26a69a':'#ef5350';
+    ctx.fillStyle= up?'#26a69a':'#ef5350';
+    ctx.lineWidth=1;
+    ctx.beginPath(); ctx.moveTo(x,yP(hi)); ctx.lineTo(x,yP(lo)); ctx.stroke();
+    const yo=yP(o), yc=yP(cl);
+    const top=Math.min(yo,yc), hgt=Math.max(1,Math.abs(yc-yo));
+    ctx.fillRect(x-cw/2, top, cw, hgt);
+  }
+
+  // ---- MA ----
+  function line(key,color){
+    ctx.strokeStyle=color; ctx.lineWidth=1.4; ctx.beginPath(); let started=false;
+    for(let i=a;i<=b;i++){ const v=DATA[key][i]; if(v==null){started=false;continue;} const x=xOf(i),y=yP(v); if(!started){ctx.moveTo(x,y);started=true;} else ctx.lineTo(x,y);} ctx.stroke();
+  }
+  line('ma50','#f5a623'); line('ma200','#9b59b6');
+
+  // ---- 综合RPS 副图（独立 0-100 坐标系，>70 染绿） ----
+  // 网格 + 右轴刻度
+  ctx.strokeStyle='#eef0f2'; ctx.lineWidth=1;
+  ctx.fillStyle='#9aa0a6'; ctx.textAlign='right'; ctx.textBaseline='middle';
+  const rpsTicks=[0,25,50,70,100];
+  for(const v of rpsTicks){
+    const y=yRPS(v);
+    ctx.beginPath(); ctx.moveTo(PADL,y); ctx.lineTo(W-PADR,y); ctx.stroke();
+    ctx.fillText(v===70?'70★':String(v), W-4, y);
+  }
+  // 70 强势阈值线（醒目虚线）
+  ctx.strokeStyle='#2e7d32'; ctx.lineWidth=1; ctx.setLineDash([4,3]);
+  const y70=yRPS(70);
+  ctx.beginPath(); ctx.moveTo(PADL,y70); ctx.lineTo(W-PADR,y70); ctx.stroke();
+  ctx.setLineDash([]);
+  // 分段 RPS 线：默认蓝(#2d7ff9)，>70 段染绿(#2e7d32)
+  ctx.lineWidth=1.4;
+  for(let i=a;i<b;i++){
+    const v0=DATA.rps[i], v1=DATA.rps[i+1];
+    if(v0==null||v1==null) continue;
+    const x0=xOf(i), x1=xOf(i+1), y0=yRPS(v0), y1=yRPS(v1);
+    ctx.strokeStyle = v0>70? '#2e7d32' : '#2d7ff9';
+    ctx.beginPath(); ctx.moveTo(x0,y0); ctx.lineTo(x1,y1); ctx.stroke();
+  }
+  // 末端标记：RPS 数字（IBD 风格），>70 绿
+  (function(){
+    let li=-1; for(let i=a;i<=b;i++){ if(DATA.rps[i]!=null) li=i; }
+    if(li>=a){
+      const x=xOf(li), y=yRPS(DATA.rps[li]);
+      ctx.fillStyle = DATA.rps[li]>70? '#2e7d32' : '#2d7ff9';
+      ctx.font='bold 10px sans-serif'; ctx.textAlign='left'; ctx.textBaseline='middle';
+      let lx=x+12, ly=y;
+      if(ly < L.rpsTop+8) ly = L.rpsTop+8;
+      if(ly > L.rpsBot-8) ly = L.rpsBot-8;
+      ctx.fillText('RPS '+DATA.rps[li].toFixed(1), lx, ly);
+    }
+  })();
+  // 面板标签
+  ctx.fillStyle='#b7bcc2'; ctx.textAlign='left'; ctx.font='10px sans-serif';
+  ctx.fillText('RPS', PADL+2, (L.rpsTop+L.rpsBot)/2);
+
+  // 面板分隔标签（仅保留量能区标识，主图线条由图例说明）
+  ctx.fillStyle='#b7bcc2'; ctx.textAlign='left'; ctx.font='10px sans-serif';
+  ctx.fillText('VOL', PADL+2, (L.volTop+L.volBot)/2);
+
+  // ---- 形态标注（杯柄 / 阻力线 / 弧线 / 文字） ----
+  function drawStar(ctx,cx,cy,spikes,outerR,innerR){
+    let rot=Math.PI/2*3; const step=Math.PI/spikes; ctx.beginPath();
+    ctx.moveTo(cx,cy-outerR);
+    for(let i=0;i<spikes;i++){
+      let x=cx+Math.cos(rot)*outerR, y=cy+Math.sin(rot)*outerR; ctx.lineTo(x,y); rot+=step;
+      x=cx+Math.cos(rot)*innerR; y=cy+Math.sin(rot)*innerR; ctx.lineTo(x,y); rot+=step;
+    }
+    ctx.lineTo(cx,cy-outerR); ctx.closePath(); ctx.fill();
+  }
+  function drawAnnotations(a,b){
+    if(!DATA.annotations || DATA.annotations.length===0) return;
+    const dateMap={};
+    for(let i=a;i<=b;i++) dateMap[DATA.dates[i]]=i;
+    // 三点抛物线（拉格朗日插值）
+    function lagrangeY(x, pts){
+      const [p1,p2,p3]=pts;
+      const x1=p1.x, x2=p2.x, x3=p3.x, y1=p1.y, y2=p2.y, y3=p3.y;
+      return y1*(x-x2)*(x-x3)/((x1-x2)*(x1-x3))
+           + y2*(x-x1)*(x-x3)/((x2-x1)*(x2-x3))
+           + y3*(x-x1)*(x-x2)/((x3-x1)*(x3-x2));
+    }
+    for(const ann of DATA.annotations){
+      if(ann.type==='line' && ann.points && ann.points.length>=2){
+        const p0=ann.points[0], p1=ann.points[1];
+        const i0=dateMap[p0.date], i1=dateMap[p1.date];
+        if(i0==null || i1==null) continue;
+        const x0=xOf(i0), y0=yP(p0.price), x1c=xOf(i1), y1c=yP(p1.price);
+        ctx.strokeStyle=ann.color||'#2e7d32'; ctx.lineWidth=ann.lineWidth||1.5;
+        ctx.setLineDash(ann.dash||[]); ctx.beginPath(); ctx.moveTo(x0,y0); ctx.lineTo(x1c,y1c); ctx.stroke(); ctx.setLineDash([]);
+        if(ann.label){
+          ctx.fillStyle=ann.color||'#2e7d32'; ctx.font='bold 10px sans-serif'; ctx.textAlign='left'; ctx.textBaseline='bottom';
+          ctx.fillText(ann.label, x0+4, y0-4);
+        }
+      } else if(ann.type==='arc' && ann.points && ann.points.length>=3){
+        const pts=[];
+        for(const p of ann.points.slice(0,3)){
+          const i=dateMap[p.date]; if(i==null) continue;
+          pts.push({x:xOf(i), y:yP(p.price)});
+        }
+        if(pts.length<3) continue;
+        const x1=pts[0].x, x3=pts[2].x;
+        ctx.strokeStyle=ann.color||'#2e7d32'; ctx.lineWidth=ann.lineWidth||1.6;
+        ctx.beginPath(); ctx.moveTo(pts[0].x, pts[0].y);
+        const steps=Math.max(24, Math.round((x3-x1)/3));
+        for(let s=1;s<=steps;s++){
+          const t=s/steps; const x=x1+(x3-x1)*t;
+          ctx.lineTo(x, lagrangeY(x, pts));
+        }
+        ctx.stroke();
+      } else if(ann.type==='text' && ann.date && ann.text){
+        const i=dateMap[ann.date]; if(i==null) continue;
+        const x=xOf(i), y=yP(ann.price);
+        const color=ann.color||'#2e7d32';
+        ctx.font='bold 11px sans-serif'; ctx.textAlign='center'; ctx.textBaseline='bottom';
+        const tw=ctx.measureText(ann.text).width;
+        // 小背景框（IBD 风格标签）
+        ctx.fillStyle='rgba(46,125,50,0.10)'; ctx.strokeStyle=color; ctx.lineWidth=1;
+        ctx.beginPath(); ctx.rect(x-tw/2-4, y-17, tw+8, 17); ctx.fill(); ctx.stroke();
+        ctx.fillStyle=color; ctx.fillText(ann.text, x, y-4);
+      } else if(ann.type==='marker' && ann.date){
+        const i=dateMap[ann.date]; if(i==null) continue;
+        const x=xOf(i), y=yP(ann.price);
+        const color=ann.color||'#444'; const dirn=(ann.dirn!=null)?ann.dirn:1;
+        const shape=ann.shape||'circle'; const r=6;
+        ctx.save(); ctx.fillStyle=color; ctx.strokeStyle=color;
+        if(shape==='triUp'){ctx.beginPath();ctx.moveTo(x,y-r);ctx.lineTo(x-r,y+r);ctx.lineTo(x+r,y+r);ctx.closePath();ctx.fill();}
+        else if(shape==='triDown'){ctx.beginPath();ctx.moveTo(x,y+r);ctx.lineTo(x-r,y-r);ctx.lineTo(x+r,y-r);ctx.closePath();ctx.fill();}
+        else if(shape==='diamond'){ctx.beginPath();ctx.moveTo(x,y-r);ctx.lineTo(x+r,y);ctx.lineTo(x,y+r);ctx.lineTo(x-r,y);ctx.closePath();ctx.fill();}
+        else if(shape==='star'){drawStar(ctx,x,y,5,r,r*0.45);}
+        else {ctx.beginPath();ctx.arc(x,y,r*0.8,0,Math.PI*2);ctx.fill();}
+        if(ann.text){
+          const ty = dirn>0 ? y-r-4 : y+r+4;
+          ctx.font='bold 10px sans-serif'; ctx.textAlign='center';
+          ctx.textBaseline = dirn>0 ? 'bottom':'top';
+          ctx.lineWidth=3; ctx.strokeStyle='rgba(255,255,255,0.9)'; ctx.strokeText(ann.text,x,ty);
+          ctx.fillStyle=color; ctx.fillText(ann.text,x,ty);
+        }
+        ctx.restore();
+      }
+    }
+  }
+  drawAnnotations(a,b);
+
+  // X 轴日期（紧贴量能区底部）
+  ctx.strokeStyle='#d7dbe0'; ctx.lineWidth=1;
+  ctx.beginPath(); ctx.moveTo(PADL, L.volBot); ctx.lineTo(W-PADR, L.volBot); ctx.stroke();
+  ctx.textAlign='center'; ctx.textBaseline='middle';
+  // 年份标签（每年首个交易日，加粗置于上层）
+  ctx.fillStyle='#3a3f45'; ctx.font='bold 11px sans-serif';
+  for(let i=Math.max(0,a);i<=b;i++){
+    if(i===0 || DATA.dates[i].slice(0,4)!==DATA.dates[i-1].slice(0,4)){
+      const x=xOf(i);
+      if(x>=PADL && x<=W-PADR) ctx.fillText(DATA.dates[i].slice(0,4), x, H-25);
+    }
+  }
+  // 月日标签
+  ctx.fillStyle='#6b7178'; ctx.font='10px sans-serif';
+  const step=Math.max(1,Math.floor((b-a)/6));
+  for(let i=a;i<=b;i+=step){ const x=xOf(i); ctx.fillText(DATA.dates[i].slice(5).replace('-','.'), x, H-10); }
+
+  // 当前光标
+  if(hoverIdx!=null && hoverIdx>=a && hoverIdx<=b){ drawCross(hoverIdx); }
+}
+
+let hoverIdx=null;
+function drawCross(i){
+  const L=layout(); const x=xOf(i);
+  ctx.strokeStyle='#c2c7cc'; ctx.setLineDash([3,3]); ctx.lineWidth=1;
+  ctx.beginPath(); ctx.moveTo(x,L.spxTop); ctx.lineTo(x,L.volBot); ctx.stroke(); ctx.setLineDash([]);
+}
+
+let dragging=false, lastX=0;
+function setView(a,b){
+  a=Math.max(0,Math.min(n-2,a)); b=Math.max(a+2,Math.min(n,b));
+  view.a=a; view.b=b; draw();
+}
+function resetView(){ setView(0, n); }
+resetView();
+
+function nearest(px){ return Math.round(idxOf(px)); }
+function showTip(i, clientX, clientY){
+  const d=DATA.dates[i]; const o=DATA.open[i],cl=DATA.close[i],hi=DATA.high[i],lo=DATA.low[i],v=DATA.vol[i];
+  const r=DATA.rps[i],r1=DATA.rps1y[i],r6=DATA.rps6m[i],r3=DATA.rps3m[i];
+  const vma=DATA.volma20[i];
+  const up = cl>=o;
+  const chg = (o!=null&&cl!=null)?((cl/o-1)*100):null;
+  tip.innerHTML = `<b>${d}</b><br>`+
+    `收 ${cl!=null?cl.toFixed(2):'-'}　${chg!=null?(up?'<span style="color:#26a69a">+':'<span style="color:#ef5350">')+chg.toFixed(2)+'%</span>':'-'}<br>`+
+    `开 ${o!=null?o.toFixed(2):'-'}　高 ${hi!=null?hi.toFixed(2):'-'}　低 ${lo!=null?lo.toFixed(2):'-'}<br>`+
+    `量 ${(v!=null?(v/1e6).toFixed(1):'-')}M　均${(vma!=null?(vma/1e6).toFixed(1):'-')}M<br>`+
+    `综合RPS <b>${r!=null?r.toFixed(1):'-'}</b>　1Y ${r1!=null?r1.toFixed(0):'-'}　6M ${r6!=null?r6.toFixed(0):'-'}　3M ${r3!=null?r3.toFixed(0):'-'}`;
+  tip.style.display='block';
+  let tx = clientX+12, ty = clientY+12;
+  const tw=tip.offsetWidth, th=tip.offsetHeight;
+  if(tx+tw>W) tx=clientX-tw-12;
+  if(ty+th>H) ty=clientY-th-12;
+  tip.style.left=tx+'px'; tip.style.top=ty+'px';
+}
+
+cv.addEventListener('pointerdown', e=>{
+  if(!e.isPrimary) return;
+  try{ cv.setPointerCapture(e.pointerId); }catch(_){}
+  dragging=true; lastX=e.clientX;
+});
+cv.addEventListener('pointermove', e=>{
+  const rect=cv.getBoundingClientRect();
+  const px=e.clientX-rect.left;
+  if(dragging && e.isPrimary){
+    const dx=px-lastX; lastX=px;
+    const plotW=W-PADL-PADR; const span=view.b-view.a;
+    const dIdx=dx/plotW*span;
+    setView(view.a-dIdx, view.b-dIdx);
+  } else {
+    hoverIdx=Math.max(0,Math.min(n-1,nearest(px)));
+    showTip(hoverIdx, e.clientX-rect.left, e.clientY-rect.top);
+    draw();
+  }
+});
+function endDrag(e){ dragging=false; }
+cv.addEventListener('pointerup', endDrag);
+cv.addEventListener('pointercancel', endDrag);
+cv.addEventListener('pointerleave', ()=>{ tip.style.display='none'; hoverIdx=null; draw(); });
+cv.addEventListener('wheel', e=>{
+  e.preventDefault();
+  const rect=cv.getBoundingClientRect(); const px=e.clientX-rect.left;
+  const i=idxOf(px); const factor = e.deltaY>0? 1.12:0.89;
+  let a=i-(i-view.a)*factor, b=i+(view.b-i)*factor;
+  setView(a,b);
+},{passive:false});
+
+document.getElementById('bReset').onclick=()=>{ hoverIdx=null; resetView(); };
+document.getElementById('b1y').onclick=()=>{ hoverIdx=null; setView(0, n); };
+document.getElementById('b6m').onclick=()=>{ hoverIdx=null; setView(Math.max(0,n-130), n); };
+document.getElementById('b3m').onclick=()=>{ hoverIdx=null; setView(Math.max(0,n-65), n); };
+
+window.addEventListener('resize', resize);
+resize();
+</script>
+</body>
+</html>
