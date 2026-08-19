@@ -8,7 +8,8 @@
  *{box-sizing:border-box;margin:0;padding:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"PingFang SC","Microsoft YaHei",sans-serif;}
  body{background:#f7f8fa;color:#1f2329;padding:16px;max-width:1100px;margin:0 auto;}
  h1{font-size:20px;margin-bottom:4px;}
- .sub{color:#8a9099;font-size:12px;margin-bottom:12px;}
+ .sub{color:#8a9099;font-size:12px;margin-bottom:4px;}
+ .refresh-ts{color:#8a9099;font-size:11px;margin-bottom:12px;}
  .stats{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:12px;}
  .stat{background:#fff;border:1px solid #e6e8eb;border-radius:8px;padding:8px 14px;}
  .stat .n{font-size:20px;font-weight:700;}
@@ -48,14 +49,14 @@
 <body>
  <h1>美股个股 RPS 画廊</h1>
  <div class="sub" id="sub"></div>
- <div class="stats" id="stats"><div class="stat"><div class="n">1817</div><div class="l">成功出图 / 共 1817</div></div><div class="stat"><div class="n">0</div><div class="l">杯柄形态</div></div><div class="stat"><div class="n">0</div><div class="l">杯柄突破</div></div><div class="stat"><div class="n">0</div><div class="l">口袋支点</div></div><div class="stat"><div class="n">0</div><div class="l">基底突破</div></div></div>
+ <div class="refresh-ts">数据日期：2026-08-18 ｜ 页面更新时间：2026-08-19 14:20:45（北京时间）</div>
+ <div class="stats" id="stats"><div class="stat"><div class="n">1817</div><div class="l">成功出图</div></div><div class="stat"><div class="n">0</div><div class="l">杯柄形态</div></div><div class="stat"><div class="n">0</div><div class="l">杯柄突破</div></div><div class="stat"><div class="n">0</div><div class="l">口袋支点</div></div><div class="stat"><div class="n">0</div><div class="l">基底突破</div></div></div>
  <div class="toolbar">
    <input id="q" placeholder="搜索代码…">
    <select id="fcup">
-     <option value="">全部</option>
+     <option value="">成功出图</option>
+     <option value="cup">杯柄形态</option>
      <option value="bo">杯柄突破</option>
-     <option value="cup">杯柄（未突破）</option>
-     <option value="none">无形态</option>
      <option value="pp">口袋支点</option>
      <option value="bb">基底突破</option>
    </select>
@@ -98,9 +99,8 @@
    const fc=fcup.value;
    let list=DATA.filter(r=>{
      if(q && !r.t.includes(q)) return false;
+     if(fc==='cup' && !r.cup) return false;
      if(fc==='bo' && !r.bo) return false;
-     if(fc==='cup' && (!r.cup||r.bo)) return false;
-     if(fc==='none' && (r.cup||r.bo)) return false;
      if(fc==='pp' && !r.pp) return false;
      if(fc==='bb' && !r.bb) return false;
      return true;
