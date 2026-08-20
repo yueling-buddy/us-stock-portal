@@ -5,7 +5,7 @@
 
 ## 这是什么
 一个纯静态单页（`index.html`），把分散在各个沙箱的子工具与定期栏目聚合成一个总入口。
-- **选股功能**：你操作的工具（美股选股器 / RPS 画廊 / 美股拥挤度 / 模拟盘占位）
+- **选股功能**：你操作的工具（美股选股器 / RPS 画廊 / 美股拥挤度 / 美股财报日历 / 模拟盘占位）
 - **栏目**：你阅读的定期内容（周策略 / 动量选股 + 历史栏目归档）
 
 ## 总入口（已部署 · 固定网址）
@@ -14,7 +14,7 @@
 > 托管于 GitHub Pages（仓库 `yueling-buddy/us-stock-portal`，main 分支）。地址与仓库绑定、**永不变、不过期**，彻底告别之前 CloudStudio 沙箱被回收导致「workspace not ready / 域名失效」的问题。
 > 旧 CloudStudio 聚合页 `7e7ae130…app.workbuddy.link` 已弃用下线。
 
-栏目区（最新 + 历史）已打包进本站根目录，链接稳定；选股功能子工具也已同步部署到本仓库子目录（`/screener/`、`/rps-gallery/`、`/crowding/`），统一在 `tools.json` 维护，换链只改它。
+栏目区（最新 + 历史）已打包进本站根目录，链接稳定；选股功能子工具也已同步部署到本仓库子目录（`/screener/`、`/rps-gallery/`、`/crowding/`、`/earnings-calendar/`），统一在 `tools.json` 维护，换链只改它。
 
 ## 目录结构
 ```
