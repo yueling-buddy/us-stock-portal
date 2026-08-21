@@ -1,4 +1,4 @@
-const SW_VERSION = "2026-08-21 22:01:35";
+const SW_VERSION = "2026-08-21 22:11:33";
 const CACHE = 'screener-cache';
 self.addEventListener('install', e => self.skipWaiting());
 self.addEventListener('activate', e => e.waitUntil(self.clients.claim()));
@@ -7,6 +7,17 @@ self.addEventListener('fetch', e => {
   if (req.method !== 'GET' || !req.url.startsWith(self.location.origin)) return;
   e.respondWith((async () => {
     const cache = await caches.open(CACHE);
+    const isPage = req.mode === 'navigate' || req.destination === 'document' || req.url.indexOf('/index.html') >= 0;
+    if (isPage) {
+      try {
+        const net = await fetch(req);
+        if (net && net.ok) { try { cache.put(req, net.clone()); } catch(_) {} }
+        return net;
+      } catch (_) {
+        const cached = await cache.match(req, {ignoreSearch: true});
+        return cached || Response.error();
+      }
+    }
     const cached = await cache.match(req, {ignoreSearch: true});
     const net = fetch(req).then(res => {
       if (res && res.ok && (res.type === 'basic' || res.type === 'cors')) {
