@@ -125,6 +125,9 @@ const APPS = [
   { group:'tools', id:'earnings-calendar', title:'美股财报机会', ico:'📅',
     desc:'集中查看美股财报日期、盘前盘后时段与重点公司披露安排。',
     tag:'公开', tagType:'pub' },
+  { group:'tools', id:'earnings-gap', title:'美股净利润断层', ico:'⚡',
+    desc:'财报后跳空缺口（Earnings Gap）事件跟踪：新确认断层、持续有效缺口、回补失效与待观察。',
+    tag:'公开', tagType:'pub' },
   { group:'tools', id:'paper', title:'模拟盘', ico:'💼',
     desc:'基于选股信号的回测与每日模拟交易，接入 DPWD 大盘温度做仓位管理。',
     url:'',
@@ -168,7 +171,8 @@ const TOOL_FALLBACK = {
   'us-screener': 'https://yueling-buddy.github.io/us-stock-portal/screener/',
   'rps-gallery':      'https://yueling-buddy.github.io/us-stock-portal/rps-gallery/',
   'crowding':         'https://yueling-buddy.github.io/us-stock-portal/crowding/',
-  'earnings-calendar':'https://yueling-buddy.github.io/us-stock-portal/earnings-calendar/'
+  'earnings-calendar':'https://yueling-buddy.github.io/us-stock-portal/earnings-calendar/',
+  'earnings-gap':'https://yueling-buddy.github.io/us-stock-portal/earnings-gap/'
 };
 function resolveToolUrls(){
   return fetch('tools.json')
