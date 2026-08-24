@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NEOG · 净利润断层详情</title>
+<meta name="theme-color" content="#ff7a1a">
+<style>
+:root{
+  --bg:#f5f7fa; --card:#ffffff; --card2:#f3f4f6; --border:#e5e7eb;
+  --ink:#1f2937; --muted:#6b7280; --accent:#ff7a1a;
+  --up:#16a34a; --down:#dc2626; --yellow:#d97706;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--ink);font-family:-apple-system,"Segoe UI",Roboto,"PingFang SC","Microsoft YaHei",sans-serif;line-height:1.6;padding-bottom:48px}
+.topbar{position:sticky;top:0;z-index:10;background:rgba(255,255,255,.94);backdrop-filter:blur(8px);border-bottom:1px solid var(--border);padding:12px 16px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.brand{font-size:15px;font-weight:700;color:var(--accent);white-space:nowrap}
+.brand small{color:var(--muted);font-weight:400;font-size:11px;margin-left:6px}
+.back{margin-left:auto;font-size:13px;color:var(--accent);text-decoration:none;font-weight:600}
+.back:hover{text-decoration:underline}
+.wrap{max-width:880px;margin:16px auto;padding:0 14px;display:flex;flex-direction:column;gap:14px}
+.card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:16px;box-shadow:0 1px 2px rgba(16,24,40,.04)}
+.card h2{font-size:15px;font-weight:700;margin-bottom:10px;display:flex;align-items:center;gap:8px}
+.card h2::before{content:"";width:3px;height:15px;background:var(--accent);border-radius:2px;display:inline-block}
+.kv{display:grid;grid-template-columns:repeat(2,1fr);gap:10px 18px}
+.kv .item{display:flex;flex-direction:column;gap:2px;padding:6px 0;border-bottom:1px dashed var(--border)}
+.kv .k{font-size:11px;color:var(--muted)}
+.kv .v{font-size:14px;font-weight:600}
+.sym{font-size:26px;font-weight:800;color:var(--ink)}
+.name{font-size:13px;color:var(--muted);margin-top:2px}
+.tag{display:inline-block;padding:2px 10px;border-radius:999px;font-size:11px;font-weight:600;background:#dcfce7;color:#15803d;margin-left:8px;vertical-align:middle}
+table{width:100%;border-collapse:collapse;font-size:13px}
+td{padding:8px 10px;border-bottom:1px solid var(--border)}
+td.k{color:var(--muted);width:42%}
+td.v{font-weight:600}
+.up{color:var(--up)} .down{color:var(--down)}
+.narr{font-size:13.5px;line-height:1.8;color:var(--ink)}
+.narr b{color:var(--accent)}
+.qual-attrib{background:var(--card2);border-left:3px solid var(--accent);padding:10px 14px;border-radius:8px;font-size:13.5px;line-height:1.8}
+footer{margin-top:10px;font-size:11px;color:var(--muted);border-top:1px solid var(--border);padding-top:14px;line-height:1.7}
+</style>
+</head>
+<body>
+<div class="topbar">
+  <div class="brand">美股净利润断层 <small>个股详情</small></div>
+  <a class="back" href="../index.html">← 返回总览</a>
+</div>
+<div class="wrap">
+  <div class="card">
+    <div class="sym">NEOG<span class="tag">缺口未回补</span></div>
+    <div class="name">Neogen Corporation · Medical Devices</div>
+  </div>
+
+  <div class="card">
+    <h2>基本信息</h2>
+    <div class="kv">
+      <div class="item"><span class="k">财报日 / 时点</span><span class="v">2026-07-30 pre</span></div>
+      <div class="item"><span class="k">行业</span><span class="v">Medical Devices</span></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>断层核心数据</h2>
+    <table>
+      <tr><td class="k">缺口%</td><td class="v up">+4.75%</td></tr>
+      <tr><td class="k">缺口质量</td><td class="v">98.20</td></tr>
+      <tr><td class="k">收涨%</td><td class="v">22.66%</td></tr>
+      <tr><td class="k">量比</td><td class="v">2.71x</td></tr>
+      <tr><td class="k">开盘%</td><td class="v">11.70%</td></tr>
+      <tr><td class="k">Comp_RPS</td><td class="v">78.90</td></tr>
+    </table>
+  </div>
+
+  <div class="card">
+    <h2>业绩（EPS / YoY）</h2>
+    <div class="narr">0.09usd / —</div>
+  </div>
+
+  <div class="card">
+    <h2>断层原因 · 量化归因</h2>
+    <div class="qual-attrib">财报后形成跳空缺口 <b>4.75%</b>（缺口质量 <b>98.20</b>），断层日收涨 <b>22.66%</b>，量比 <b>2.71x</b>，Comp_RPS <b>78.90</b>。业绩端：EPS 0.09usd / —。缺口至今未回补，显示资金对业绩的认可；跳空幅度与放量程度反映断层强度。</div>
+  </div>
+
+  <div class="card">
+    <h2>断层催化 · 联网深挖</h2>
+    <div class="narr">Neogen四季度EPS 0.09美元超预期，营收2.25亿美元超预估。核心食品安全业务增5.8%（FY23以来最快），毛利率提升330个基点至49.7%，调整后EBITDA利润率扩至20.2%，推动跳空。</div>
+  </div>
+
+  <footer>
+    判定口径：财报后出现<b>跳空缺口</b>即记录（断层日 low &gt; 财报前最后交易日 high）；缺口 5 个交易日内回补则标记失效。<br>「断层原因·量化归因」由页面数据自动合成；「断层催化·联网深挖」来自公开财报报道检索（数据准确性优先，个别数字以公司公告为准）。本页为事件记录与策略研究工具，<b>非投资建议</b>。<br>数据时点：2026-08-24（ET）
+  </footer>
+</div>
+</body>
+</html>
