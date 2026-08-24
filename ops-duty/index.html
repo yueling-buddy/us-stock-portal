@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>值班推送记录</title>
+<style>
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+    background: #f4f6f9; color: #222; padding: 18px;
+  }
+  .wrap { max-width: 960px; margin: 0 auto; }
+  h1 { font-size: 20px; margin: 0 0 4px; }
+  .sub { color: #888; font-size: 12px; margin-bottom: 14px; }
+  .toolbar { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-bottom: 14px; }
+  .toolbar input[type=date], .toolbar input[type=number] {
+    padding: 7px 9px; border: 1px solid #ccd2dc; border-radius: 8px; font-size: 13px; background: #fff;
+  }
+  button { cursor: pointer; border: none; border-radius: 8px; padding: 8px 12px; font-size: 13px; }
+  .ghost { background: #eef1f6; color: #333; }
+  .success { background: #2f7d4f; color: #fff; }
+  .danger { background: #d9534f; color: #fff; }
+  .sm { padding: 4px 9px; font-size: 12px; }
+  .plan-box { display: flex; align-items: center; gap: 6px; font-size: 13px; }
+  .plan-box input { width: 64px; }
+
+  .cards { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 12px; }
+  .card { background: #fff; border: 1px solid #e6e9ef; border-radius: 10px; padding: 12px 14px; }
+  .card .num { font-size: 24px; font-weight: 700; }
+  .card .lbl { font-size: 12px; color: #888; margin-top: 2px; }
+  .card.warn { background: #fff7e6; border-color: #ffd591; }
+  .card.alarm { background: #fff1f0; border-color: #ffa39e; }
+
+  .progress { height: 10px; background: #e9edf3; border-radius: 6px; overflow: hidden; margin: 4px 0 16px; }
+  .progress > div { height: 100%; background: #4a90d9; transition: width .2s; }
+  .progress.warn > div { background: #faad14; }
+  .progress.alarm > div { background: #f5222d; }
+
+  .top-actions { margin-bottom: 14px; display: flex; gap: 8px; align-items: center; }
+
+  .seg { display: inline-flex; border: 1px solid #ccd2dc; border-radius: 8px; overflow: hidden; }
+  .seg button { background: #fff; border: none; border-radius: 0; padding: 7px 14px; font-size: 13px; color: #555; }
+  .seg button.on { background: #2f7d4f; color: #fff; }
+
+  table { width: 100%; border-collapse: collapse; background: #fff; border: 1px solid #e6e9ef; border-radius: 10px; overflow: hidden; font-size: 13px; }
+  th, td { padding: 9px 10px; text-align: left; border-bottom: 1px solid #f0f2f5; }
+  th { background: #f7f9fc; font-weight: 600; color: #555; font-size: 12px; }
+  tr:last-child td { border-bottom: none; }
+  tr.editing td { background: #fffbe6; }
+  .pill { display: inline-block; padding: 2px 10px; border-radius: 12px; font-size: 12px; cursor: pointer; user-select: none; }
+  .pill.done { background: #e6f7ec; color: #237b45; }
+  .pill.todo { background: #f1f3f7; color: #888; }
+  .type-tag { display: inline-block; padding: 1px 8px; border-radius: 6px; font-size: 11px; cursor: pointer; }
+  .type-full { background: #e8f0fd; color: #2f6fd1; }
+  .type-deposit { background: #fdf0e8; color: #c4722b; }
+  .acts { display: flex; gap: 6px; }
+  .muted { color: #bbb; }
+
+  .cell-input {
+    width: 100%; padding: 6px 8px; border: 1px solid #ccd2dc; border-radius: 6px; font-size: 13px; background: #fff;
+  }
+  .cell-input:focus { outline: none; border-color: #2f7d4f; box-shadow: 0 0 0 2px rgba(47,125,79,0.12); }
+  .cell-input.time { min-width: 90px; }
+  .cell-input.title { min-width: 140px; }
+  .cell-input.author { min-width: 120px; }
+  .cell-input.type { min-width: 90px; }
+  .cell-input.status { min-width: 90px; }
+
+  .setting-toggle { display: inline-block; cursor: pointer; color: #2f7d4f; font-size: 13px; margin-bottom: 8px; }
+  .setting-body { background: #fff; border: 1px solid #e6e9ef; border-radius: 10px; padding: 14px; margin-bottom: 14px; display: none; }
+  .setting-body.open { display: block; }
+  .setting-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  textarea { width: 100%; min-height: 120px; border: 1px solid #ccd2dc; border-radius: 8px; padding: 8px; font-size: 12px; font-family: monospace; resize: vertical; }
+  .hint { color: #999; font-size: 11px; margin-top: 4px; line-height: 1.5; }
+  .setting-actions { margin-top: 12px; display: flex; gap: 8px; align-items: center; }
+  code { background: #f0f2f5; padding: 1px 5px; border-radius: 4px; font-size: 11px; }
+
+  .foot { text-align: center; color: #aaa; font-size: 11px; margin-top: 18px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>值班推送记录</h1>
+  <div class="sub">运营推送值班台账 · 每日上限 9 条 · 按日期归档</div>
+
+  <div class="toolbar">
+    <input type="date" id="datePick">
+    <button class="ghost" id="todayBtn">回到今天</button>
+    <button class="success" id="loadTplBtn">重置为今日固定排表</button>
+    <div class="plan-box">当日计划总条数
+      <input type="number" id="planInput" min="0" value="9">
+    </div>
+  </div>
+
+  <div class="cards">
+    <div class="card" id="cardDone"><div class="num" id="statDone">0</div><div class="lbl">已推送</div></div>
+    <div class="card" id="cardTodo"><div class="num" id="statTodo">0</div><div class="lbl">未推送（计划中）</div></div>
+    <div class="card"><div class="num" id="statPlan">9</div><div class="lbl">计划总数</div></div>
+    <div class="card" id="cardLeft"><div class="num" id="statLeft">9</div><div class="lbl">剩余可用（上限9）</div></div>
+  </div>
+  <div class="progress" id="progBar"><div id="progFill" style="width:0%"></div></div>
+
+  <div class="top-actions">
+    <button class="success" id="addBtn">+ 添加记录</button>
+    <span class="hint" id="editHint"></span>
+  </div>
+
+  <div style="margin-bottom:10px">
+    <div class="seg" id="filterSeg">
+      <button data-f="all" class="on">全部</button>
+      <button data-f="done">已推送</button>
+      <button data-f="todo">未推送</button>
+    </div>
+  </div>
+
+  <div id="tableWrap"></div>
+
+  <div style="margin-top:18px">
+    <div class="setting-toggle" id="settingToggle">⚙️ 设置默认模板与作者名单</div>
+    <div class="setting-body" id="settingBody">
+      <div class="setting-grid">
+        <div>
+          <label>备选作者名单（每行一个）</label>
+          <textarea id="authorsArea" spellcheck="false"></textarea>
+          <div class="hint">在输入作者时会自动出现下拉建议。</div>
+        </div>
+        <div>
+          <label>常用推送标题（每行一个）</label>
+          <textarea id="titlesArea" spellcheck="false"></textarea>
+          <div class="hint">在输入标题时会自动出现下拉建议。</div>
+        </div>
+      </div>
+      <div style="margin-top:14px">
+        <label>班次跨天日界（默认 06:00）</label>
+        <input type="time" id="cutoffInput" value="06:00">
+        <div class="hint">早于该时间算前一天深夜，排序时放在当天末尾。例如夜班 00:40 会排在 23:50 之后。</div>
+      </div>
+      <div style="margin-top:14px">
+        <label>默认排班模板（每行一条：时间 | 标题 | 作者 | 类型）</label>
+        <textarea id="tplArea" spellcheck="false"></textarea>
+        <div class="hint">类型可写 full（全量）或 deposit（入金），标题/作者/类型为空可省略。<br>示例：<code>14:00|早报|jack.chen|full</code> · <code>15:20||leonard.li</code></div>
+      </div>
+      <div class="setting-actions">
+        <button id="saveSettingBtn" class="success">保存设置</button>
+        <button id="resetSettingBtn" class="ghost">重置为默认</button>
+        <span class="hint" style="margin:0">作者名单、标题与模板都保存在本地浏览器。</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="foot">
+    数据保存在本机浏览器（localStorage），换设备/清缓存会丢失 · 当前日期：<span id="todayTxt"></span> · 版本：v6（今日日程表 10 条）
+  </div>
+</div>
+
+<datalist id="authorList"></datalist>
+<datalist id="titleList"></datalist>
+
+<script>
+const LIMIT = 9;
+const KEY_RECORDS = "duty_push_records_v2";
+const KEY_PLAN = "duty_push_plan_v2";
+const KEY_AUTHORS = "duty_push_authors_v1";
+const KEY_TEMPLATE = "duty_push_template_v2";
+const KEY_TITLES = "duty_push_titles_v1";
+const KEY_CUTOFF = "duty_push_cutoff_v1";
+
+const DEFAULT_AUTHORS = `yueling.liu
+jack.chen
+selena.zhang
+bruce.liang
+leonard.li
+claire.fan`;
+
+const DEFAULT_TITLES = `Financial Morning Summary
+US Market Preview
+Pre-Bell Movers
+Market Movements Now
+US Market Pulse
+Stocks to Watch
+The Trend Catcher
+Small Caps in Focus
+Stock Ratings
+Stocks to Watch Research Digest Insights
+The Value Anchor News Headline`;
+
+const DEFAULT_CUTOFF = "06:00";
+
+const DEFAULT_TEMPLATE = `14:00|Financial Morning Summary|jack.chen|full
+16:30|Pre-Bell Movers|leonard.li|full
+17:40|Market Movements Now|bruce.liang|full
+18:30|US Market Pulse|yueling.liu|full
+20:30|US Market Preview|yueling.liu|full
+21:30|Stocks to Watch|selena.zhang|full
+22:30|The Trend Catcher|yueling.liu|full
+23:40|Stocks to Watch|bruce.liang|full
+00:40|Small Caps in Focus|claire.fan|full
+01:34|Stock Ratings|jack.chen|full`;
+
+const $ = id => document.getElementById(id);
+function todayStr(){
+  const d=new Date(); const p=n=>String(n).padStart(2,"0");
+  return `${d.getFullYear()}-${p(d.getMonth()+1)}-${p(d.getDate())}`;
+}
+function nowTime(){
+  const d=new Date(); const p=n=>String(n).padStart(2,"0");
+  return `${p(d.getHours())}:${p(d.getMinutes())}`;
+}
+
+function load(k,def){
+  try{
+    const raw = localStorage.getItem(k);
+    if(raw===null) return def;
+    if(typeof def==="object" && def!==null) return JSON.parse(raw) ?? def;
+    return raw;
+  }catch(e){ return def; }
+}
+function save(){
+  localStorage.setItem(KEY_RECORDS,JSON.stringify(records));
+  localStorage.setItem(KEY_PLAN,JSON.stringify(plans));
+  localStorage.setItem(KEY_AUTHORS,authors);
+  localStorage.setItem(KEY_TEMPLATE,template);
+  localStorage.setItem(KEY_TITLES,titles);
+  localStorage.setItem(KEY_CUTOFF,cutoff);
+}
+
+function parseTemplate(text){
+  return text.split(/\r?\n/).map((line,idx)=>{
+    const [time,title,author,type="full"] = line.split("|").map(s=>s.trim());
+    if(!time) return null;
+    return { id: Date.now()+idx, time, title: title||"", author: author||"", type: type||"full", status:"todo" };
+  }).filter(Boolean);
+}
+function templateToText(tplRecords){
+  return tplRecords.map(r=>{
+    const parts = [r.time||"", r.title||"", r.author||"", r.type||"full"];
+    while(parts.length>2 && parts[parts.length-1]==="full" && (parts[parts.length-2]===""||parts[parts.length-2]===r.type)) parts.pop();
+    return parts.join("|");
+  }).join("\n");
+}
+
+let records = load(KEY_RECORDS, {});
+let plans = load(KEY_PLAN, {});
+let authors = load(KEY_AUTHORS, DEFAULT_AUTHORS);
+let template = load(KEY_TEMPLATE, DEFAULT_TEMPLATE);
+let titles = load(KEY_TITLES, DEFAULT_TITLES);
+let cutoff = load(KEY_CUTOFF, DEFAULT_CUTOFF);
+let curDate = todayStr();
+let curFilter = "all";
+let editingId = null;      // 正在编辑/新增的记录 id；新增时用 "__NEW__"
+let lastNewId = null;      // 用于新增行取消时删除
+
+// 打开自动套用：当天无记录则加载固定排表
+(function autoLoadToday(){
+  const arr = records[curDate];
+  if(!arr || arr.length===0){
+    const tpl = parseTemplate(template);
+    if(tpl.length){
+      records[curDate] = tpl;
+      save();
+    }
+  }
+})();
+
+function timeToMinutes(t){
+  if(!t) return 0;
+  const [h,m] = t.split(":").map(Number);
+  return (h||0)*60 + (m||0);
+}
+function sortTimeKey(t){
+  const m = timeToMinutes(t);
+  const c = timeToMinutes(cutoff);
+  return m < c ? m + 24*60 : m;
+}
+
+function escapeHtml(s){ return s.replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c])); }
+
+function renderAuthors(){
+  const list = $("authorList"); list.innerHTML = "";
+  authors.split(/\r?\n/).map(s=>s.trim()).filter(Boolean).forEach(name=>{
+    const opt=document.createElement("option"); opt.value=name; list.appendChild(opt);
+  });
+}
+function renderTitles(){
+  const list = $("titleList"); list.innerHTML = "";
+  titles.split(/\r?\n/).map(s=>s.trim()).filter(Boolean).forEach(t=>{
+    const opt=document.createElement("option"); opt.value=t; list.appendChild(opt);
+  });
+}
+
+function findRec(date,id){
+  return (records[date]||[]).find(r=>String(r.id)===String(id));
+}
+
+function getSortedList(){
+  return (records[curDate]||[]).slice().sort((a,b)=>sortTimeKey(a.time)-sortTimeKey(b.time));
+}
+
+function render(){
+  const list = getSortedList();
+  const all = records[curDate]||[];
+  const done = all.filter(r=>r.status==="done").length;
+  const todo = all.length - done;
+  const planned = plans[curDate] ?? 9;
+  const left = LIMIT - done;
+
+  $("statDone").textContent = done;
+  $("statTodo").textContent = todo;
+  $("statPlan").textContent = planned;
+  $("statLeft").textContent = left;
+
+  $("cardDone").className = "card" + (done>LIMIT?" alarm":done>=8?" warn":"");
+  $("cardLeft").className = "card" + (left<0?" alarm":left<=1?" warn":"");
+  const pb = $("progBar");
+  pb.className = "progress" + (done>LIMIT?" alarm":done>=8?" warn":"");
+  $("progFill").style.width = Math.min(100, (done/LIMIT)*100) + "%";
+
+  const visible = curFilter==="all" ? list : list.filter(r=>r.status===curFilter);
+
+  let html = `<table><thead><tr>
+    <th style="width:100px">时间</th>
+    <th>推送标题</th>
+    <th style="width:160px">作者</th>
+    <th style="width:110px">类型</th>
+    <th style="width:110px">状态</th>
+    <th style="width:130px">操作</th>
+  </tr></thead><tbody>`;
+
+  if(!visible.length && editingId!=="__NEW__"){
+    html += `<tr><td colspan="6" class="muted" style="text-align:center;padding:24px">暂无记录，点击上方「添加记录」或「重置为今日固定排表」。</td></tr>`;
+  } else {
+    visible.forEach(r=>{
+      const isEditing = String(editingId)===String(r.id);
+      if(isEditing){
+        html += renderEditRow(r);
+      } else {
+        const typeLabel = r.type==="deposit" ? "入金推送" : "全量推送";
+        const typeCls = r.type==="deposit" ? "type-deposit" : "type-full";
+        html += `<tr>
+          <td>${r.time||""}</td>
+          <td>${r.title?escapeHtml(r.title):'<span class="muted">—</span>'}</td>
+          <td>${r.author?escapeHtml(r.author):'<span class="muted">—</span>'}</td>
+          <td><span class="type-tag ${typeCls}" onclick="cycleType('${curDate}','${r.id}')">${typeLabel}</span></td>
+          <td><span class="pill ${r.status}" onclick="toggleStatus('${curDate}','${r.id}')">${r.status==="done"?"已推送":"未推送"}</span></td>
+          <td><div class="acts">
+            <button class="sm ghost" onclick="editRec('${curDate}','${r.id}')">编辑</button>
+            <button class="sm danger" onclick="delRecord('${curDate}','${r.id}')">删除</button>
+          </div></td>
+        </tr>`;
+      }
+    });
+  }
+  html += `</tbody></table>`;
+  $("tableWrap").innerHTML = html;
+}
+
+function renderEditRow(r){
+  return `<tr class="editing" data-edit-id="${r.id}">
+    <td><input type="time" class="cell-input time" id="edit_time_${r.id}" value="${r.time||""}"></td>
+    <td><input type="text" class="cell-input title" id="edit_title_${r.id}" list="titleList" value="${escapeHtml(r.title||"")}" placeholder="选择或输入常用标题"></td>
+    <td><input type="text" class="cell-input author" id="edit_author_${r.id}" list="authorList" value="${escapeHtml(r.author||"")}" placeholder="选择或输入"></td>
+    <td>
+      <select class="cell-input type" id="edit_type_${r.id}">
+        <option value="full" ${r.type!=="deposit"?"selected":""}>全量推送</option>
+        <option value="deposit" ${r.type==="deposit"?"selected":""}>入金推送</option>
+      </select>
+    </td>
+    <td>
+      <select class="cell-input status" id="edit_status_${r.id}">
+        <option value="done" ${r.status==="done"?"selected":""}>已推送</option>
+        <option value="todo" ${r.status!=="done"?"selected":""}>未推送</option>
+      </select>
+    </td>
+    <td><div class="acts">
+      <button class="sm success" onclick="saveEdit('${r.id}')">保存</button>
+      <button class="sm ghost" onclick="cancelEdit()">取消</button>
+    </div></td>
+  </tr>`;
+}
+
+// ---------- 交互 ----------
+$("datePick").value = curDate;
+$("todayTxt").textContent = curDate;
+$("planInput").value = plans[curDate] ?? 9;
+
+$("datePick").addEventListener("change",e=>{
+  curDate=e.target.value; $("todayTxt").textContent=curDate;
+  $("planInput").value = plans[curDate]??9;
+  editingId=null; lastNewId=null;
+  render();
+});
+$("todayBtn").onclick = ()=>{
+  curDate=todayStr(); $("datePick").value=curDate;
+  $("todayTxt").textContent=curDate; $("planInput").value=plans[curDate]??9;
+  editingId=null; lastNewId=null;
+  render();
+};
+$("planInput").addEventListener("change",e=>{ let v=parseInt(e.target.value)||0;
+  plans[curDate]=v; save(); render(); });
+
+$("addBtn").onclick = ()=>{
+  if(editingId==="__NEW__") return;
+  // 先收起其他编辑
+  editingId=null;
+  // 插入一条空白记录
+  if(!records[curDate]) records[curDate]=[];
+  const newRec = { id: "__NEW__", time: nowTime(), title: "", author: "", type: "full", status: "done" };
+  records[curDate].push(newRec);
+  editingId = "__NEW__";
+  lastNewId = "__NEW__";
+  $("editHint").textContent = "请在表格中填写新记录后保存";
+  render();
+  // 自动聚焦到标题输入框
+  setTimeout(()=>{
+    const el = $("edit_title___NEW__");
+    if(el){ el.focus(); el.select(); }
+  }, 0);
+};
+
+$("loadTplBtn").onclick = ()=>{
+  const tpl = parseTemplate(template);
+  if(!tpl.length){ alert("当前模板为空，请先设置默认模板。"); return; }
+  if(!confirm(`将清除本机所有本地推送记录缓存（含旧版本残留），并用 ${tpl.length} 条固定排表重建 ${curDate}，是否继续？\n（此操作会清空所有日期的原有记录，再按当前默认模板重建）`)) return;
+  const keys=[];
+  for(let i=0;i<localStorage.length;i++){ const k=localStorage.key(i); if(k && k.startsWith("duty_push_")) keys.push(k); }
+  keys.forEach(k=>localStorage.removeItem(k));
+  records = {}; plans = {};
+  records[curDate] = tpl.map(t=>({ ...t, id: Date.now()+Math.random().toString(36).slice(2) }));
+  records[curDate].sort((a,b)=>sortTimeKey(a.time)-sortTimeKey(b.time));
+  editingId=null; lastNewId=null;
+  save(); render();
+  alert("已清除本地缓存并重建为最新固定排表，请查看。");
+};
+
+function toggleStatus(date,id){
+  const rec=findRec(date,id);
+  if(rec){ rec.status = rec.status==="done"?"todo":"done"; save(); render(); }
+}
+function cycleType(date,id){
+  const rec=findRec(date,id);
+  if(rec){ rec.type = rec.type==="deposit"?"full":"deposit"; save(); render(); }
+}
+function editRec(date,id){
+  editingId=id;
+  lastNewId=null;
+  $("editHint").textContent = "正在编辑表格中的记录";
+  render();
+  setTimeout(()=>{
+    const r = findRec(date,id);
+    if(!r) return;
+    const el = $(`edit_title_${id}`);
+    if(el){ el.focus(); el.select(); }
+  }, 0);
+}
+function saveEdit(id){
+  const time = $(`edit_time_${id}`)?.value || "";
+  const title = ($(`edit_title_${id}`)?.value || "").trim();
+  const author = ($(`edit_author_${id}`)?.value || "").trim();
+  const type = $(`edit_type_${id}`)?.value || "full";
+  const status = $(`edit_status_${id}`)?.value || "todo";
+
+  if(id==="__NEW__"){
+    // 把 __NEW__ 替换为真实 id
+    const idx = (records[curDate]||[]).findIndex(r=>r.id==="__NEW__");
+    if(idx>=0){
+      records[curDate][idx] = { id: Date.now()+Math.random().toString(36).slice(2), time, title, author, type, status };
+    }
+  } else {
+    const rec = findRec(curDate,id);
+    if(rec){ rec.time=time; rec.title=title; rec.author=author; rec.type=type; rec.status=status; }
+  }
+  editingId=null; lastNewId=null;
+  $("editHint").textContent = "";
+  save(); render();
+}
+function cancelEdit(){
+  if(lastNewId==="__NEW__"){
+    // 取消新增时删除这条空白记录
+    records[curDate] = (records[curDate]||[]).filter(r=>r.id!=="__NEW__");
+  }
+  editingId=null; lastNewId=null;
+  $("editHint").textContent = "";
+  render();
+}
+function delRecord(date,id){
+  if(!confirm("确定删除这条记录？")) return;
+  records[date] = (records[date]||[]).filter(r=>String(r.id)!==String(id));
+  if(String(editingId)===String(id)){ editingId=null; }
+  save(); render();
+}
+
+$("filterSeg").addEventListener("click",e=>{
+  const b=e.target.closest("button"); if(!b)return;
+  curFilter=b.dataset.f;
+  [...$("filterSeg").children].forEach(x=>x.classList.toggle("on",x===b));
+  render();
+});
+
+// 设置面板
+$("settingToggle").onclick = ()=>{ $("settingBody").classList.toggle("open"); };
+$("authorsArea").value = authors;
+$("titlesArea").value = titles;
+$("tplArea").value = template;
+$("cutoffInput").value = cutoff;
+$("cutoffInput").addEventListener("change",e=>{
+  cutoff = e.target.value || "06:00";
+  save(); render();
+});
+$("saveSettingBtn").onclick = ()=>{
+  authors = $("authorsArea").value;
+  titles = $("titlesArea").value;
+  template = $("tplArea").value;
+  cutoff = $("cutoffInput").value || "06:00";
+  save();
+  renderAuthors(); renderTitles();
+  alert("设置已保存。");
+};
+$("resetSettingBtn").onclick = ()=>{
+  if(!confirm("确定恢复为默认的作者名单、标题、模板和日界时间？")) return;
+  authors = DEFAULT_AUTHORS; titles = DEFAULT_TITLES; template = DEFAULT_TEMPLATE; cutoff = DEFAULT_CUTOFF;
+  $("authorsArea").value=authors; $("titlesArea").value=titles; $("tplArea").value=template; $("cutoffInput").value=cutoff;
+  save(); renderAuthors(); renderTitles();
+  alert("已重置为默认设置。");
+};
+
+renderAuthors();
+renderTitles();
+render();
+</script>
+</body>
+</html>
