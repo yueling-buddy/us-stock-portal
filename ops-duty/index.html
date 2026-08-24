@@ -268,6 +268,15 @@ function timeToMinutes(t){
   const [h,m] = t.split(":").map(Number);
   return (h||0)*60 + (m||0);
 }
+function fmtTime(mins){
+  mins = ((mins % (24*60)) + (24*60)) % (24*60);
+  const h = Math.floor(mins/60), m = mins%60;
+  return String(h).padStart(2,'0')+":"+String(m).padStart(2,'0');
+}
+function toRiyadhTime(t){
+  if(!t) return "";
+  return fmtTime(timeToMinutes(t) - 5*60);
+}
 function sortTimeKey(t){
   const m = timeToMinutes(t);
   const c = timeToMinutes(cutoff);
@@ -337,8 +346,9 @@ function render(){
       } else {
         const typeLabel = r.type==="deposit" ? "入金推送" : "全量推送";
         const typeCls = r.type==="deposit" ? "type-deposit" : "type-full";
+        const riyadh = r.time ? `<br><span class="sub">${toRiyadhTime(r.time)} Riyadh</span>` : "";
         html += `<tr>
-          <td>${r.time||""}</td>
+          <td>${r.time||""}${riyadh}</td>
           <td>${r.title?escapeHtml(r.title):'<span class="muted">—</span>'}</td>
           <td>${r.author?escapeHtml(r.author):'<span class="muted">—</span>'}</td>
           <td><span class="type-tag ${typeCls}" onclick="cycleType('${curDate}','${r.id}')">${typeLabel}</span></td>
