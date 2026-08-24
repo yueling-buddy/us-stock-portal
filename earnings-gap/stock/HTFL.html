@@ -2,93 +2,55 @@
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>HTFL · 净利润断层详情</title>
-<meta name="theme-color" content="#ff7a1a">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>HTFL · 净利润断层研究</title>
+<meta name="theme-color" content="#f06a18">
 <style>
 :root{
-  --bg:#f5f7fa; --card:#ffffff; --card2:#f3f4f6; --border:#e5e7eb;
-  --ink:#1f2937; --muted:#6b7280; --accent:#ff7a1a;
-  --up:#16a34a; --down:#dc2626; --yellow:#d97706;
+  --bg:#f5f7fa;--card:#fff;--soft:#f8fafc;--border:#e5e7eb;--ink:#172033;
+  --muted:#667085;--accent:#f06a18;--accent-soft:#fff4e8;--up:#16803b;
+  --down:#c93636;--blue:#2563eb;--blue-soft:#eff6ff;--warn:#a16207;
 }
 *{box-sizing:border-box;margin:0;padding:0}
-body{background:var(--bg);color:var(--ink);font-family:-apple-system,"Segoe UI",Roboto,"PingFang SC","Microsoft YaHei",sans-serif;line-height:1.6;padding-bottom:48px}
-.topbar{position:sticky;top:0;z-index:10;background:rgba(255,255,255,.94);backdrop-filter:blur(8px);border-bottom:1px solid var(--border);padding:12px 16px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
-.brand{font-size:15px;font-weight:700;color:var(--accent);white-space:nowrap}
-.brand small{color:var(--muted);font-weight:400;font-size:11px;margin-left:6px}
-.back{margin-left:auto;font-size:13px;color:var(--accent);text-decoration:none;font-weight:600}
-.back:hover{text-decoration:underline}
-.wrap{max-width:880px;margin:16px auto;padding:0 14px;display:flex;flex-direction:column;gap:14px}
-.card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:16px;box-shadow:0 1px 2px rgba(16,24,40,.04)}
-.card h2{font-size:15px;font-weight:700;margin-bottom:10px;display:flex;align-items:center;gap:8px}
-.card h2::before{content:"";width:3px;height:15px;background:var(--accent);border-radius:2px;display:inline-block}
-.kv{display:grid;grid-template-columns:repeat(2,1fr);gap:10px 18px}
-.kv .item{display:flex;flex-direction:column;gap:2px;padding:6px 0;border-bottom:1px dashed var(--border)}
-.kv .k{font-size:11px;color:var(--muted)}
-.kv .v{font-size:14px;font-weight:600}
-.sym{font-size:26px;font-weight:800;color:var(--ink)}
-.name{font-size:13px;color:var(--muted);margin-top:2px}
-.tag{display:inline-block;padding:2px 10px;border-radius:999px;font-size:11px;font-weight:600;background:#dcfce7;color:#15803d;margin-left:8px;vertical-align:middle}
-table{width:100%;border-collapse:collapse;font-size:13px}
-td{padding:8px 10px;border-bottom:1px solid var(--border)}
-td.k{color:var(--muted);width:42%}
-td.v{font-weight:600}
-.up{color:var(--up)} .down{color:var(--down)}
-.narr{font-size:13.5px;line-height:1.8;color:var(--ink)}
-.narr b{color:var(--accent)}
-.qual-attrib{background:var(--card2);border-left:3px solid var(--accent);padding:10px 14px;border-radius:8px;font-size:13.5px;line-height:1.8}
-footer{margin-top:10px;font-size:11px;color:var(--muted);border-top:1px solid var(--border);padding-top:14px;line-height:1.7}
+body{background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"PingFang SC","Microsoft YaHei",sans-serif;line-height:1.72;padding-bottom:54px}
+a{color:var(--blue)}
+.topbar{position:sticky;top:0;z-index:10;background:rgba(255,255,255,.95);backdrop-filter:blur(8px);border-bottom:1px solid var(--border);padding:11px 18px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.brand{font-size:15px;font-weight:750;color:var(--accent)}.brand small{color:var(--muted);font-weight:400;font-size:11px;margin-left:6px}.back{margin-left:auto;font-size:13px;color:var(--accent);text-decoration:none;font-weight:650}
+.wrap{max-width:1060px;margin:18px auto;padding:0 15px;display:flex;flex-direction:column;gap:14px}.card{background:var(--card);border:1px solid var(--border);border-radius:15px;padding:18px;box-shadow:0 1px 3px rgba(16,24,40,.05);overflow:hidden}.hero{background:linear-gradient(135deg,#fff 0%,#fff8f1 100%)}
+.hero-row{display:flex;gap:12px;align-items:center;flex-wrap:wrap}.sym{font-size:29px;font-weight:850;letter-spacing:-.4px}.name{font-size:13px;color:var(--muted);margin-top:3px}.tag{display:inline-flex;align-items:center;padding:3px 10px;border-radius:999px;font-size:11px;font-weight:700}.tag.signal{background:#dcfce7;color:#15803d}.tag.deep{background:#ede9fe;color:#6d28d9}.tag.standard{background:var(--blue-soft);color:#1d4ed8}
+.card h2{font-size:16px;font-weight:760;margin-bottom:11px;display:flex;align-items:center;gap:8px}.card h2:before{content:"";width:3px;height:16px;background:var(--accent);border-radius:3px;display:inline-block;flex:0 0 auto}.card h3{font-size:14px;margin:15px 0 7px}.narr{font-size:14px;color:#273247;overflow-wrap:anywhere}.lead{font-size:15px;line-height:1.85}.note{font-size:12px;color:var(--muted);margin-top:8px}.callout{background:var(--accent-soft);border-left:4px solid var(--accent);padding:12px 15px;border-radius:9px;font-size:14px;overflow-wrap:anywhere}.callout.blue{background:var(--blue-soft);border-color:var(--blue)}
+.metrics{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:9px}.metric{background:var(--soft);border:1px solid var(--border);border-radius:10px;padding:10px;min-width:0}.metric .k{font-size:11px;color:var(--muted)}.metric .v{font-size:16px;font-weight:760;margin-top:3px;overflow-wrap:anywhere}.up{color:var(--up)}.down{color:var(--down)}
+.grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px}.subcard{background:var(--soft);border:1px solid var(--border);border-radius:11px;padding:13px;overflow:hidden}.subcard .title{font-size:13px;font-weight:750;margin-bottom:5px;color:#344054}.subcard p{font-size:13.5px;overflow-wrap:anywhere}
+table{width:100%;border-collapse:collapse;font-size:13px;table-layout:fixed}td{padding:8px 10px;border-bottom:1px solid var(--border);vertical-align:top;overflow-wrap:anywhere}td.k{color:var(--muted);width:36%}td.v{font-weight:600}
+ul{padding-left:20px}.bullets li{margin:6px 0;font-size:13.5px}.sources{display:grid;gap:8px}.source{border:1px solid var(--border);background:var(--soft);border-radius:9px;padding:10px 12px;font-size:13px;overflow-wrap:anywhere}.source a{text-decoration:none;font-weight:650}.source-meta{font-size:11px;color:var(--muted);margin-top:3px}
+footer{margin-top:2px;font-size:11px;color:var(--muted);border-top:1px solid var(--border);padding-top:14px;line-height:1.75}footer b{color:#475467}
+@media(max-width:820px){.metrics{grid-template-columns:repeat(3,minmax(0,1fr))}.grid2{grid-template-columns:1fr}}
+@media(max-width:520px){.wrap{padding:0 10px}.card{padding:14px}.metrics{grid-template-columns:repeat(2,minmax(0,1fr))}.sym{font-size:25px}.back{margin-left:0;width:100%}td.k{width:42%}}
 </style>
 </head>
 <body>
-<div class="topbar">
-  <div class="brand">美股净利润断层 <small>个股详情</small></div>
-  <a class="back" href="../index.html">← 返回总览</a>
-</div>
-<div class="wrap">
-  <div class="card">
-    <div class="sym">HTFL<span class="tag">缺口未回补</span></div>
-    <div class="name">Heartflow, Inc. · Health Information Services</div>
-  </div>
+<div class="topbar"><div class="brand">美股净利润断层 <small>个股研究</small></div><a class="back" href="../index.html">← 返回总览</a></div>
+<main class="wrap">
+  <section class="card hero">
+    <div class="hero-row"><div class="sym">HTFL</div><span class="tag signal">缺口未回补</span><span class="tag deep">完整深研版</span></div>
+    <div class="name">Heartflow, Inc. · Health Information Services · 财报日 2026-08-13 post</div>
+  </section>
+  <section class="card"><h2>断层核心数据</h2><div class="metrics"><div class="metric"><div class="k">缺口</div><div class="v up">+13.61%</div></div><div class="metric"><div class="k">缺口质量</div><div class="v ">86.80</div></div><div class="metric"><div class="k">断层日涨幅</div><div class="v ">35.70%</div></div><div class="metric"><div class="k">量比</div><div class="v ">13.39x</div></div><div class="metric"><div class="k">开盘幅度</div><div class="v ">25.96%</div></div><div class="metric"><div class="k">Comp_RPS</div><div class="v ">91.40</div></div></div><div class="note">EPS / 一致预期 / YoY：-0.07usd (vs -0.13est, surprise +47.9%) / +93.6% YoY</div></section>
+  <section class="card"><h2>断层原因 · 量化归因</h2><div class="callout">财报后形成 <b>13.61%</b> 的严格向上缺口，缺口质量 <b>86.80</b>，断层日涨幅 <b>35.70%</b>，量比 <b>13.39x</b>，Comp_RPS <b>91.40</b>。 EPS/预期/同比缓存：-0.07usd (vs -0.13est, surprise +47.9%) / +93.6% YoY。缺口暂未回补说明短期市场承接较强，但不等于长期基本面已经确认，仍需结合后续财报和关键经营指标验证。</div></section>
+  
+  <div class="card"><h2>30 秒结论</h2><div class="callout">Heartflow 是一家将冠状动脉 CT 血管造影（CCTA）转化为可量化血流、狭窄和斑块信息的 AI 医疗软件公司，核心机会在于推动冠心病诊断从侵入式检查转向“CT-first”路径，并从 FFRCT 单产品扩展到 Plaque 与介入规划平台。 2026Q2 收入 6410 万美元，同比增长 48%，高于 2025Q2 的 4340 万美元；美国收入增长 51%，主要来自 FFRCT 与 Plaque 病例量。公司将 2026 年收入指引从 2.28亿至2.32 亿美元上调至 2.46亿至2.50 亿美元，对应增长 40%至42%，构成明显预期上修信号。GAAP 毛利率由 75.5% 升至 83.0%，得益于病例规模、Plaque 组合和 AI 生产效率；但 GAAP 营业亏损扩大至 1790 万美元，因销售、技术和临床研究投入上升。Non-GAAP 营业亏损从 1150 万美元收窄至 790 万美元，Non-GAAP 每股亏损 0.07 美元；市场一致预期口径存在差异，公开一手资料未充分披露精确 consensus。Q2 经营现金流为负 860 万美元、自由现金流约负 1050 万美元，较 Q1 明显改善；期末现金、现金等价物及投资 2.468 亿美元，短期融资压力低，但尚未实现自我造血。</div></div>
+  <div class="card"><h2>核心定位与业务通俗解读</h2><div class="narr"><h3>核心定位</h3><p>Heartflow 是一家将冠状动脉 CT 血管造影（CCTA）转化为可量化血流、狭窄和斑块信息的 AI 医疗软件公司，核心机会在于推动冠心病诊断从侵入式检查转向“CT-first”路径，并从 FFRCT 单产品扩展到 Plaque 与介入规划平台。</p><h3>业务如何赚钱</h3><p>医院或影像中心上传患者的冠脉 CT 图像，Heartflow 在云端生成个体化三维冠脉模型和分析报告；医生每调用一次 FFRCT 或 Plaque 分析，公司按次收费。产品不要求客户购买大型资本设备，增长主要来自新增账户、每个账户使用量、报销覆盖和新分析模块交叉销售。</p></div></div>
+  <div class="card"><h2>业务架构与收入引擎</h2><div class="grid2"><div class="subcard"><div class="title">Heartflow FFRCT Analysis</div><p>通过计算流体动力学和 AI 评估冠脉病变是否造成缺血，是公司的商业基础，2025 年约占收入 98%。其增长由 CCTA 检查量、账户数及账户内渗透率驱动。</p></div><div class="subcard"><div class="title">Heartflow Plaque Analysis</div><p>量化斑块体积与成分，适用范围可大于 FFRCT。2026 年报销覆盖扩张后成为第二增长引擎；2026Q2 美国 Plaque 收入约 780 万美元，公司将全年 Plaque 收入指引上调至 2900万至3100 万美元。</p></div><div class="subcard"><div class="title">RoadMap / PCI Navigator 与平台工具</div><p>用于提升工作流和介入规划，当前更多承担差异化、留存和平台采用作用；PCI Navigator 尚不单独收费，直接收入贡献公开资料未充分披露。</p></div></div></div>
+  <div class="card"><h2>财报预期差与盈利质量</h2><div class="narr lead">2026Q2 收入 6410 万美元，同比增长 48%，高于 2025Q2 的 4340 万美元；美国收入增长 51%，主要来自 FFRCT 与 Plaque 病例量。公司将 2026 年收入指引从 2.28亿至2.32 亿美元上调至 2.46亿至2.50 亿美元，对应增长 40%至42%，构成明显预期上修信号。GAAP 毛利率由 75.5% 升至 83.0%，得益于病例规模、Plaque 组合和 AI 生产效率；但 GAAP 营业亏损扩大至 1790 万美元，因销售、技术和临床研究投入上升。Non-GAAP 营业亏损从 1150 万美元收窄至 790 万美元，Non-GAAP 每股亏损 0.07 美元；市场一致预期口径存在差异，公开一手资料未充分披露精确 consensus。Q2 经营现金流为负 860 万美元、自由现金流约负 1050 万美元，较 Q1 明显改善；期末现金、现金等价物及投资 2.468 亿美元，短期融资压力低，但尚未实现自我造血。</div></div>
+  <div class="card"><h2>竞争格局与公司位置</h2><div class="narr">公司既与传统无创和侵入式冠心病诊断路径竞争，也面对影像设备商、AI 影像软件和其他 CCTA 后处理方案。其优势是 FDA 许可、长期临床证据、报销覆盖、累计病例数据、既有账户和从 FFRCT 到 Plaque 的一体化工作流；约束包括医生工作流改变缓慢、支付方政策依赖、人工生产环节及潜在替代算法。公开资料未充分披露各直接软件对手的可比市场份额。</div></div>
+  <div class="card"><h2>成长逻辑与催化</h2><div class="grid2"><div class="subcard"><div class="title">短期催化</div><ul class="bullets"><li>2026 年收入指引上调后的连续兑现，尤其是 FFRCT 账户内使用量和 Plaque 收入。</li><li>Plaque 激活账户向年末约 1250 个目标推进，并提高医生重复使用率。</li><li>Non-GAAP 毛利率向约 82% 全年指引及 85% 中期目标靠拢。</li><li>Plaque Staging 的临床采用及 PCI Navigator 在 2027 年更广泛推出前的使用反馈。</li></ul></div><div class="subcard"><div class="title">中期驱动</div><ul class="bullets"><li>CCTA 被更多指南和临床路径接受为疑似冠心病的一线检测。</li><li>Plaque 的 Medicare 与商业保险覆盖扩大，提升可服务病例比例。</li><li>AI 自动化减少人工处理成本、缩短交付时间并扩张毛利率。</li><li>新增账户经过约一年爬坡后提高 FFRCT 与 Plaque 的单账户收入。</li><li>国际市场准入和支付覆盖改善。</li></ul></div></div><h3>长期逻辑</h3><div class="narr">长期上行来自把一次 CCTA 转化为诊断、风险分层、治疗规划和随访的完整软件平台，形成临床证据、数据和工作流网络效应。真正的价值验证不是病例数单独增长，而是高毛利增长最终覆盖持续扩大的销售与研发费用，并按公司目标在 2028 年中前后实现现金流盈利。</div></div>
+  <div class="card"><h2>估值隐含预期</h2><div class="narr">截至 2026-08-24，股价约 49.94 美元、市值约 43.4 亿美元；以 2026 年收入指引中值 2.48 亿美元粗算，市销率约 17 倍，且公司仍亏损、自由现金流为负。该估值已经隐含多年 30%以上增长、高毛利率维持以及通向盈利的高可信度路径。若 Plaque 成为真正第二引擎且 AI 自动化把增量毛利转为经营利润，溢价可被增长消化；若增速回落至普通医疗软件水平或费用率下降慢，估值压缩风险很高。</div><table><tr><td class="k">公司 / 行业</td><td class="v">Heartflow, Inc. / Health Information Services</td></tr><tr><td class="k">市值 / 企业价值</td><td class="v">$4.35B / $4.19B</td></tr><tr><td class="k">TTM 收入</td><td class="v">$212.1M</td></tr><tr><td class="k">TTM 经营现金流 / FCF</td><td class="v">$-52.2M / $-33.6M</td></tr><tr><td class="k">现金 / 总债务</td><td class="v">$162.6M / $27.1M</td></tr><tr><td class="k">Forward PE / P-S / P-B</td><td class="v">-189.45x / 20.53x / 15.52x</td></tr></table><div class="note">上表为第三方行情与估值快照，仅作辅助；经营事实和研究判断优先采用下方公司 IR / SEC 来源。</div></div>
+  <div class="card"><h2>市场定价与预期差</h2><div class="grid2"><div class="subcard"><div class="title">市场已经知道</div><p>市场已充分看到 2026Q2 收入增长 48%、毛利率 83%、全年指引大幅上调、Plaque 成为第二增长引擎及充足现金储备。</p></div><div class="subcard"><div class="title">可能尚未充分定价</div><p>尚未完全定价的正面情形是 Plaque 不只是附加功能，而是将可收费病例范围、医生粘性和单账户收入显著抬高，并由自动化带来软件式利润率；负面情形是当前增长依赖销售投入、早期账户激活和报销窗口，成熟后增速及运营杠杆低于市场假设。</p></div></div><h3>最薄弱假设 / 证伪点</h3><div class="callout blue">最薄弱假设是 40%以上收入增长能够延续足够长时间，同时运营费用增速快速下降，使公司无需再次大规模融资便可在 2028 年中前后实现现金流盈利。</div></div>
+  <div class="card"><h2>主要风险</h2><ul class="bullets"><li>仍处于 GAAP 营业亏损和负自由现金流阶段，销售与研发扩张可能抵消毛利率改善。</li><li>收入高度依赖 FFRCT，Plaque 商业化仍早期，平台多元化尚未充分验证。</li><li>报销覆盖、支付价格、指南变化及医疗机构预算会直接影响病例量。</li><li>医生采用和医院工作流整合速度可能低于预期。</li><li>AI 自动化、模型准确性、监管、数据隐私和医疗责任风险。</li><li>高市销率已反映强增长，任何指引下调都可能引发大幅估值压缩。</li><li>IPO 后锁定期、员工股权激励及内部人减持可能造成供给压力。</li></ul></div>
+  <div class="card"><h2>下一次验证指标</h2><ul class="bullets"><li>全球及美国 revenue cases 增速</li><li>美国 FFRCT 与 Plaque 收入、激活账户和单账户利用率</li><li>Plaque 覆盖生命数及 MAC/商业保险覆盖</li><li>GAAP 与 Non-GAAP 毛利率</li><li>Non-GAAP 营业费用率、营业亏损及自由现金流</li><li>现金、投资余额与股权激励稀释</li><li>2026 收入指引及 2028 年中现金流盈利目标</li><li>PCI Navigator 和 Plaque Staging 的临床采用</li></ul></div>
+  <div class="card"><h2>一手与公开来源</h2><div class="sources"><div class="source"><a href="https://ir.heartflow.com/node/8046/pdf" target="_blank" rel="noopener noreferrer">Heartflow Reports Second Quarter 2026 Financial Results and Raises Full Year 2026 Guidance</a><div class="source-meta">公司IR/财报新闻稿 · 2026-08-13</div></div><div class="source"><a href="https://www.sec.gov/Archives/edgar/data/1464521/000146452126000131/htfl-20260630x10q.htm" target="_blank" rel="noopener noreferrer">Heartflow Form 10-Q for quarter ended June 30, 2026</a><div class="source-meta">SEC · 2026-08-13</div></div><div class="source"><a href="https://www.sec.gov/Archives/edgar/data/1464521/000146452126000040/htfl-20260318xex99_1.htm" target="_blank" rel="noopener noreferrer">Heartflow Reports Fourth Quarter and Full Year 2025 Financial Results</a><div class="source-meta">SEC/财报新闻稿 · 2026-03-18</div></div><div class="source"><a href="https://www.nasdaq.com/articles/heartflow-q2-earnings-call-highlights" target="_blank" rel="noopener noreferrer">Heartflow Q2 Earnings Call Highlights</a><div class="source-meta">可靠媒体/业绩会摘要 · 2026-08-14</div></div></div></div>
 
-  <div class="card">
-    <h2>基本信息</h2>
-    <div class="kv">
-      <div class="item"><span class="k">财报日 / 时点</span><span class="v">2026-08-13 post</span></div>
-      <div class="item"><span class="k">行业</span><span class="v">Health Information Services</span></div>
-    </div>
-  </div>
-
-  <div class="card">
-    <h2>断层核心数据</h2>
-    <table>
-      <tr><td class="k">缺口%</td><td class="v up">+13.61%</td></tr>
-      <tr><td class="k">缺口质量</td><td class="v">86.80</td></tr>
-      <tr><td class="k">收涨%</td><td class="v">35.70%</td></tr>
-      <tr><td class="k">量比</td><td class="v">13.39x</td></tr>
-      <tr><td class="k">开盘%</td><td class="v">25.96%</td></tr>
-      <tr><td class="k">Comp_RPS</td><td class="v">91.40</td></tr>
-    </table>
-  </div>
-
-  <div class="card">
-    <h2>业绩（EPS / YoY）</h2>
-    <div class="narr">-0.07usd (vs -0.13est, surprise +47.9%) / +93.6% YoY</div>
-  </div>
-
-  <div class="card">
-    <h2>断层原因 · 量化归因</h2>
-    <div class="qual-attrib">财报后形成跳空缺口 <b>13.61%</b>（缺口质量 <b>86.80</b>），断层日收涨 <b>35.70%</b>，量比 <b>13.39x</b>，Comp_RPS <b>91.40</b>。业绩端：EPS -0.07usd (vs -0.13est, surprise +47.9%) / +93.6% YoY。缺口至今未回补，显示资金对业绩的认可；跳空幅度与放量程度反映断层强度。</div>
-  </div>
-
-  <div class="card">
-    <h2>断层催化 · 联网深挖</h2>
-    <div class="narr">HTFL二季度营收6410万美元同比+48%(超预期5660万),亏损0.07美元优于预期(共识-0.13);病例数同比+74%,受新CPT报销覆盖后斑块分析(Plaque)快速普及推动,上调2026营收指引至2.46-2.50亿美元。</div>
-  </div>
-
-  <footer>
-    判定口径：财报后出现<b>跳空缺口</b>即记录（断层日 low &gt; 财报前最后交易日 high）；缺口 5 个交易日内回补则标记失效。<br>「断层原因·量化归因」由页面数据自动合成；「断层催化·联网深挖」来自公开财报报道检索（数据准确性优先，个别数字以公司公告为准）。本页为事件记录与策略研究工具，<b>非投资建议</b>。<br>数据时点：2026-08-24（ET）
-  </footer>
-</div>
+  <footer>判定口径：财报后出现跳空缺口即记录（断层日 low &gt; 财报前最后交易日 high）；缺口 5 个交易日内回补则标记失效。量化信号描述价格行为，不等同于长期基本面确认。研究内容基于本地缓存的一手披露与公开信息；行情估值快照来自第三方数据，应以最新市场数据和公司文件复核。本页仅作事件跟踪与研究参考，<b>不构成投资建议</b>。<br>页面构建时点：2026-08-24 12:27（ET）</footer>
+</main>
 </body>
 </html>

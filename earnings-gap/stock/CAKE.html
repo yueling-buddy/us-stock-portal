@@ -2,93 +2,55 @@
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>CAKE · 净利润断层详情</title>
-<meta name="theme-color" content="#ff7a1a">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>CAKE · 净利润断层研究</title>
+<meta name="theme-color" content="#f06a18">
 <style>
 :root{
-  --bg:#f5f7fa; --card:#ffffff; --card2:#f3f4f6; --border:#e5e7eb;
-  --ink:#1f2937; --muted:#6b7280; --accent:#ff7a1a;
-  --up:#16a34a; --down:#dc2626; --yellow:#d97706;
+  --bg:#f5f7fa;--card:#fff;--soft:#f8fafc;--border:#e5e7eb;--ink:#172033;
+  --muted:#667085;--accent:#f06a18;--accent-soft:#fff4e8;--up:#16803b;
+  --down:#c93636;--blue:#2563eb;--blue-soft:#eff6ff;--warn:#a16207;
 }
 *{box-sizing:border-box;margin:0;padding:0}
-body{background:var(--bg);color:var(--ink);font-family:-apple-system,"Segoe UI",Roboto,"PingFang SC","Microsoft YaHei",sans-serif;line-height:1.6;padding-bottom:48px}
-.topbar{position:sticky;top:0;z-index:10;background:rgba(255,255,255,.94);backdrop-filter:blur(8px);border-bottom:1px solid var(--border);padding:12px 16px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
-.brand{font-size:15px;font-weight:700;color:var(--accent);white-space:nowrap}
-.brand small{color:var(--muted);font-weight:400;font-size:11px;margin-left:6px}
-.back{margin-left:auto;font-size:13px;color:var(--accent);text-decoration:none;font-weight:600}
-.back:hover{text-decoration:underline}
-.wrap{max-width:880px;margin:16px auto;padding:0 14px;display:flex;flex-direction:column;gap:14px}
-.card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:16px;box-shadow:0 1px 2px rgba(16,24,40,.04)}
-.card h2{font-size:15px;font-weight:700;margin-bottom:10px;display:flex;align-items:center;gap:8px}
-.card h2::before{content:"";width:3px;height:15px;background:var(--accent);border-radius:2px;display:inline-block}
-.kv{display:grid;grid-template-columns:repeat(2,1fr);gap:10px 18px}
-.kv .item{display:flex;flex-direction:column;gap:2px;padding:6px 0;border-bottom:1px dashed var(--border)}
-.kv .k{font-size:11px;color:var(--muted)}
-.kv .v{font-size:14px;font-weight:600}
-.sym{font-size:26px;font-weight:800;color:var(--ink)}
-.name{font-size:13px;color:var(--muted);margin-top:2px}
-.tag{display:inline-block;padding:2px 10px;border-radius:999px;font-size:11px;font-weight:600;background:#dcfce7;color:#15803d;margin-left:8px;vertical-align:middle}
-table{width:100%;border-collapse:collapse;font-size:13px}
-td{padding:8px 10px;border-bottom:1px solid var(--border)}
-td.k{color:var(--muted);width:42%}
-td.v{font-weight:600}
-.up{color:var(--up)} .down{color:var(--down)}
-.narr{font-size:13.5px;line-height:1.8;color:var(--ink)}
-.narr b{color:var(--accent)}
-.qual-attrib{background:var(--card2);border-left:3px solid var(--accent);padding:10px 14px;border-radius:8px;font-size:13.5px;line-height:1.8}
-footer{margin-top:10px;font-size:11px;color:var(--muted);border-top:1px solid var(--border);padding-top:14px;line-height:1.7}
+body{background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"PingFang SC","Microsoft YaHei",sans-serif;line-height:1.72;padding-bottom:54px}
+a{color:var(--blue)}
+.topbar{position:sticky;top:0;z-index:10;background:rgba(255,255,255,.95);backdrop-filter:blur(8px);border-bottom:1px solid var(--border);padding:11px 18px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.brand{font-size:15px;font-weight:750;color:var(--accent)}.brand small{color:var(--muted);font-weight:400;font-size:11px;margin-left:6px}.back{margin-left:auto;font-size:13px;color:var(--accent);text-decoration:none;font-weight:650}
+.wrap{max-width:1060px;margin:18px auto;padding:0 15px;display:flex;flex-direction:column;gap:14px}.card{background:var(--card);border:1px solid var(--border);border-radius:15px;padding:18px;box-shadow:0 1px 3px rgba(16,24,40,.05);overflow:hidden}.hero{background:linear-gradient(135deg,#fff 0%,#fff8f1 100%)}
+.hero-row{display:flex;gap:12px;align-items:center;flex-wrap:wrap}.sym{font-size:29px;font-weight:850;letter-spacing:-.4px}.name{font-size:13px;color:var(--muted);margin-top:3px}.tag{display:inline-flex;align-items:center;padding:3px 10px;border-radius:999px;font-size:11px;font-weight:700}.tag.signal{background:#dcfce7;color:#15803d}.tag.deep{background:#ede9fe;color:#6d28d9}.tag.standard{background:var(--blue-soft);color:#1d4ed8}
+.card h2{font-size:16px;font-weight:760;margin-bottom:11px;display:flex;align-items:center;gap:8px}.card h2:before{content:"";width:3px;height:16px;background:var(--accent);border-radius:3px;display:inline-block;flex:0 0 auto}.card h3{font-size:14px;margin:15px 0 7px}.narr{font-size:14px;color:#273247;overflow-wrap:anywhere}.lead{font-size:15px;line-height:1.85}.note{font-size:12px;color:var(--muted);margin-top:8px}.callout{background:var(--accent-soft);border-left:4px solid var(--accent);padding:12px 15px;border-radius:9px;font-size:14px;overflow-wrap:anywhere}.callout.blue{background:var(--blue-soft);border-color:var(--blue)}
+.metrics{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:9px}.metric{background:var(--soft);border:1px solid var(--border);border-radius:10px;padding:10px;min-width:0}.metric .k{font-size:11px;color:var(--muted)}.metric .v{font-size:16px;font-weight:760;margin-top:3px;overflow-wrap:anywhere}.up{color:var(--up)}.down{color:var(--down)}
+.grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px}.subcard{background:var(--soft);border:1px solid var(--border);border-radius:11px;padding:13px;overflow:hidden}.subcard .title{font-size:13px;font-weight:750;margin-bottom:5px;color:#344054}.subcard p{font-size:13.5px;overflow-wrap:anywhere}
+table{width:100%;border-collapse:collapse;font-size:13px;table-layout:fixed}td{padding:8px 10px;border-bottom:1px solid var(--border);vertical-align:top;overflow-wrap:anywhere}td.k{color:var(--muted);width:36%}td.v{font-weight:600}
+ul{padding-left:20px}.bullets li{margin:6px 0;font-size:13.5px}.sources{display:grid;gap:8px}.source{border:1px solid var(--border);background:var(--soft);border-radius:9px;padding:10px 12px;font-size:13px;overflow-wrap:anywhere}.source a{text-decoration:none;font-weight:650}.source-meta{font-size:11px;color:var(--muted);margin-top:3px}
+footer{margin-top:2px;font-size:11px;color:var(--muted);border-top:1px solid var(--border);padding-top:14px;line-height:1.75}footer b{color:#475467}
+@media(max-width:820px){.metrics{grid-template-columns:repeat(3,minmax(0,1fr))}.grid2{grid-template-columns:1fr}}
+@media(max-width:520px){.wrap{padding:0 10px}.card{padding:14px}.metrics{grid-template-columns:repeat(2,minmax(0,1fr))}.sym{font-size:25px}.back{margin-left:0;width:100%}td.k{width:42%}}
 </style>
 </head>
 <body>
-<div class="topbar">
-  <div class="brand">美股净利润断层 <small>个股详情</small></div>
-  <a class="back" href="../index.html">← 返回总览</a>
-</div>
-<div class="wrap">
-  <div class="card">
-    <div class="sym">CAKE<span class="tag">缺口未回补</span></div>
-    <div class="name">The Cheesecake Factory Incorporated · Restaurants</div>
-  </div>
+<div class="topbar"><div class="brand">美股净利润断层 <small>个股研究</small></div><a class="back" href="../index.html">← 返回总览</a></div>
+<main class="wrap">
+  <section class="card hero">
+    <div class="hero-row"><div class="sym">CAKE</div><span class="tag signal">缺口未回补</span><span class="tag deep">完整深研版</span></div>
+    <div class="name">The Cheesecake Factory Incorporated · Restaurants · 财报日 2026-07-28 post</div>
+  </section>
+  <section class="card"><h2>断层核心数据</h2><div class="metrics"><div class="metric"><div class="k">缺口</div><div class="v up">+3.71%</div></div><div class="metric"><div class="k">缺口质量</div><div class="v ">92.80</div></div><div class="metric"><div class="k">断层日涨幅</div><div class="v ">13.63%</div></div><div class="metric"><div class="k">量比</div><div class="v ">3.19x</div></div><div class="metric"><div class="k">开盘幅度</div><div class="v ">4.42%</div></div><div class="metric"><div class="k">Comp_RPS</div><div class="v ">92.80</div></div></div><div class="note">EPS / 一致预期 / YoY：1.44usd / —</div></section>
+  <section class="card"><h2>断层原因 · 量化归因</h2><div class="callout">财报后形成 <b>3.71%</b> 的严格向上缺口，缺口质量 <b>92.80</b>，断层日涨幅 <b>13.63%</b>，量比 <b>3.19x</b>，Comp_RPS <b>92.80</b>。 EPS/预期/同比缓存：1.44usd / —。缺口暂未回补说明短期市场承接较强，但不等于长期基本面已经确认，仍需结合后续财报和关键经营指标验证。</div></section>
+  
+  <div class="card"><h2>30 秒结论</h2><div class="callout">The Cheesecake Factory 是以高客单、超大菜单和高流量门店为核心的多品牌休闲餐饮平台，主品牌提供现金流和品牌势能，North Italia、Flower Child及其他Fox Restaurant Concepts品牌承担门店扩张。投资逻辑是同店销售、客流和餐厅层利润率改善，与多品牌开店共同推动盈利增长。 2026Q2收入约10.296亿美元，同比增长7.7%；GAAP净利润约6839万美元、摊薄EPS 1.41美元，调整后净利润约6970万美元、调整后EPS 1.44美元。GAAP与调整后差距较小，主要调整约包括140万美元税前的FRC收购相关或有对价、薪酬和摊销，以及资产减值与租赁终止费用；当季没有类似上年上半年1589万美元债务清偿损失。Q2营业利润率约7.6%，收入增速高于人工成本增速且开店前费用同比下降，支持利润率扩张；公司披露餐厅层利润率约20%，但该指标为非GAAP经营口径，不能与合并营业利润率混用。核心The Cheesecake Factory同店销售增长5.8%、客流约增长2.7%；North Italia约下降3%，Flower Child约增长13%，品牌分化明显。公司将2026年收入目标提高至约40亿美元、净利率目标约5.4%，并计划最多新开26家门店。10-Q当前可核验材料未充分披露单季经营现金流；现金流应以上半年累计表为准，但公开资料未充分披露准确数值。期末借款本金约5.63亿美元，另有约15.18亿美元经营租赁负债，不能把租赁负债与有息债务混为一谈。</div></div>
+  <div class="card"><h2>核心定位与业务通俗解读</h2><div class="narr"><h3>核心定位</h3><p>The Cheesecake Factory 是以高客单、超大菜单和高流量门店为核心的多品牌休闲餐饮平台，主品牌提供现金流和品牌势能，North Italia、Flower Child及其他Fox Restaurant Concepts品牌承担门店扩张。投资逻辑是同店销售、客流和餐厅层利润率改善，与多品牌开店共同推动盈利增长。</p><h3>业务如何赚钱</h3><p>公司通过直营餐厅销售餐食、饮料和甜点，并向国际授权伙伴提供品牌授权及烘焙产品。收入增长来自老店客流和菜单价格、外卖及会员复购、新店数量和品牌组合；利润则取决于食品、人工、租金、促销和开店前费用。主品牌成熟且现金生成能力强，新品牌扩大可服务市场，但扩张也增加租赁承诺和执行难度。</p></div></div>
+  <div class="card"><h2>业务架构与收入引擎</h2><div class="grid2"><div class="subcard"><div class="title">The Cheesecake Factory restaurants</div><p>核心现金流与品牌资产。2026Q2 同店销售增长5.8%，管理层披露客流约增长2.7%，显示增长并非完全依靠提价；主品牌的高销量门店和约十年高位的餐厅层利润率是当季盈利弹性的主要来源。</p></div><div class="subcard"><div class="title">North Italia</div><p>主要成长品牌之一，通过新店扩张增加收入，但2026Q2同店销售约下降3%，表明成熟门店客流和营销效率仍需验证。公司继续测试促销和菜单措施，短期扩张质量比开店数量更重要。</p></div><div class="subcard"><div class="title">Flower Child及其他FRC品牌</div><p>面向快速休闲及差异化餐饮场景，提供第二增长曲线。2026Q2 Flower Child同店销售约增长13%，表现显著强于North Italia；其他品牌规模较小，公开资料未充分披露逐品牌利润和资本回收期。</p></div><div class="subcard"><div class="title">Bakery与国际授权</div><p>向自有餐厅、零售及授权伙伴提供芝士蛋糕等产品，并以较轻资产方式拓展海外品牌覆盖。该业务对集团品牌传播有帮助，但本次公开资料未充分披露2026Q2独立收入、利润率和授权店销售。</p></div></div></div>
+  <div class="card"><h2>财报预期差与盈利质量</h2><div class="narr lead">2026Q2收入约10.296亿美元，同比增长7.7%；GAAP净利润约6839万美元、摊薄EPS 1.41美元，调整后净利润约6970万美元、调整后EPS 1.44美元。GAAP与调整后差距较小，主要调整约包括140万美元税前的FRC收购相关或有对价、薪酬和摊销，以及资产减值与租赁终止费用；当季没有类似上年上半年1589万美元债务清偿损失。Q2营业利润率约7.6%，收入增速高于人工成本增速且开店前费用同比下降，支持利润率扩张；公司披露餐厅层利润率约20%，但该指标为非GAAP经营口径，不能与合并营业利润率混用。核心The Cheesecake Factory同店销售增长5.8%、客流约增长2.7%；North Italia约下降3%，Flower Child约增长13%，品牌分化明显。公司将2026年收入目标提高至约40亿美元、净利率目标约5.4%，并计划最多新开26家门店。10-Q当前可核验材料未充分披露单季经营现金流；现金流应以上半年累计表为准，但公开资料未充分披露准确数值。期末借款本金约5.63亿美元，另有约15.18亿美元经营租赁负债，不能把租赁负债与有息债务混为一谈。</div></div>
+  <div class="card"><h2>竞争格局与公司位置</h2><div class="narr">休闲餐饮竞争来自大型连锁、独立餐厅、快速休闲品牌及消费者居家用餐，核心变量是品牌辨识度、菜单创新、门店体验、选址、价格价值感、等待时间和会员营销。The Cheesecake Factory的优势是高知名度、广菜单和高单店销量；多品牌平台可复用选址、供应链及运营能力。弱点是菜单复杂度和劳动密集度较高，North Italia等成长品牌尚未证明所有门店都能复制主品牌经济性。公开资料未充分披露各品牌在核心商圈的最新市占率。</div></div>
+  <div class="card"><h2>成长逻辑与催化</h2><div class="grid2"><div class="subcard"><div class="title">短期催化</div><ul class="bullets"><li>主品牌同店销售和正客流延续，验证增长不是单纯依靠菜单提价。</li><li>餐厅层利润率维持约20%，食品与人工成本增速继续低于销售增速。</li><li>North Italia同店销售改善，缩小与Flower Child及主品牌的表现差距。</li><li>全年约40亿美元收入、约5.4%净利率和最多26家新店目标兑现。</li><li>会员、菜单创新和促销测试提高复购而不显著损害客单或利润率。</li></ul></div><div class="subcard"><div class="title">中期驱动</div><ul class="bullets"><li>核心品牌持续取得高于行业的客流和同店销售。</li><li>North Italia、Flower Child及其他FRC品牌以纪律化选址扩大门店网络。</li><li>规模采购、排班效率和菜单定价支持餐厅层利润率。</li><li>国际授权和烘焙业务以较轻资本扩展品牌变现。</li></ul></div></div><h3>长期逻辑</h3><div class="narr">长期价值取决于公司能否在不稀释核心品牌体验的情况下，将主品牌现金流转化为多品牌扩张。若North Italia和Flower Child证明稳定的同店销售、成熟店利润率和资本回收期，公司可从单一强品牌重估为餐饮平台；若新品牌扩张依赖促销或选址质量下降，租赁义务和开店投入会放大回报下滑。</div></div>
+  <div class="card"><h2>估值隐含预期</h2><div class="narr">应以正常化EPS、餐厅层利润率、自由现金流和新店资本回报估值，并把经营租赁负债纳入企业价值考量。市场已计入主品牌正客流、约20%餐厅层利润率和多品牌加速开店；进一步重估需要North Italia同店销售转正并证明新店成熟曲线。若食品或人工通胀回升、客流放缓或促销加大，当前利润率高点可能回落，估值将同时面临盈利下修与倍数压缩。</div><table><tr><td class="k">公司 / 行业</td><td class="v">The Cheesecake Factory Incorporated / Restaurants</td></tr><tr><td class="k">市值 / 企业价值</td><td class="v">$5.70B / $7.53B</td></tr><tr><td class="k">TTM 收入</td><td class="v">$3.88B</td></tr><tr><td class="k">TTM 经营现金流 / FCF</td><td class="v">$354.4M / $166.7M</td></tr><tr><td class="k">现金 / 总债务</td><td class="v">$195.2M / $2.08B</td></tr><tr><td class="k">Forward PE / P-S / P-B</td><td class="v">23.23x / 1.47x / 10.99x</td></tr></table><div class="note">上表为第三方行情与估值快照，仅作辅助；经营事实和研究判断优先采用下方公司 IR / SEC 来源。</div></div>
+  <div class="card"><h2>市场定价与预期差</h2><div class="grid2"><div class="subcard"><div class="title">市场已经知道</div><p>市场已知2026Q2收入首次超过10亿美元、主品牌同店销售增长5.8%、客流为正、餐厅层利润率约20%，并且公司上调全年收入与净利率目标。</p></div><div class="subcard"><div class="title">可能尚未充分定价</div><p>可能尚未充分定价的是正客流与成本效率共同作用下，主品牌利润率可以比单纯提价驱动更持久，以及Flower Child的高同店销售可能支持第二增长曲线；反面是North Italia负同店销售可能预示多品牌扩张的资本回报分化。</p></div></div><h3>最薄弱假设 / 证伪点</h3><div class="callout blue">最薄弱假设是主品牌的高流量门店经济性能够复制到更大规模的North Italia、Flower Child及其他FRC门店；不同品牌的客群、选址和运营复杂度并不相同。</div></div>
+  <div class="card"><h2>主要风险</h2><ul class="bullets"><li>消费者可选支出走弱会压低客流，提价可能进一步削弱价值感。</li><li>食品、工资、医疗福利和租金上涨可能侵蚀餐厅层利润率。</li><li>North Italia同店销售约下降3%，若持续疲弱会质疑成长品牌的扩张回报。</li><li>最多26家新店提高选址、培训、供应链和开店执行压力。</li><li>约15.18亿美元经营租赁负债形成长期固定承诺。</li><li>超大菜单和高服务强度增加厨房复杂度、人工需求及一致性风险。</li><li>调整后利润排除了部分收购、减值和租赁终止费用，需监控这些项目是否反复发生。</li></ul></div>
+  <div class="card"><h2>下一次验证指标</h2><ul class="bullets"><li>The Cheesecake Factory同店销售、客流与菜单价格拆分</li><li>North Italia和Flower Child同店销售</li><li>餐厅层利润率与合并营业利润率</li><li>食品、人工和其他餐厅经营成本占收入比例</li><li>新开门店数量、开店前费用和成熟期</li><li>单店销售、投资回收期及关闭或减值门店数量</li><li>经营现金流、资本开支和自由现金流</li><li>借款本金、现金及经营租赁负债</li></ul></div>
+  <div class="card"><h2>一手与公开来源</h2><div class="sources"><div class="source"><a href="https://www.sec.gov/Archives/edgar/data/887596/000110465926089840/cake-20260630x10q.htm" target="_blank" rel="noopener noreferrer">The Cheesecake Factory Form 10-Q for the quarter ended June 30, 2026</a><div class="source-meta">SEC 10-Q · 2026-07-28</div></div><div class="source"><a href="https://www.sec.gov/Archives/edgar/data/887596/000110465926087561/tm2621325d1_ex99-1.htm" target="_blank" rel="noopener noreferrer">The Cheesecake Factory Reports Results for Second Quarter of Fiscal 2026</a><div class="source-meta">SEC 8-K附件/公司财报新闻稿 · 2026-07-28</div></div></div></div>
 
-  <div class="card">
-    <h2>基本信息</h2>
-    <div class="kv">
-      <div class="item"><span class="k">财报日 / 时点</span><span class="v">2026-07-28 post</span></div>
-      <div class="item"><span class="k">行业</span><span class="v">Restaurants</span></div>
-    </div>
-  </div>
-
-  <div class="card">
-    <h2>断层核心数据</h2>
-    <table>
-      <tr><td class="k">缺口%</td><td class="v up">+3.71%</td></tr>
-      <tr><td class="k">缺口质量</td><td class="v">92.80</td></tr>
-      <tr><td class="k">收涨%</td><td class="v">13.63%</td></tr>
-      <tr><td class="k">量比</td><td class="v">3.19x</td></tr>
-      <tr><td class="k">开盘%</td><td class="v">4.42%</td></tr>
-      <tr><td class="k">Comp_RPS</td><td class="v">92.80</td></tr>
-    </table>
-  </div>
-
-  <div class="card">
-    <h2>业绩（EPS / YoY）</h2>
-    <div class="narr">1.44usd / —</div>
-  </div>
-
-  <div class="card">
-    <h2>断层原因 · 量化归因</h2>
-    <div class="qual-attrib">财报后形成跳空缺口 <b>3.71%</b>（缺口质量 <b>92.80</b>），断层日收涨 <b>13.63%</b>，量比 <b>3.19x</b>，Comp_RPS <b>92.80</b>。业绩端：EPS 1.44usd / —。缺口至今未回补，显示资金对业绩的认可；跳空幅度与放量程度反映断层强度。</div>
-  </div>
-
-  <div class="card">
-    <h2>断层催化 · 联网深挖</h2>
-    <div class="narr">Cheesecake Factory Q2 EPS 1.44同比+24%超预期、营收首破10亿+7.7%；同店销售+5.8%、客流+2.7%，餐厅利润率升至十年高位的20%。</div>
-  </div>
-
-  <footer>
-    判定口径：财报后出现<b>跳空缺口</b>即记录（断层日 low &gt; 财报前最后交易日 high）；缺口 5 个交易日内回补则标记失效。<br>「断层原因·量化归因」由页面数据自动合成；「断层催化·联网深挖」来自公开财报报道检索（数据准确性优先，个别数字以公司公告为准）。本页为事件记录与策略研究工具，<b>非投资建议</b>。<br>数据时点：2026-08-24（ET）
-  </footer>
-</div>
+  <footer>判定口径：财报后出现跳空缺口即记录（断层日 low &gt; 财报前最后交易日 high）；缺口 5 个交易日内回补则标记失效。量化信号描述价格行为，不等同于长期基本面确认。研究内容基于本地缓存的一手披露与公开信息；行情估值快照来自第三方数据，应以最新市场数据和公司文件复核。本页仅作事件跟踪与研究参考，<b>不构成投资建议</b>。<br>页面构建时点：2026-08-24 12:27（ET）</footer>
+</main>
 </body>
 </html>

@@ -2,93 +2,55 @@
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ETON · 净利润断层详情</title>
-<meta name="theme-color" content="#ff7a1a">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>ETON · 净利润断层研究</title>
+<meta name="theme-color" content="#f06a18">
 <style>
 :root{
-  --bg:#f5f7fa; --card:#ffffff; --card2:#f3f4f6; --border:#e5e7eb;
-  --ink:#1f2937; --muted:#6b7280; --accent:#ff7a1a;
-  --up:#16a34a; --down:#dc2626; --yellow:#d97706;
+  --bg:#f5f7fa;--card:#fff;--soft:#f8fafc;--border:#e5e7eb;--ink:#172033;
+  --muted:#667085;--accent:#f06a18;--accent-soft:#fff4e8;--up:#16803b;
+  --down:#c93636;--blue:#2563eb;--blue-soft:#eff6ff;--warn:#a16207;
 }
 *{box-sizing:border-box;margin:0;padding:0}
-body{background:var(--bg);color:var(--ink);font-family:-apple-system,"Segoe UI",Roboto,"PingFang SC","Microsoft YaHei",sans-serif;line-height:1.6;padding-bottom:48px}
-.topbar{position:sticky;top:0;z-index:10;background:rgba(255,255,255,.94);backdrop-filter:blur(8px);border-bottom:1px solid var(--border);padding:12px 16px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
-.brand{font-size:15px;font-weight:700;color:var(--accent);white-space:nowrap}
-.brand small{color:var(--muted);font-weight:400;font-size:11px;margin-left:6px}
-.back{margin-left:auto;font-size:13px;color:var(--accent);text-decoration:none;font-weight:600}
-.back:hover{text-decoration:underline}
-.wrap{max-width:880px;margin:16px auto;padding:0 14px;display:flex;flex-direction:column;gap:14px}
-.card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:16px;box-shadow:0 1px 2px rgba(16,24,40,.04)}
-.card h2{font-size:15px;font-weight:700;margin-bottom:10px;display:flex;align-items:center;gap:8px}
-.card h2::before{content:"";width:3px;height:15px;background:var(--accent);border-radius:2px;display:inline-block}
-.kv{display:grid;grid-template-columns:repeat(2,1fr);gap:10px 18px}
-.kv .item{display:flex;flex-direction:column;gap:2px;padding:6px 0;border-bottom:1px dashed var(--border)}
-.kv .k{font-size:11px;color:var(--muted)}
-.kv .v{font-size:14px;font-weight:600}
-.sym{font-size:26px;font-weight:800;color:var(--ink)}
-.name{font-size:13px;color:var(--muted);margin-top:2px}
-.tag{display:inline-block;padding:2px 10px;border-radius:999px;font-size:11px;font-weight:600;background:#dcfce7;color:#15803d;margin-left:8px;vertical-align:middle}
-table{width:100%;border-collapse:collapse;font-size:13px}
-td{padding:8px 10px;border-bottom:1px solid var(--border)}
-td.k{color:var(--muted);width:42%}
-td.v{font-weight:600}
-.up{color:var(--up)} .down{color:var(--down)}
-.narr{font-size:13.5px;line-height:1.8;color:var(--ink)}
-.narr b{color:var(--accent)}
-.qual-attrib{background:var(--card2);border-left:3px solid var(--accent);padding:10px 14px;border-radius:8px;font-size:13.5px;line-height:1.8}
-footer{margin-top:10px;font-size:11px;color:var(--muted);border-top:1px solid var(--border);padding-top:14px;line-height:1.7}
+body{background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"PingFang SC","Microsoft YaHei",sans-serif;line-height:1.72;padding-bottom:54px}
+a{color:var(--blue)}
+.topbar{position:sticky;top:0;z-index:10;background:rgba(255,255,255,.95);backdrop-filter:blur(8px);border-bottom:1px solid var(--border);padding:11px 18px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.brand{font-size:15px;font-weight:750;color:var(--accent)}.brand small{color:var(--muted);font-weight:400;font-size:11px;margin-left:6px}.back{margin-left:auto;font-size:13px;color:var(--accent);text-decoration:none;font-weight:650}
+.wrap{max-width:1060px;margin:18px auto;padding:0 15px;display:flex;flex-direction:column;gap:14px}.card{background:var(--card);border:1px solid var(--border);border-radius:15px;padding:18px;box-shadow:0 1px 3px rgba(16,24,40,.05);overflow:hidden}.hero{background:linear-gradient(135deg,#fff 0%,#fff8f1 100%)}
+.hero-row{display:flex;gap:12px;align-items:center;flex-wrap:wrap}.sym{font-size:29px;font-weight:850;letter-spacing:-.4px}.name{font-size:13px;color:var(--muted);margin-top:3px}.tag{display:inline-flex;align-items:center;padding:3px 10px;border-radius:999px;font-size:11px;font-weight:700}.tag.signal{background:#dcfce7;color:#15803d}.tag.deep{background:#ede9fe;color:#6d28d9}.tag.standard{background:var(--blue-soft);color:#1d4ed8}
+.card h2{font-size:16px;font-weight:760;margin-bottom:11px;display:flex;align-items:center;gap:8px}.card h2:before{content:"";width:3px;height:16px;background:var(--accent);border-radius:3px;display:inline-block;flex:0 0 auto}.card h3{font-size:14px;margin:15px 0 7px}.narr{font-size:14px;color:#273247;overflow-wrap:anywhere}.lead{font-size:15px;line-height:1.85}.note{font-size:12px;color:var(--muted);margin-top:8px}.callout{background:var(--accent-soft);border-left:4px solid var(--accent);padding:12px 15px;border-radius:9px;font-size:14px;overflow-wrap:anywhere}.callout.blue{background:var(--blue-soft);border-color:var(--blue)}
+.metrics{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:9px}.metric{background:var(--soft);border:1px solid var(--border);border-radius:10px;padding:10px;min-width:0}.metric .k{font-size:11px;color:var(--muted)}.metric .v{font-size:16px;font-weight:760;margin-top:3px;overflow-wrap:anywhere}.up{color:var(--up)}.down{color:var(--down)}
+.grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px}.subcard{background:var(--soft);border:1px solid var(--border);border-radius:11px;padding:13px;overflow:hidden}.subcard .title{font-size:13px;font-weight:750;margin-bottom:5px;color:#344054}.subcard p{font-size:13.5px;overflow-wrap:anywhere}
+table{width:100%;border-collapse:collapse;font-size:13px;table-layout:fixed}td{padding:8px 10px;border-bottom:1px solid var(--border);vertical-align:top;overflow-wrap:anywhere}td.k{color:var(--muted);width:36%}td.v{font-weight:600}
+ul{padding-left:20px}.bullets li{margin:6px 0;font-size:13.5px}.sources{display:grid;gap:8px}.source{border:1px solid var(--border);background:var(--soft);border-radius:9px;padding:10px 12px;font-size:13px;overflow-wrap:anywhere}.source a{text-decoration:none;font-weight:650}.source-meta{font-size:11px;color:var(--muted);margin-top:3px}
+footer{margin-top:2px;font-size:11px;color:var(--muted);border-top:1px solid var(--border);padding-top:14px;line-height:1.75}footer b{color:#475467}
+@media(max-width:820px){.metrics{grid-template-columns:repeat(3,minmax(0,1fr))}.grid2{grid-template-columns:1fr}}
+@media(max-width:520px){.wrap{padding:0 10px}.card{padding:14px}.metrics{grid-template-columns:repeat(2,minmax(0,1fr))}.sym{font-size:25px}.back{margin-left:0;width:100%}td.k{width:42%}}
 </style>
 </head>
 <body>
-<div class="topbar">
-  <div class="brand">美股净利润断层 <small>个股详情</small></div>
-  <a class="back" href="../index.html">← 返回总览</a>
-</div>
-<div class="wrap">
-  <div class="card">
-    <div class="sym">ETON<span class="tag">缺口未回补</span></div>
-    <div class="name">Eton Pharmaceuticals, Inc. · Drug Manufacturers - Specialty &amp; Generic</div>
-  </div>
+<div class="topbar"><div class="brand">美股净利润断层 <small>个股研究</small></div><a class="back" href="../index.html">← 返回总览</a></div>
+<main class="wrap">
+  <section class="card hero">
+    <div class="hero-row"><div class="sym">ETON</div><span class="tag signal">缺口未回补</span><span class="tag deep">完整深研版</span></div>
+    <div class="name">Eton Pharmaceuticals, Inc. · Drug Manufacturers - Specialty &amp; Generic · 财报日 2026-08-13 post</div>
+  </section>
+  <section class="card"><h2>断层核心数据</h2><div class="metrics"><div class="metric"><div class="k">缺口</div><div class="v up">+22.74%</div></div><div class="metric"><div class="k">缺口质量</div><div class="v ">86.30</div></div><div class="metric"><div class="k">断层日涨幅</div><div class="v ">44.26%</div></div><div class="metric"><div class="k">量比</div><div class="v ">5.18x</div></div><div class="metric"><div class="k">开盘幅度</div><div class="v ">34.63%</div></div><div class="metric"><div class="k">Comp_RPS</div><div class="v ">98.40</div></div></div><div class="note">EPS / 一致预期 / YoY：0.43usd (vs 0.19est, surprise +126.3%) / +1333.3% YoY</div></section>
+  <section class="card"><h2>断层原因 · 量化归因</h2><div class="callout">财报后形成 <b>22.74%</b> 的严格向上缺口，缺口质量 <b>86.30</b>，断层日涨幅 <b>44.26%</b>，量比 <b>5.18x</b>，Comp_RPS <b>98.40</b>。 EPS/预期/同比缓存：0.43usd (vs 0.19est, surprise +126.3%) / +1333.3% YoY。缺口暂未回补说明短期市场承接较强，但不等于长期基本面已经确认，仍需结合后续财报和关键经营指标验证。</div></section>
+  
+  <div class="card"><h2>30 秒结论</h2><div class="callout">Eton Pharmaceuticals 是罕见病商业化平台，通过收购或授权已获批产品和后期候选药物，利用集中式销售、患者服务和渠道能力放大产品组合价值。其核心投资逻辑不是单个重磅新药，而是持续扩充小患者群、高定价、竞争有限的产品组合，并在收入扩大时释放销售平台的经营杠杆。 2026Q2 净收入约 3759 万美元，同比增长约 99%；GAAP 净利润约 1158 万美元、稀释 EPS 0.35 美元，较上年同期亏损约 260 万美元显著反转。Adjusted EBITDA 约 1620 万美元，占收入约 43%，体现固定商业基础设施在产品收入放大后的强经营杠杆。GAAP 毛利率约 67.6%，公司指出调整后毛利率下降主要与美国以外 INCRELEX 销售产生负毛利有关，并预计 2026 全年调整后毛利率超过 70%。截至 2026-06-30 现金及现金等价物约 2680 万美元；上半年经营现金流约 1466 万美元，说明盈利已开始转化为现金，但收购、授权付款及后半年研发投入会消耗部分现金。公司将 2026 年收入指引上调至超过 1.45 亿美元，并预计 Adjusted EBITDA margin 至少 35%，财报预期差主要来自 HEMANGEOL 和产品组合增长快于原计划。</div></div>
+  <div class="card"><h2>核心定位与业务通俗解读</h2><div class="narr"><h3>核心定位</h3><p>Eton Pharmaceuticals 是罕见病商业化平台，通过收购或授权已获批产品和后期候选药物，利用集中式销售、患者服务和渠道能力放大产品组合价值。其核心投资逻辑不是单个重磅新药，而是持续扩充小患者群、高定价、竞争有限的产品组合，并在收入扩大时释放销售平台的经营杠杆。</p><h3>业务如何赚钱</h3><p>公司从合作方取得罕见病药物的美国或区域商业权利，负责上市、推广、患者准入和生命周期管理，并向权利方支付采购款、版税、里程碑或或有对价。现有产品覆盖儿科内分泌、代谢和感染性罕见病；HEMANGEOL、INCRELEX、ALKINDI SPRINKLE、KHINDIVI、DESMODA 等构成收入基础，IMPAVIDO 和后期管线提供新增量。</p></div></div>
+  <div class="card"><h2>业务架构与收入引擎</h2><div class="grid2"><div class="subcard"><div class="title">已上市罕见病产品组合</div><p>收入和现金流主体。2026Q2 产品销售约 3759 万美元，同比增长约 99%；HEMANGEOL 重新上市、现有内分泌产品增长和产品组合扩张共同推动收入阶跃。</p></div><div class="subcard"><div class="title">婴幼儿血管瘤产品线</div><p>HEMANGEOL 面向需要系统治疗的婴幼儿血管瘤；公司于 2026 年 8 月取得 ASN-001 美国权利，若获批可覆盖目前常以外用噻吗洛尔超说明书治疗的中度患者，形成同一专科的产品组合。</p></div><div class="subcard"><div class="title">后期研发与生命周期管理</div><p>包括 KHINDIVI 扩大适应证、AMGLIDIA、ET-700、ET-800、ZENEO 氢化可的松自动注射器及 INCRELEX 标签协调研究。该部分近期增加研发费用，成功后可继续向现有销售网络添加产品。</p></div></div></div>
+  <div class="card"><h2>财报预期差与盈利质量</h2><div class="narr lead">2026Q2 净收入约 3759 万美元，同比增长约 99%；GAAP 净利润约 1158 万美元、稀释 EPS 0.35 美元，较上年同期亏损约 260 万美元显著反转。Adjusted EBITDA 约 1620 万美元，占收入约 43%，体现固定商业基础设施在产品收入放大后的强经营杠杆。GAAP 毛利率约 67.6%，公司指出调整后毛利率下降主要与美国以外 INCRELEX 销售产生负毛利有关，并预计 2026 全年调整后毛利率超过 70%。截至 2026-06-30 现金及现金等价物约 2680 万美元；上半年经营现金流约 1466 万美元，说明盈利已开始转化为现金，但收购、授权付款及后半年研发投入会消耗部分现金。公司将 2026 年收入指引上调至超过 1.45 亿美元，并预计 Adjusted EBITDA margin 至少 35%，财报预期差主要来自 HEMANGEOL 和产品组合增长快于原计划。</div></div>
+  <div class="card"><h2>竞争格局与公司位置</h2><div class="narr">罕见病市场竞争是逐产品、逐适应证展开，核心壁垒包括孤儿药权益、专科医生覆盖、患者识别、报销与患者服务，而不是公司层面的统一市场份额。Eton 的优势是用一套商业平台服务多个小患者群，并持续购买后期资产；弱点是对授权方、单一分销及专业药房渠道和少数产品的依赖。部分适应证还面临仿制药、药房配制、超说明书用药或其他剂型竞争。公开资料未充分披露各产品最新市场份额及逐产品竞争销售数据。</div></div>
+  <div class="card"><h2>成长逻辑与催化</h2><div class="grid2"><div class="subcard"><div class="title">短期催化</div><ul class="bullets"><li>HEMANGEOL 重启上市后的处方增长和渠道补库存进一步反映在下半年收入。</li><li>IMPAVIDO 于 2026 年 9 月计划上市并开始贡献收入。</li><li>KHINDIVI 扩大儿科适应证申请推进，潜在 2027 年上半年获批。</li><li>公司兑现超过 1.45 亿美元收入及至少 35% Adjusted EBITDA margin 的上调指引。</li><li>ASN-001 生物利用度研究和开发时间表进一步明确。</li></ul></div><div class="subcard"><div class="title">中期驱动</div><ul class="bullets"><li>向现有销售平台持续添加获批或后期罕见病产品，摊薄固定商业费用。</li><li>HEMANGEOL 与 ASN-001 形成婴幼儿血管瘤分层治疗组合，提高同一医生群体的商业效率。</li><li>KHINDIVI、AMGLIDIA、ET-700、ET-800 和 ZENEO 等候选产品陆续通过审批。</li><li>通过患者识别、准入支持和生命周期管理延长现有产品增长周期。</li></ul></div></div><h3>长期逻辑</h3><div class="narr">长期价值取决于公司能否持续以合理价格获得权利、快速完成监管和商业化，并让新增产品复用现有基础设施。成功路径类似小型罕见病产品聚合器，收入组合更分散、利润率随规模上升；失败路径则是高价收购、版税和里程碑吞噬利润，或核心产品在专利、竞争和渠道变化下快速衰退。</div></div>
+  <div class="card"><h2>估值隐含预期</h2><div class="narr">高增长和高 Adjusted EBITDA margin 支持成长型 specialty pharma 估值，但不能简单年化 2026Q2 的 43% margin：公司已提示下半年研发费用将增加，且产品采购、版税、授权付款和海外 INCRELEX 负毛利会影响利润。估值隐含预期应至少包括 HEMANGEOL 持续放量、全年收入指引兑现、后期管线产生新批准以及商业平台维持高增量利润率。若新增资产回报低于资本成本，较高增长溢价会快速压缩。</div><table><tr><td class="k">公司 / 行业</td><td class="v">Eton Pharmaceuticals, Inc. / Drug Manufacturers - Specialty &amp; Generic</td></tr><tr><td class="k">市值 / 企业价值</td><td class="v">$1.89B / $1.82B</td></tr><tr><td class="k">TTM 收入</td><td class="v">$105.6M</td></tr><tr><td class="k">TTM 经营现金流 / FCF</td><td class="v">$15.1M / $6.6M</td></tr><tr><td class="k">现金 / 总债务</td><td class="v">$26.8M / $29.2M</td></tr><tr><td class="k">Forward PE / P-S / P-B</td><td class="v">25.57x / 17.86x / 40.05x</td></tr></table><div class="note">上表为第三方行情与估值快照，仅作辅助；经营事实和研究判断优先采用下方公司 IR / SEC 来源。</div></div>
+  <div class="card"><h2>市场定价与预期差</h2><div class="grid2"><div class="subcard"><div class="title">市场已经知道</div><p>市场已知 2026Q2 收入近翻倍、公司由亏转盈、Adjusted EBITDA margin 达 43%，并再次上调全年收入和盈利指引；HEMANGEOL 和产品组合扩张是主要原因。</p></div><div class="subcard"><div class="title">可能尚未充分定价</div><p>可能尚未充分定价的是多产品共用商业平台带来的持续增量利润，以及 ASN-001 与 HEMANGEOL 在同一专科形成组合后的销售协同；反面是当前利润率可能处于研发费用偏低和产品组合有利的阶段，下半年费用回升会降低表观盈利弹性。</p></div></div><h3>最薄弱假设 / 证伪点</h3><div class="callout blue">最薄弱假设是公司能够长期以有吸引力的经济条款连续获得优质罕见病资产；随着规模和竞争者关注度上升，资产价格、版税和里程碑可能抬升。</div></div>
+  <div class="card"><h2>主要风险</h2><ul class="bullets"><li>收入可能集中于少数产品，HEMANGEOL 或主要内分泌产品增长放缓将显著影响整体业绩。</li><li>专业药房、分销商和合作方集中可能造成渠道、回款或供货风险。</li><li>收购与授权通常包含预付款、版税、里程碑和债务，可能削弱自由现金流质量。</li><li>INCRELEX 海外销售存在负毛利，产品组合变化可能拖累整体毛利率。</li><li>下半年研发活动增加，当前季度 43% Adjusted EBITDA margin 不宜直接外推。</li><li>后期候选药物仍有审批、试验、商业化和竞争风险。</li><li>既有产品面临专利到期、仿制药、配制药或超说明书疗法竞争。</li></ul></div>
+  <div class="card"><h2>下一次验证指标</h2><ul class="bullets"><li>季度产品销售及各核心产品增长贡献</li><li>HEMANGEOL 处方、净销售和渠道库存趋势</li><li>GAAP 与调整后毛利率，尤其是 INCRELEX 海外销售影响</li><li>Adjusted EBITDA margin 与经营现金流</li><li>现金、债务、授权预付款及或有里程碑</li><li>IMPAVIDO 上市进度</li><li>KHINDIVI 扩适应证及 ASN-001 监管节点</li><li>研发费用及后期管线时间表</li></ul></div>
+  <div class="card"><h2>一手与公开来源</h2><div class="sources"><div class="source"><a href="https://ir.etonpharma.com/news-releases/news-release-details/eton-pharmaceuticals-reports-second-quarter-2026-financial" target="_blank" rel="noopener noreferrer">Eton Pharmaceuticals Reports Second Quarter 2026 Financial Results</a><div class="source-meta">公司财报新闻稿 · 2026-08-13</div></div><div class="source"><a href="https://ir.etonpharma.com/sec-filings/sec-filing/10-q/0001437749-26-027684" target="_blank" rel="noopener noreferrer">Eton Pharmaceuticals Form 10-Q filing details for June 30, 2026</a><div class="source-meta">公司IR/SEC 10-Q · 2026-08-13</div></div><div class="source"><a href="https://ir.etonpharma.com/?page=0" target="_blank" rel="noopener noreferrer">Eton Pharmaceuticals Expands Infantile Hemangioma Franchise with Acquisition of U.S. Rights to ASN-001</a><div class="source-meta">公司IR新闻稿索引 · 2026-08-05</div></div></div></div>
 
-  <div class="card">
-    <h2>基本信息</h2>
-    <div class="kv">
-      <div class="item"><span class="k">财报日 / 时点</span><span class="v">2026-08-13 post</span></div>
-      <div class="item"><span class="k">行业</span><span class="v">Drug Manufacturers - Specialty &amp; Generic</span></div>
-    </div>
-  </div>
-
-  <div class="card">
-    <h2>断层核心数据</h2>
-    <table>
-      <tr><td class="k">缺口%</td><td class="v up">+22.74%</td></tr>
-      <tr><td class="k">缺口质量</td><td class="v">86.30</td></tr>
-      <tr><td class="k">收涨%</td><td class="v">44.26%</td></tr>
-      <tr><td class="k">量比</td><td class="v">5.18x</td></tr>
-      <tr><td class="k">开盘%</td><td class="v">34.63%</td></tr>
-      <tr><td class="k">Comp_RPS</td><td class="v">98.40</td></tr>
-    </table>
-  </div>
-
-  <div class="card">
-    <h2>业绩（EPS / YoY）</h2>
-    <div class="narr">0.43usd (vs 0.19est, surprise +126.3%) / +1333.3% YoY</div>
-  </div>
-
-  <div class="card">
-    <h2>断层原因 · 量化归因</h2>
-    <div class="qual-attrib">财报后形成跳空缺口 <b>22.74%</b>（缺口质量 <b>86.30</b>），断层日收涨 <b>44.26%</b>，量比 <b>5.18x</b>，Comp_RPS <b>98.40</b>。业绩端：EPS 0.43usd (vs 0.19est, surprise +126.3%) / +1333.3% YoY。缺口至今未回补，显示资金对业绩的认可；跳空幅度与放量程度反映断层强度。</div>
-  </div>
-
-  <div class="card">
-    <h2>断层催化 · 联网深挖</h2>
-    <div class="narr">Eton Q2营收3760万美元同比+99%、EPS 0.43美元远超0.19预期，上调全年营收指引至超1.45亿美元；HEMANGEOL重启及罕见病组合放量为核心驱动。</div>
-  </div>
-
-  <footer>
-    判定口径：财报后出现<b>跳空缺口</b>即记录（断层日 low &gt; 财报前最后交易日 high）；缺口 5 个交易日内回补则标记失效。<br>「断层原因·量化归因」由页面数据自动合成；「断层催化·联网深挖」来自公开财报报道检索（数据准确性优先，个别数字以公司公告为准）。本页为事件记录与策略研究工具，<b>非投资建议</b>。<br>数据时点：2026-08-24（ET）
-  </footer>
-</div>
+  <footer>判定口径：财报后出现跳空缺口即记录（断层日 low &gt; 财报前最后交易日 high）；缺口 5 个交易日内回补则标记失效。量化信号描述价格行为，不等同于长期基本面确认。研究内容基于本地缓存的一手披露与公开信息；行情估值快照来自第三方数据，应以最新市场数据和公司文件复核。本页仅作事件跟踪与研究参考，<b>不构成投资建议</b>。<br>页面构建时点：2026-08-24 12:27（ET）</footer>
+</main>
 </body>
 </html>

@@ -2,93 +2,55 @@
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>PAYS · 净利润断层详情</title>
-<meta name="theme-color" content="#ff7a1a">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>PAYS · 净利润断层研究</title>
+<meta name="theme-color" content="#f06a18">
 <style>
 :root{
-  --bg:#f5f7fa; --card:#ffffff; --card2:#f3f4f6; --border:#e5e7eb;
-  --ink:#1f2937; --muted:#6b7280; --accent:#ff7a1a;
-  --up:#16a34a; --down:#dc2626; --yellow:#d97706;
+  --bg:#f5f7fa;--card:#fff;--soft:#f8fafc;--border:#e5e7eb;--ink:#172033;
+  --muted:#667085;--accent:#f06a18;--accent-soft:#fff4e8;--up:#16803b;
+  --down:#c93636;--blue:#2563eb;--blue-soft:#eff6ff;--warn:#a16207;
 }
 *{box-sizing:border-box;margin:0;padding:0}
-body{background:var(--bg);color:var(--ink);font-family:-apple-system,"Segoe UI",Roboto,"PingFang SC","Microsoft YaHei",sans-serif;line-height:1.6;padding-bottom:48px}
-.topbar{position:sticky;top:0;z-index:10;background:rgba(255,255,255,.94);backdrop-filter:blur(8px);border-bottom:1px solid var(--border);padding:12px 16px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
-.brand{font-size:15px;font-weight:700;color:var(--accent);white-space:nowrap}
-.brand small{color:var(--muted);font-weight:400;font-size:11px;margin-left:6px}
-.back{margin-left:auto;font-size:13px;color:var(--accent);text-decoration:none;font-weight:600}
-.back:hover{text-decoration:underline}
-.wrap{max-width:880px;margin:16px auto;padding:0 14px;display:flex;flex-direction:column;gap:14px}
-.card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:16px;box-shadow:0 1px 2px rgba(16,24,40,.04)}
-.card h2{font-size:15px;font-weight:700;margin-bottom:10px;display:flex;align-items:center;gap:8px}
-.card h2::before{content:"";width:3px;height:15px;background:var(--accent);border-radius:2px;display:inline-block}
-.kv{display:grid;grid-template-columns:repeat(2,1fr);gap:10px 18px}
-.kv .item{display:flex;flex-direction:column;gap:2px;padding:6px 0;border-bottom:1px dashed var(--border)}
-.kv .k{font-size:11px;color:var(--muted)}
-.kv .v{font-size:14px;font-weight:600}
-.sym{font-size:26px;font-weight:800;color:var(--ink)}
-.name{font-size:13px;color:var(--muted);margin-top:2px}
-.tag{display:inline-block;padding:2px 10px;border-radius:999px;font-size:11px;font-weight:600;background:#dcfce7;color:#15803d;margin-left:8px;vertical-align:middle}
-table{width:100%;border-collapse:collapse;font-size:13px}
-td{padding:8px 10px;border-bottom:1px solid var(--border)}
-td.k{color:var(--muted);width:42%}
-td.v{font-weight:600}
-.up{color:var(--up)} .down{color:var(--down)}
-.narr{font-size:13.5px;line-height:1.8;color:var(--ink)}
-.narr b{color:var(--accent)}
-.qual-attrib{background:var(--card2);border-left:3px solid var(--accent);padding:10px 14px;border-radius:8px;font-size:13.5px;line-height:1.8}
-footer{margin-top:10px;font-size:11px;color:var(--muted);border-top:1px solid var(--border);padding-top:14px;line-height:1.7}
+body{background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"PingFang SC","Microsoft YaHei",sans-serif;line-height:1.72;padding-bottom:54px}
+a{color:var(--blue)}
+.topbar{position:sticky;top:0;z-index:10;background:rgba(255,255,255,.95);backdrop-filter:blur(8px);border-bottom:1px solid var(--border);padding:11px 18px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.brand{font-size:15px;font-weight:750;color:var(--accent)}.brand small{color:var(--muted);font-weight:400;font-size:11px;margin-left:6px}.back{margin-left:auto;font-size:13px;color:var(--accent);text-decoration:none;font-weight:650}
+.wrap{max-width:1060px;margin:18px auto;padding:0 15px;display:flex;flex-direction:column;gap:14px}.card{background:var(--card);border:1px solid var(--border);border-radius:15px;padding:18px;box-shadow:0 1px 3px rgba(16,24,40,.05);overflow:hidden}.hero{background:linear-gradient(135deg,#fff 0%,#fff8f1 100%)}
+.hero-row{display:flex;gap:12px;align-items:center;flex-wrap:wrap}.sym{font-size:29px;font-weight:850;letter-spacing:-.4px}.name{font-size:13px;color:var(--muted);margin-top:3px}.tag{display:inline-flex;align-items:center;padding:3px 10px;border-radius:999px;font-size:11px;font-weight:700}.tag.signal{background:#dcfce7;color:#15803d}.tag.deep{background:#ede9fe;color:#6d28d9}.tag.standard{background:var(--blue-soft);color:#1d4ed8}
+.card h2{font-size:16px;font-weight:760;margin-bottom:11px;display:flex;align-items:center;gap:8px}.card h2:before{content:"";width:3px;height:16px;background:var(--accent);border-radius:3px;display:inline-block;flex:0 0 auto}.card h3{font-size:14px;margin:15px 0 7px}.narr{font-size:14px;color:#273247;overflow-wrap:anywhere}.lead{font-size:15px;line-height:1.85}.note{font-size:12px;color:var(--muted);margin-top:8px}.callout{background:var(--accent-soft);border-left:4px solid var(--accent);padding:12px 15px;border-radius:9px;font-size:14px;overflow-wrap:anywhere}.callout.blue{background:var(--blue-soft);border-color:var(--blue)}
+.metrics{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:9px}.metric{background:var(--soft);border:1px solid var(--border);border-radius:10px;padding:10px;min-width:0}.metric .k{font-size:11px;color:var(--muted)}.metric .v{font-size:16px;font-weight:760;margin-top:3px;overflow-wrap:anywhere}.up{color:var(--up)}.down{color:var(--down)}
+.grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px}.subcard{background:var(--soft);border:1px solid var(--border);border-radius:11px;padding:13px;overflow:hidden}.subcard .title{font-size:13px;font-weight:750;margin-bottom:5px;color:#344054}.subcard p{font-size:13.5px;overflow-wrap:anywhere}
+table{width:100%;border-collapse:collapse;font-size:13px;table-layout:fixed}td{padding:8px 10px;border-bottom:1px solid var(--border);vertical-align:top;overflow-wrap:anywhere}td.k{color:var(--muted);width:36%}td.v{font-weight:600}
+ul{padding-left:20px}.bullets li{margin:6px 0;font-size:13.5px}.sources{display:grid;gap:8px}.source{border:1px solid var(--border);background:var(--soft);border-radius:9px;padding:10px 12px;font-size:13px;overflow-wrap:anywhere}.source a{text-decoration:none;font-weight:650}.source-meta{font-size:11px;color:var(--muted);margin-top:3px}
+footer{margin-top:2px;font-size:11px;color:var(--muted);border-top:1px solid var(--border);padding-top:14px;line-height:1.75}footer b{color:#475467}
+@media(max-width:820px){.metrics{grid-template-columns:repeat(3,minmax(0,1fr))}.grid2{grid-template-columns:1fr}}
+@media(max-width:520px){.wrap{padding:0 10px}.card{padding:14px}.metrics{grid-template-columns:repeat(2,minmax(0,1fr))}.sym{font-size:25px}.back{margin-left:0;width:100%}td.k{width:42%}}
 </style>
 </head>
 <body>
-<div class="topbar">
-  <div class="brand">美股净利润断层 <small>个股详情</small></div>
-  <a class="back" href="../index.html">← 返回总览</a>
-</div>
-<div class="wrap">
-  <div class="card">
-    <div class="sym">PAYS<span class="tag">缺口未回补</span></div>
-    <div class="name">Paysign, Inc. · Software - Infrastructure</div>
-  </div>
+<div class="topbar"><div class="brand">美股净利润断层 <small>个股研究</small></div><a class="back" href="../index.html">← 返回总览</a></div>
+<main class="wrap">
+  <section class="card hero">
+    <div class="hero-row"><div class="sym">PAYS</div><span class="tag signal">缺口未回补</span><span class="tag deep">完整深研版</span></div>
+    <div class="name">Paysign, Inc. · Software - Infrastructure · 财报日 2026-08-05 post</div>
+  </section>
+  <section class="card"><h2>断层核心数据</h2><div class="metrics"><div class="metric"><div class="k">缺口</div><div class="v up">+7.29%</div></div><div class="metric"><div class="k">缺口质量</div><div class="v ">82.70</div></div><div class="metric"><div class="k">断层日涨幅</div><div class="v ">29.30%</div></div><div class="metric"><div class="k">量比</div><div class="v ">6.19x</div></div><div class="metric"><div class="k">开盘幅度</div><div class="v ">8.03%</div></div><div class="metric"><div class="k">Comp_RPS</div><div class="v ">97.80</div></div></div><div class="note">EPS / 一致预期 / YoY：0.10usd / —</div></section>
+  <section class="card"><h2>断层原因 · 量化归因</h2><div class="callout">财报后形成 <b>7.29%</b> 的严格向上缺口，缺口质量 <b>82.70</b>，断层日涨幅 <b>29.30%</b>，量比 <b>6.19x</b>，Comp_RPS <b>97.80</b>。 EPS/预期/同比缓存：0.10usd / —。缺口暂未回补说明短期市场承接较强，但不等于长期基本面已经确认，仍需结合后续财报和关键经营指标验证。</div></section>
+  
+  <div class="card"><h2>30 秒结论</h2><div class="callout">PaySign 是面向生命科学行业的支付与工作流平台，核心业务包括药企患者负担能力方案和血浆捐献者补偿。投资逻辑是高增长、高毛利的 pharma 业务占比提升，同时 plasma 业务提供规模、交易网络和现金流基础，推动整体利润率产生结构性上移。 2026Q2 收入约 2825 万美元，同比增长 48.1%；GAAP 净利润约 676 万美元、稀释 EPS 0.11 美元，Adjusted EBITDA 约 961 万美元，同比增长 113%。公司披露毛利率 63.3%，高于上年同期 61.6%；第三方按财务字段计算出的约 55.1% 与公司口径冲突，本研究采用公司财报新闻稿和 SEC Exhibit 的 63.3%。GAAP 营业利润率约 24.8%，但包含约 99 万美元 Gamma 收购或有对价公允价值变动的非现金收益，剔除后调整后营业利润率约 21.3%，仍显示真实经营杠杆。上半年经营现金流约 2008 万美元，但单季现金流会受客户资金、应收及营运资金时点影响。期末不受限现金约 2737 万美元、零银行债务；总负债率看似较高，主要因约 1.482 亿美元 customer card funding，不能直接解释为高金融杠杆。公司将 2026 年收入指引上调至 1.14亿至1.17亿美元、Adjusted EBITDA 至 3500万至3800万美元，预期差来自 pharma 项目增长和 plasma 趋势改善。</div></div>
+  <div class="card"><h2>核心定位与业务通俗解读</h2><div class="narr"><h3>核心定位</h3><p>PaySign 是面向生命科学行业的支付与工作流平台，核心业务包括药企患者负担能力方案和血浆捐献者补偿。投资逻辑是高增长、高毛利的 pharma 业务占比提升，同时 plasma 业务提供规模、交易网络和现金流基础，推动整体利润率产生结构性上移。</p><h3>业务如何赚钱</h3><p>公司为药企管理共付援助、患者报销和相关支付流程，并为血浆采集中心发行捐献者补偿卡、处理充值和消费交易。收入来自项目设置、月度管理、理赔处理、交易和其他服务费用。资产负债表中的大量 restricted cash 和 customer card funding 是客户卡资金及合同负债，不应等同于普通银行债务；公司披露期末零银行债务。</p></div></div>
+  <div class="card"><h2>业务架构与收入引擎</h2><div class="grid2"><div class="subcard"><div class="title">Pharma Patient Affordability</div><p>当前增长和利润结构升级的主要引擎。2026Q2 收入约 1465 万美元，同比增长 88.9%；过去 12 个月净增 51 个项目，季末活跃项目 148 个，理赔处理量保持高增长。</p></div><div class="subcard"><div class="title">Plasma Donor Compensation</div><p>成熟的交易规模基础。2026Q2 收入约 1304 万美元，同比增长 21.4%；季末覆盖 561 个血浆中心，同比净减少 46 家，增长更多来自捐献活动、充值和消费量，而非中心数量扩张。</p></div><div class="subcard"><div class="title">支付、参与度与管理平台</div><p>为上述业务提供发卡、资金管理、交易处理、呼叫中心、数据和规则引擎。平台复用有助于新项目上线和经营杠杆，但也带来网络费用、客服和合规成本。</p></div></div></div>
+  <div class="card"><h2>财报预期差与盈利质量</h2><div class="narr lead">2026Q2 收入约 2825 万美元，同比增长 48.1%；GAAP 净利润约 676 万美元、稀释 EPS 0.11 美元，Adjusted EBITDA 约 961 万美元，同比增长 113%。公司披露毛利率 63.3%，高于上年同期 61.6%；第三方按财务字段计算出的约 55.1% 与公司口径冲突，本研究采用公司财报新闻稿和 SEC Exhibit 的 63.3%。GAAP 营业利润率约 24.8%，但包含约 99 万美元 Gamma 收购或有对价公允价值变动的非现金收益，剔除后调整后营业利润率约 21.3%，仍显示真实经营杠杆。上半年经营现金流约 2008 万美元，但单季现金流会受客户资金、应收及营运资金时点影响。期末不受限现金约 2737 万美元、零银行债务；总负债率看似较高，主要因约 1.482 亿美元 customer card funding，不能直接解释为高金融杠杆。公司将 2026 年收入指引上调至 1.14亿至1.17亿美元、Adjusted EBITDA 至 3500万至3800万美元，预期差来自 pharma 项目增长和 plasma 趋势改善。</div></div>
+  <div class="card"><h2>竞争格局与公司位置</h2><div class="narr">患者负担能力市场竞争围绕药企客户关系、项目上线速度、规则引擎、反 copay maximizer 能力、数据分析、合规和患者体验展开，竞争者包括大型药品准入、患者服务和支付平台。血浆补偿业务竞争则围绕中心覆盖、可靠性、持卡人体验、交易经济性和系统集成。PaySign 的优势是生命科学场景经验、约 45.5% 的公司披露美国血浆市场份额及快速增长的 pharma 项目；主要弱点是客户集中、规模小于大型综合服务商，以及对卡组织、银行和第三方服务商的依赖。</div></div>
+  <div class="card"><h2>成长逻辑与催化</h2><div class="grid2"><div class="subcard"><div class="title">短期催化</div><ul class="bullets"><li>2026Q3 活跃患者负担能力项目达到公司预计的 165至170 个。</li><li>新增 pharma 项目按计划上线并推动理赔量、设置费和管理费增长。</li><li>plasma 中心数稳定在公司预计的 561至563 家，同时充值和消费量继续增长。</li><li>全年收入、净利润和 Adjusted EBITDA 上调指引得到兑现。</li><li>Gamma 相关能力与核心平台整合后带来交叉销售或更高单项目收入。</li></ul></div><div class="subcard"><div class="title">中期驱动</div><ul class="bullets"><li>药企将患者负担能力项目外包给具备支付、规则与合规能力的平台，推动活跃项目数增长。</li><li>pharma 收入占比提升带来组合毛利率和营业利润率扩张。</li><li>plasma 行业库存压力缓解后，捐献次数和卡片资金流量恢复。</li><li>平台、呼叫中心和合规投入被更大收入规模摊薄，形成经营杠杆。</li></ul></div></div><h3>长期逻辑</h3><div class="narr">长期机会是从发卡处理商升级为生命科学支付与患者工作流基础设施，覆盖更多药企项目、支付场景和数据服务。若平台能维持高客户留存并扩大单客户产品数，收入可能兼具交易量和软件化服务属性；若监管改变共付援助模式或大型竞争者压价，成长和利润率均可能受损。</div></div>
+  <div class="card"><h2>估值隐含预期</h2><div class="narr">估值应重点看有机收入增速、pharma 项目净增、调整后营业利润和自由现金流，而不是只看包含 99 万美元公允价值收益及较低有效税率影响的 GAAP EPS。高增长和利润率扩张支持高于传统支付处理商的估值，但隐含预期已包括 pharma 维持高增、plasma 复苏和全年指引兑现。若活跃项目增长降速、客户集中暴露或中心数持续下降，估值可能从成长平台向普通处理商回归。</div><table><tr><td class="k">公司 / 行业</td><td class="v">Paysign, Inc. / Software - Infrastructure</td></tr><tr><td class="k">市值 / 企业价值</td><td class="v">$793.6M / $773.9M</td></tr><tr><td class="k">TTM 收入</td><td class="v">$100.6M</td></tr><tr><td class="k">TTM 经营现金流 / FCF</td><td class="v">$74.9M / $14.3M</td></tr><tr><td class="k">现金 / 总债务</td><td class="v">$27.4M / $5.7M</td></tr><tr><td class="k">Forward PE / P-S / P-B</td><td class="v">23.23x / 7.89x / 13.18x</td></tr></table><div class="note">上表为第三方行情与估值快照，仅作辅助；经营事实和研究判断优先采用下方公司 IR / SEC 来源。</div></div>
+  <div class="card"><h2>市场定价与预期差</h2><div class="grid2"><div class="subcard"><div class="title">市场已经知道</div><p>市场已知 2026Q2 收入增长 48.1%、pharma 增长 88.9%、Adjusted EBITDA 翻倍以上，并上调全年指引；同时也知道 plasma 中心数同比下降。</p></div><div class="subcard"><div class="title">可能尚未充分定价</div><p>可能尚未充分定价的是 pharma 业务占比提升带来的持续利润率重估，以及已有支付和客服基础设施对新增项目的高增量利润；反面是市场可能忽视 pharma 客户集中和共付援助监管变化对高估值的非线性冲击。</p></div></div><h3>最薄弱假设 / 证伪点</h3><div class="callout blue">最薄弱假设是近 90% 的 pharma 增速可以在项目基数扩大后长期维持；项目上线具有批次性，且收入还受客户药品销售、理赔量和项目期限影响。</div></div>
+  <div class="card"><h2>主要风险</h2><ul class="bullets"><li>pharma 客户或项目集中度较高，单一大型客户流失、项目结束或药品商业表现不佳会影响收入。</li><li>药品共付援助、copay maximizer、患者数据和支付相关监管变化可能改变业务经济性。</li><li>plasma 中心同比减少 46 家，若捐献活动不能抵消中心收缩，成熟业务增长可能放缓。</li><li>公司规模较小，面临大型患者服务、支付和福利管理平台的资源与价格竞争。</li><li>GAAP 利润受或有对价公允价值变动、股权激励和税收优惠影响，季度可比性有限。</li><li>客户资金、restricted cash、应收账款和 customer card funding 规模较大，现金流需结合营运资金口径判断。</li><li>高管减持或股权激励发行可能造成市场情绪及稀释压力。</li></ul></div>
+  <div class="card"><h2>下一次验证指标</h2><ul class="bullets"><li>活跃 pharma 项目数、净新增和处理 claims 增速</li><li>pharma 收入增速及占总收入比例</li><li>plasma 中心数、捐献量、gross load volume 和 gross spend volume</li><li>公司披露毛利率及调整后营业利润率</li><li>Adjusted EBITDA 与剔除公允价值变动后的净利润</li><li>经营现金流、应收账款和客户资金变动</li><li>不受限现金、银行债务与股本稀释</li><li>客户集中度和监管变化</li></ul></div>
+  <div class="card"><h2>一手与公开来源</h2><div class="sources"><div class="source"><a href="https://paysign.com/wp-content/uploads/2026/08/Paysign-Financial-Results-Q2-2026-20260805.pdf" target="_blank" rel="noopener noreferrer">Paysign Reports Record Second Quarter 2026 Revenue of $28.3 Million, Up 48%; Raises Full-Year Outlook</a><div class="source-meta">公司财报新闻稿 · 2026-08-05</div></div><div class="source"><a href="https://www.sec.gov/Archives/edgar/data/1496443/000168316826006021/paysign_i10q-063026.htm" target="_blank" rel="noopener noreferrer">Paysign, Inc. Form 10-Q for the quarter ended June 30, 2026</a><div class="source-meta">SEC 10-Q · 2026-08-06</div></div><div class="source"><a href="https://www.sec.gov/Archives/edgar/data/1496443/000168316826005988/paysign_ex9901.htm" target="_blank" rel="noopener noreferrer">Paysign Q2 2026 Earnings Release filed with SEC</a><div class="source-meta">SEC 8-K附件/财报新闻稿 · 2026-08-05</div></div><div class="source"><a href="https://paysign.com/wp-content/uploads/2026/08/Paysign-Investor-Deck-D.A.-Davidson-Non-Deal-Roadshow-20260811.pdf" target="_blank" rel="noopener noreferrer">Transaction and Workflow Engine Operating Across Healthcare and Financial Rails</a><div class="source-meta">公司投资者演示 · 2026-08-11</div></div></div></div>
 
-  <div class="card">
-    <h2>基本信息</h2>
-    <div class="kv">
-      <div class="item"><span class="k">财报日 / 时点</span><span class="v">2026-08-05 post</span></div>
-      <div class="item"><span class="k">行业</span><span class="v">Software - Infrastructure</span></div>
-    </div>
-  </div>
-
-  <div class="card">
-    <h2>断层核心数据</h2>
-    <table>
-      <tr><td class="k">缺口%</td><td class="v up">+7.29%</td></tr>
-      <tr><td class="k">缺口质量</td><td class="v">82.70</td></tr>
-      <tr><td class="k">收涨%</td><td class="v">29.30%</td></tr>
-      <tr><td class="k">量比</td><td class="v">6.19x</td></tr>
-      <tr><td class="k">开盘%</td><td class="v">8.03%</td></tr>
-      <tr><td class="k">Comp_RPS</td><td class="v">97.80</td></tr>
-    </table>
-  </div>
-
-  <div class="card">
-    <h2>业绩（EPS / YoY）</h2>
-    <div class="narr">0.10usd / —</div>
-  </div>
-
-  <div class="card">
-    <h2>断层原因 · 量化归因</h2>
-    <div class="qual-attrib">财报后形成跳空缺口 <b>7.29%</b>（缺口质量 <b>82.70</b>），断层日收涨 <b>29.30%</b>，量比 <b>6.19x</b>，Comp_RPS <b>97.80</b>。业绩端：EPS 0.10usd / —。缺口至今未回补，显示资金对业绩的认可；跳空幅度与放量程度反映断层强度。</div>
-  </div>
-
-  <div class="card">
-    <h2>断层催化 · 联网深挖</h2>
-    <div class="narr">Paysign Q2营收2825万美元同比+48%、EPS 0.11超0.06预期，上调全年指引；患者可及性(药企)业务+89%、理赔量+54%成主引擎，利润率扩张。</div>
-  </div>
-
-  <footer>
-    判定口径：财报后出现<b>跳空缺口</b>即记录（断层日 low &gt; 财报前最后交易日 high）；缺口 5 个交易日内回补则标记失效。<br>「断层原因·量化归因」由页面数据自动合成；「断层催化·联网深挖」来自公开财报报道检索（数据准确性优先，个别数字以公司公告为准）。本页为事件记录与策略研究工具，<b>非投资建议</b>。<br>数据时点：2026-08-24（ET）
-  </footer>
-</div>
+  <footer>判定口径：财报后出现跳空缺口即记录（断层日 low &gt; 财报前最后交易日 high）；缺口 5 个交易日内回补则标记失效。量化信号描述价格行为，不等同于长期基本面确认。研究内容基于本地缓存的一手披露与公开信息；行情估值快照来自第三方数据，应以最新市场数据和公司文件复核。本页仅作事件跟踪与研究参考，<b>不构成投资建议</b>。<br>页面构建时点：2026-08-24 12:27（ET）</footer>
+</main>
 </body>
 </html>

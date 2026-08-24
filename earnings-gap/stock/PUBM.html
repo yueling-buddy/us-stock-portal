@@ -2,93 +2,55 @@
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>PUBM · 净利润断层详情</title>
-<meta name="theme-color" content="#ff7a1a">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>PUBM · 净利润断层研究</title>
+<meta name="theme-color" content="#f06a18">
 <style>
 :root{
-  --bg:#f5f7fa; --card:#ffffff; --card2:#f3f4f6; --border:#e5e7eb;
-  --ink:#1f2937; --muted:#6b7280; --accent:#ff7a1a;
-  --up:#16a34a; --down:#dc2626; --yellow:#d97706;
+  --bg:#f5f7fa;--card:#fff;--soft:#f8fafc;--border:#e5e7eb;--ink:#172033;
+  --muted:#667085;--accent:#f06a18;--accent-soft:#fff4e8;--up:#16803b;
+  --down:#c93636;--blue:#2563eb;--blue-soft:#eff6ff;--warn:#a16207;
 }
 *{box-sizing:border-box;margin:0;padding:0}
-body{background:var(--bg);color:var(--ink);font-family:-apple-system,"Segoe UI",Roboto,"PingFang SC","Microsoft YaHei",sans-serif;line-height:1.6;padding-bottom:48px}
-.topbar{position:sticky;top:0;z-index:10;background:rgba(255,255,255,.94);backdrop-filter:blur(8px);border-bottom:1px solid var(--border);padding:12px 16px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
-.brand{font-size:15px;font-weight:700;color:var(--accent);white-space:nowrap}
-.brand small{color:var(--muted);font-weight:400;font-size:11px;margin-left:6px}
-.back{margin-left:auto;font-size:13px;color:var(--accent);text-decoration:none;font-weight:600}
-.back:hover{text-decoration:underline}
-.wrap{max-width:880px;margin:16px auto;padding:0 14px;display:flex;flex-direction:column;gap:14px}
-.card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:16px;box-shadow:0 1px 2px rgba(16,24,40,.04)}
-.card h2{font-size:15px;font-weight:700;margin-bottom:10px;display:flex;align-items:center;gap:8px}
-.card h2::before{content:"";width:3px;height:15px;background:var(--accent);border-radius:2px;display:inline-block}
-.kv{display:grid;grid-template-columns:repeat(2,1fr);gap:10px 18px}
-.kv .item{display:flex;flex-direction:column;gap:2px;padding:6px 0;border-bottom:1px dashed var(--border)}
-.kv .k{font-size:11px;color:var(--muted)}
-.kv .v{font-size:14px;font-weight:600}
-.sym{font-size:26px;font-weight:800;color:var(--ink)}
-.name{font-size:13px;color:var(--muted);margin-top:2px}
-.tag{display:inline-block;padding:2px 10px;border-radius:999px;font-size:11px;font-weight:600;background:#dcfce7;color:#15803d;margin-left:8px;vertical-align:middle}
-table{width:100%;border-collapse:collapse;font-size:13px}
-td{padding:8px 10px;border-bottom:1px solid var(--border)}
-td.k{color:var(--muted);width:42%}
-td.v{font-weight:600}
-.up{color:var(--up)} .down{color:var(--down)}
-.narr{font-size:13.5px;line-height:1.8;color:var(--ink)}
-.narr b{color:var(--accent)}
-.qual-attrib{background:var(--card2);border-left:3px solid var(--accent);padding:10px 14px;border-radius:8px;font-size:13.5px;line-height:1.8}
-footer{margin-top:10px;font-size:11px;color:var(--muted);border-top:1px solid var(--border);padding-top:14px;line-height:1.7}
+body{background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"PingFang SC","Microsoft YaHei",sans-serif;line-height:1.72;padding-bottom:54px}
+a{color:var(--blue)}
+.topbar{position:sticky;top:0;z-index:10;background:rgba(255,255,255,.95);backdrop-filter:blur(8px);border-bottom:1px solid var(--border);padding:11px 18px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.brand{font-size:15px;font-weight:750;color:var(--accent)}.brand small{color:var(--muted);font-weight:400;font-size:11px;margin-left:6px}.back{margin-left:auto;font-size:13px;color:var(--accent);text-decoration:none;font-weight:650}
+.wrap{max-width:1060px;margin:18px auto;padding:0 15px;display:flex;flex-direction:column;gap:14px}.card{background:var(--card);border:1px solid var(--border);border-radius:15px;padding:18px;box-shadow:0 1px 3px rgba(16,24,40,.05);overflow:hidden}.hero{background:linear-gradient(135deg,#fff 0%,#fff8f1 100%)}
+.hero-row{display:flex;gap:12px;align-items:center;flex-wrap:wrap}.sym{font-size:29px;font-weight:850;letter-spacing:-.4px}.name{font-size:13px;color:var(--muted);margin-top:3px}.tag{display:inline-flex;align-items:center;padding:3px 10px;border-radius:999px;font-size:11px;font-weight:700}.tag.signal{background:#dcfce7;color:#15803d}.tag.deep{background:#ede9fe;color:#6d28d9}.tag.standard{background:var(--blue-soft);color:#1d4ed8}
+.card h2{font-size:16px;font-weight:760;margin-bottom:11px;display:flex;align-items:center;gap:8px}.card h2:before{content:"";width:3px;height:16px;background:var(--accent);border-radius:3px;display:inline-block;flex:0 0 auto}.card h3{font-size:14px;margin:15px 0 7px}.narr{font-size:14px;color:#273247;overflow-wrap:anywhere}.lead{font-size:15px;line-height:1.85}.note{font-size:12px;color:var(--muted);margin-top:8px}.callout{background:var(--accent-soft);border-left:4px solid var(--accent);padding:12px 15px;border-radius:9px;font-size:14px;overflow-wrap:anywhere}.callout.blue{background:var(--blue-soft);border-color:var(--blue)}
+.metrics{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:9px}.metric{background:var(--soft);border:1px solid var(--border);border-radius:10px;padding:10px;min-width:0}.metric .k{font-size:11px;color:var(--muted)}.metric .v{font-size:16px;font-weight:760;margin-top:3px;overflow-wrap:anywhere}.up{color:var(--up)}.down{color:var(--down)}
+.grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px}.subcard{background:var(--soft);border:1px solid var(--border);border-radius:11px;padding:13px;overflow:hidden}.subcard .title{font-size:13px;font-weight:750;margin-bottom:5px;color:#344054}.subcard p{font-size:13.5px;overflow-wrap:anywhere}
+table{width:100%;border-collapse:collapse;font-size:13px;table-layout:fixed}td{padding:8px 10px;border-bottom:1px solid var(--border);vertical-align:top;overflow-wrap:anywhere}td.k{color:var(--muted);width:36%}td.v{font-weight:600}
+ul{padding-left:20px}.bullets li{margin:6px 0;font-size:13.5px}.sources{display:grid;gap:8px}.source{border:1px solid var(--border);background:var(--soft);border-radius:9px;padding:10px 12px;font-size:13px;overflow-wrap:anywhere}.source a{text-decoration:none;font-weight:650}.source-meta{font-size:11px;color:var(--muted);margin-top:3px}
+footer{margin-top:2px;font-size:11px;color:var(--muted);border-top:1px solid var(--border);padding-top:14px;line-height:1.75}footer b{color:#475467}
+@media(max-width:820px){.metrics{grid-template-columns:repeat(3,minmax(0,1fr))}.grid2{grid-template-columns:1fr}}
+@media(max-width:520px){.wrap{padding:0 10px}.card{padding:14px}.metrics{grid-template-columns:repeat(2,minmax(0,1fr))}.sym{font-size:25px}.back{margin-left:0;width:100%}td.k{width:42%}}
 </style>
 </head>
 <body>
-<div class="topbar">
-  <div class="brand">美股净利润断层 <small>个股详情</small></div>
-  <a class="back" href="../index.html">← 返回总览</a>
-</div>
-<div class="wrap">
-  <div class="card">
-    <div class="sym">PUBM<span class="tag">缺口未回补</span></div>
-    <div class="name">PubMatic, Inc. · Software - Application</div>
-  </div>
+<div class="topbar"><div class="brand">美股净利润断层 <small>个股研究</small></div><a class="back" href="../index.html">← 返回总览</a></div>
+<main class="wrap">
+  <section class="card hero">
+    <div class="hero-row"><div class="sym">PUBM</div><span class="tag signal">缺口未回补</span><span class="tag deep">完整深研版</span></div>
+    <div class="name">PubMatic, Inc. · Software - Application · 财报日 2026-08-06 post</div>
+  </section>
+  <section class="card"><h2>断层核心数据</h2><div class="metrics"><div class="metric"><div class="k">缺口</div><div class="v up">+23.61%</div></div><div class="metric"><div class="k">缺口质量</div><div class="v ">51.80</div></div><div class="metric"><div class="k">断层日涨幅</div><div class="v ">31.90%</div></div><div class="metric"><div class="k">量比</div><div class="v ">7.85x</div></div><div class="metric"><div class="k">开盘幅度</div><div class="v ">28.78%</div></div><div class="metric"><div class="k">Comp_RPS</div><div class="v ">94.60</div></div></div><div class="note">EPS / 一致预期 / YoY：0.12usd / —</div></section>
+  <section class="card"><h2>断层原因 · 量化归因</h2><div class="callout">财报后形成 <b>23.61%</b> 的严格向上缺口，缺口质量 <b>51.80</b>，断层日涨幅 <b>31.90%</b>，量比 <b>7.85x</b>，Comp_RPS <b>94.60</b>。 EPS/预期/同比缓存：0.12usd / —。缺口暂未回补说明短期市场承接较强，但不等于长期基本面已经确认，仍需结合后续财报和关键经营指标验证。</div></section>
+  
+  <div class="card"><h2>30 秒结论</h2><div class="callout">PubMatic 是自建云基础设施的独立广告技术平台，主要连接媒体发布商的广告供给与广告主需求。当前投资逻辑由传统 sell-side platform 的现金流基础、CTV 与移动应用增长，以及 AgenticOS 和 Decision Fabric 带来的 AI 原生交易方式升级共同构成。 2026Q2 收入约 7859 万美元，同比增长 10.5%；GAAP 净亏损约 120 万美元、稀释 EPS -0.03 美元，较上年同期约 520 万美元亏损明显收窄。Adjusted EBITDA 约 1960 万美元、margin 约 25%，高于上年同期约 1420 万美元和 20%；non-GAAP net income 约 590 万美元。经营现金流约 2020 万美元，自由现金流约 1370 万美元，同比增长约 47%，显示利润改善具有现金支持。期末现金及有价证券约 1.375 亿美元，公司披露无债务；当季回购约 210 万股、耗资约 2150 万美元。增长与利润率同步改善，财报预期差是真实的，但 GAAP 仍小幅亏损，后续需观察 AI 相关交易能否从采用指标转化为可辨认、可持续收入。CFO 计划在 2027Q1 退休并留任顾问至 2027 年中，交接本身不改变经营事实，但需要跟踪继任安排。</div></div>
+  <div class="card"><h2>核心定位与业务通俗解读</h2><div class="narr"><h3>核心定位</h3><p>PubMatic 是自建云基础设施的独立广告技术平台，主要连接媒体发布商的广告供给与广告主需求。当前投资逻辑由传统 sell-side platform 的现金流基础、CTV 与移动应用增长，以及 AgenticOS 和 Decision Fabric 带来的 AI 原生交易方式升级共同构成。</p><h3>业务如何赚钱</h3><p>网站、移动应用和流媒体平台把广告位接入 PubMatic，广告主及其代理商通过实时竞价购买。PubMatic 从经平台完成的广告交易中取得收入，并依靠自建基础设施、数据和算法提高填充率与广告收益。公司正将能力向直接买方工具、CTV 和由 AI agent 自动执行的广告交易延伸。</p></div></div>
+  <div class="card"><h2>业务架构与收入引擎</h2><div class="grid2"><div class="subcard"><div class="title">核心程序化广告平台</div><p>为发布商提供广告变现、身份、竞价和数据基础设施，是当前收入主体。2026Q2 总收入约 7860 万美元，同比增长约 11%，提前恢复双位数增长。</p></div><div class="subcard"><div class="title">CTV、移动应用与新兴收入</div><p>三类业务合计约占 2026Q2 收入 60%，较三年前约 30% 显著提高，合计同比增长接近 40%。全球 CTV 收入增长约 13%，美洲 CTV 增长约 25%；移动应用增长超过 40%；新兴收入接近翻倍并约占总收入 15%。</p></div><div class="subcard"><div class="title">AgenticOS、Activate 与 Decision Fabric</div><p>AgenticOS 自 2026 年初推出后已交付 80 多个 agentic campaigns、促成 4,000 多笔 AI-powered deals，并覆盖五大广告控股集团。Activate 直接买方业务同比增长超过一倍；Decision Fabric 允许合作方在靠近广告库存和拍卖的位置运行自有模型。</p></div></div></div>
+  <div class="card"><h2>财报预期差与盈利质量</h2><div class="narr lead">2026Q2 收入约 7859 万美元，同比增长 10.5%；GAAP 净亏损约 120 万美元、稀释 EPS -0.03 美元，较上年同期约 520 万美元亏损明显收窄。Adjusted EBITDA 约 1960 万美元、margin 约 25%，高于上年同期约 1420 万美元和 20%；non-GAAP net income 约 590 万美元。经营现金流约 2020 万美元，自由现金流约 1370 万美元，同比增长约 47%，显示利润改善具有现金支持。期末现金及有价证券约 1.375 亿美元，公司披露无债务；当季回购约 210 万股、耗资约 2150 万美元。增长与利润率同步改善，财报预期差是真实的，但 GAAP 仍小幅亏损，后续需观察 AI 相关交易能否从采用指标转化为可辨认、可持续收入。CFO 计划在 2027Q1 退休并留任顾问至 2027 年中，交接本身不改变经营事实，但需要跟踪继任安排。</div></div>
+  <div class="card"><h2>竞争格局与公司位置</h2><div class="narr">程序化广告竞争包括 The Trade Desk 等买方平台、Google 和 Amazon 的封闭生态、Magnite 等 sell-side 平台以及媒体自建能力。PubMatic 的优势是独立性、自建基础设施、靠近供给端的数据和成本控制，以及在 CTV、移动应用和 agentic 交易中的产品速度；短板是规模明显小于大型平台，广告预算受宏观周期影响，且行业面临隐私、身份识别和平台规则变化。AgenticOS 的先发采用是积极信号，但尚未证明形成持久定价权。</div></div>
+  <div class="card"><h2>成长逻辑与催化</h2><div class="grid2"><div class="subcard"><div class="title">短期催化</div><ul class="bullets"><li>2026Q3 收入指引兑现并保持双位数增长。</li><li>AgenticOS 的重复客户、campaign 数和 AI-powered deals 继续增长，并披露更清晰的收入贡献。</li><li>CTV、移动应用和新兴收入占比进一步提高，抵消传统网页广告波动。</li><li>Adjusted EBITDA margin 和自由现金流在增加销售投入的同时保持韧性。</li><li>CFO 继任人选和交接计划明确，降低执行不确定性。</li></ul></div><div class="subcard"><div class="title">中期驱动</div><ul class="bullets"><li>广告预算持续由开放网页转向 CTV、移动应用和零售媒体等高增长渠道。</li><li>AgenticOS、Activate 和 Decision Fabric 缩短买卖双方路径，提高平台交易密度与单次决策价值。</li><li>自建基础设施和 AI 自动化提高 monetized impressions 占比，并降低低价值计算消耗。</li><li>更多代理商、品牌和数据伙伴直接接入，扩大需求侧覆盖。</li><li>持续自由现金流和回购减少流通股，提升每股价值。</li></ul></div></div><h3>长期逻辑</h3><div class="narr">长期价值取决于 PubMatic 能否从传统 SSP 升级为开放互联网的 AI 原生交易和决策基础设施。若更多交易由 agent 自动规划、购买和优化，平台可在供给数据、拍卖执行和模型托管中获得更高战略地位；若 AgenticOS 仅是营销包装、收入仍高度依赖周期性展示广告，公司估值将继续受广告科技低倍数约束。</div></div>
+  <div class="card"><h2>估值隐含预期</h2><div class="narr">GAAP TTM 仍亏损时，不宜使用 PE；可结合收入倍数、EV/adjusted EBITDA、自由现金流收益率和净现金估值。基本面缓存中的市销率和远期 PE 仅作为 2026-08-24 行情快照。当前估值隐含公司已走出低增长阶段，但尚未完全按高成长软件平台定价。重估需要证明双位数增长可持续、AgenticOS 有可量化变现且 margin 不因竞争和销售投入回落；若增长再次降至个位数，估值可能回归传统广告基础设施。</div><table><tr><td class="k">公司 / 行业</td><td class="v">PubMatic, Inc. / Software - Application</td></tr><tr><td class="k">市值 / 企业价值</td><td class="v">$763.9M / $651.1M</td></tr><tr><td class="k">TTM 收入</td><td class="v">$289.2M</td></tr><tr><td class="k">TTM 经营现金流 / FCF</td><td class="v">$88.0M / $60.3M</td></tr><tr><td class="k">现金 / 总债务</td><td class="v">$137.5M / $40.9M</td></tr><tr><td class="k">Forward PE / P-S / P-B</td><td class="v">20.65x / 2.64x / 3.19x</td></tr></table><div class="note">上表为第三方行情与估值快照，仅作辅助；经营事实和研究判断优先采用下方公司 IR / SEC 来源。</div></div>
+  <div class="card"><h2>市场定价与预期差</h2><div class="grid2"><div class="subcard"><div class="title">市场已经知道</div><p>市场已知公司提前恢复双位数增长、Adjusted EBITDA 和自由现金流改善，CTV、移动应用和 AgenticOS 是主要增长方向。</p></div><div class="subcard"><div class="title">可能尚未充分定价</div><p>可能尚未充分定价的是 sell-side 数据与基础设施在 agentic advertising 中可能获得更高交易价值，以及现金流支持持续回购；反面是市场也可能把 campaign 和 deal 数量过早等同于高毛利软件收入。</p></div></div><h3>最薄弱假设 / 证伪点</h3><div class="callout blue">最薄弱假设是 AI agent 交易增长会自然提高 PubMatic 的收入率和护城河。若 agent 只降低人工成本但未改变平台议价权，采用增长未必带来估值体系升级。</div></div>
+  <div class="card"><h2>主要风险</h2><ul class="bullets"><li>广告预算受经济周期、重大事件和客户行业结构影响，季度收入存在波动。</li><li>Google、Amazon、大型 DSP 和其他 SSP 拥有更大规模、数据或封闭生态优势。</li><li>AgenticOS 采用指标尚不等于可持续收入和利润，商业化仍在早期。</li><li>隐私监管、Cookie 与设备标识变化可能降低定向和测量能力。</li><li>GAAP 仍小幅亏损，股权激励及基础设施投入会影响每股盈利。</li><li>重大客户、渠道伙伴或流量来源变化可能影响交易量。</li><li>CFO 更替带来财务与投资者沟通的短期执行风险。</li></ul></div>
+  <div class="card"><h2>下一次验证指标</h2><ul class="bullets"><li>总收入增速与 Q3/全年指引</li><li>CTV、移动应用和新兴收入占比及各自增速</li><li>AgenticOS campaigns、AI-powered deals、重复客户与收入贡献</li><li>Activate 与 Decision Fabric 的客户采用</li><li>monetized impressions 与总处理 impressions 的变化</li><li>GAAP 营业利润、Adjusted EBITDA margin 和调整项目</li><li>经营现金流、自由现金流和资本开支</li><li>现金、回购股数与 SBC 稀释</li><li>CFO 继任与管理层稳定性</li></ul></div>
+  <div class="card"><h2>一手与公开来源</h2><div class="sources"><div class="source"><a href="https://investors.pubmatic.com/node/13651/ixbrl-viewer" target="_blank" rel="noopener noreferrer">PubMatic Announces Second Quarter 2026 Financial Results</a><div class="source-meta">公司IR/SEC 8-K附件 · 2026-08-06</div></div><div class="source"><a href="https://investors.pubmatic.com/" target="_blank" rel="noopener noreferrer">PubMatic Investor Relations – Q2 2026 Results</a><div class="source-meta">公司IR · 2026-08-06</div></div></div></div>
 
-  <div class="card">
-    <h2>基本信息</h2>
-    <div class="kv">
-      <div class="item"><span class="k">财报日 / 时点</span><span class="v">2026-08-06 post</span></div>
-      <div class="item"><span class="k">行业</span><span class="v">Software - Application</span></div>
-    </div>
-  </div>
-
-  <div class="card">
-    <h2>断层核心数据</h2>
-    <table>
-      <tr><td class="k">缺口%</td><td class="v up">+23.61%</td></tr>
-      <tr><td class="k">缺口质量</td><td class="v">51.80</td></tr>
-      <tr><td class="k">收涨%</td><td class="v">31.90%</td></tr>
-      <tr><td class="k">量比</td><td class="v">7.85x</td></tr>
-      <tr><td class="k">开盘%</td><td class="v">28.78%</td></tr>
-      <tr><td class="k">Comp_RPS</td><td class="v">94.60</td></tr>
-    </table>
-  </div>
-
-  <div class="card">
-    <h2>业绩（EPS / YoY）</h2>
-    <div class="narr">0.12usd / —</div>
-  </div>
-
-  <div class="card">
-    <h2>断层原因 · 量化归因</h2>
-    <div class="qual-attrib">财报后形成跳空缺口 <b>23.61%</b>（缺口质量 <b>51.80</b>），断层日收涨 <b>31.90%</b>，量比 <b>7.85x</b>，Comp_RPS <b>94.60</b>。业绩端：EPS 0.12usd / —。缺口至今未回补，显示资金对业绩的认可；跳空幅度与放量程度反映断层强度。</div>
-  </div>
-
-  <div class="card">
-    <h2>断层催化 · 联网深挖</h2>
-    <div class="narr">PubMatic Q2营收7860万同比+11%超预期、EPS -0.03优于-0.18，经调EBITDA+38%；AI平台AgenticOS采用翻倍(80+活动)，回流双位数增长。</div>
-  </div>
-
-  <footer>
-    判定口径：财报后出现<b>跳空缺口</b>即记录（断层日 low &gt; 财报前最后交易日 high）；缺口 5 个交易日内回补则标记失效。<br>「断层原因·量化归因」由页面数据自动合成；「断层催化·联网深挖」来自公开财报报道检索（数据准确性优先，个别数字以公司公告为准）。本页为事件记录与策略研究工具，<b>非投资建议</b>。<br>数据时点：2026-08-24（ET）
-  </footer>
-</div>
+  <footer>判定口径：财报后出现跳空缺口即记录（断层日 low &gt; 财报前最后交易日 high）；缺口 5 个交易日内回补则标记失效。量化信号描述价格行为，不等同于长期基本面确认。研究内容基于本地缓存的一手披露与公开信息；行情估值快照来自第三方数据，应以最新市场数据和公司文件复核。本页仅作事件跟踪与研究参考，<b>不构成投资建议</b>。<br>页面构建时点：2026-08-24 12:27（ET）</footer>
+</main>
 </body>
 </html>

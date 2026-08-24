@@ -2,93 +2,55 @@
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MCS · 净利润断层详情</title>
-<meta name="theme-color" content="#ff7a1a">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>MCS · 净利润断层研究</title>
+<meta name="theme-color" content="#f06a18">
 <style>
 :root{
-  --bg:#f5f7fa; --card:#ffffff; --card2:#f3f4f6; --border:#e5e7eb;
-  --ink:#1f2937; --muted:#6b7280; --accent:#ff7a1a;
-  --up:#16a34a; --down:#dc2626; --yellow:#d97706;
+  --bg:#f5f7fa;--card:#fff;--soft:#f8fafc;--border:#e5e7eb;--ink:#172033;
+  --muted:#667085;--accent:#f06a18;--accent-soft:#fff4e8;--up:#16803b;
+  --down:#c93636;--blue:#2563eb;--blue-soft:#eff6ff;--warn:#a16207;
 }
 *{box-sizing:border-box;margin:0;padding:0}
-body{background:var(--bg);color:var(--ink);font-family:-apple-system,"Segoe UI",Roboto,"PingFang SC","Microsoft YaHei",sans-serif;line-height:1.6;padding-bottom:48px}
-.topbar{position:sticky;top:0;z-index:10;background:rgba(255,255,255,.94);backdrop-filter:blur(8px);border-bottom:1px solid var(--border);padding:12px 16px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
-.brand{font-size:15px;font-weight:700;color:var(--accent);white-space:nowrap}
-.brand small{color:var(--muted);font-weight:400;font-size:11px;margin-left:6px}
-.back{margin-left:auto;font-size:13px;color:var(--accent);text-decoration:none;font-weight:600}
-.back:hover{text-decoration:underline}
-.wrap{max-width:880px;margin:16px auto;padding:0 14px;display:flex;flex-direction:column;gap:14px}
-.card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:16px;box-shadow:0 1px 2px rgba(16,24,40,.04)}
-.card h2{font-size:15px;font-weight:700;margin-bottom:10px;display:flex;align-items:center;gap:8px}
-.card h2::before{content:"";width:3px;height:15px;background:var(--accent);border-radius:2px;display:inline-block}
-.kv{display:grid;grid-template-columns:repeat(2,1fr);gap:10px 18px}
-.kv .item{display:flex;flex-direction:column;gap:2px;padding:6px 0;border-bottom:1px dashed var(--border)}
-.kv .k{font-size:11px;color:var(--muted)}
-.kv .v{font-size:14px;font-weight:600}
-.sym{font-size:26px;font-weight:800;color:var(--ink)}
-.name{font-size:13px;color:var(--muted);margin-top:2px}
-.tag{display:inline-block;padding:2px 10px;border-radius:999px;font-size:11px;font-weight:600;background:#dcfce7;color:#15803d;margin-left:8px;vertical-align:middle}
-table{width:100%;border-collapse:collapse;font-size:13px}
-td{padding:8px 10px;border-bottom:1px solid var(--border)}
-td.k{color:var(--muted);width:42%}
-td.v{font-weight:600}
-.up{color:var(--up)} .down{color:var(--down)}
-.narr{font-size:13.5px;line-height:1.8;color:var(--ink)}
-.narr b{color:var(--accent)}
-.qual-attrib{background:var(--card2);border-left:3px solid var(--accent);padding:10px 14px;border-radius:8px;font-size:13.5px;line-height:1.8}
-footer{margin-top:10px;font-size:11px;color:var(--muted);border-top:1px solid var(--border);padding-top:14px;line-height:1.7}
+body{background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"PingFang SC","Microsoft YaHei",sans-serif;line-height:1.72;padding-bottom:54px}
+a{color:var(--blue)}
+.topbar{position:sticky;top:0;z-index:10;background:rgba(255,255,255,.95);backdrop-filter:blur(8px);border-bottom:1px solid var(--border);padding:11px 18px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.brand{font-size:15px;font-weight:750;color:var(--accent)}.brand small{color:var(--muted);font-weight:400;font-size:11px;margin-left:6px}.back{margin-left:auto;font-size:13px;color:var(--accent);text-decoration:none;font-weight:650}
+.wrap{max-width:1060px;margin:18px auto;padding:0 15px;display:flex;flex-direction:column;gap:14px}.card{background:var(--card);border:1px solid var(--border);border-radius:15px;padding:18px;box-shadow:0 1px 3px rgba(16,24,40,.05);overflow:hidden}.hero{background:linear-gradient(135deg,#fff 0%,#fff8f1 100%)}
+.hero-row{display:flex;gap:12px;align-items:center;flex-wrap:wrap}.sym{font-size:29px;font-weight:850;letter-spacing:-.4px}.name{font-size:13px;color:var(--muted);margin-top:3px}.tag{display:inline-flex;align-items:center;padding:3px 10px;border-radius:999px;font-size:11px;font-weight:700}.tag.signal{background:#dcfce7;color:#15803d}.tag.deep{background:#ede9fe;color:#6d28d9}.tag.standard{background:var(--blue-soft);color:#1d4ed8}
+.card h2{font-size:16px;font-weight:760;margin-bottom:11px;display:flex;align-items:center;gap:8px}.card h2:before{content:"";width:3px;height:16px;background:var(--accent);border-radius:3px;display:inline-block;flex:0 0 auto}.card h3{font-size:14px;margin:15px 0 7px}.narr{font-size:14px;color:#273247;overflow-wrap:anywhere}.lead{font-size:15px;line-height:1.85}.note{font-size:12px;color:var(--muted);margin-top:8px}.callout{background:var(--accent-soft);border-left:4px solid var(--accent);padding:12px 15px;border-radius:9px;font-size:14px;overflow-wrap:anywhere}.callout.blue{background:var(--blue-soft);border-color:var(--blue)}
+.metrics{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:9px}.metric{background:var(--soft);border:1px solid var(--border);border-radius:10px;padding:10px;min-width:0}.metric .k{font-size:11px;color:var(--muted)}.metric .v{font-size:16px;font-weight:760;margin-top:3px;overflow-wrap:anywhere}.up{color:var(--up)}.down{color:var(--down)}
+.grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px}.subcard{background:var(--soft);border:1px solid var(--border);border-radius:11px;padding:13px;overflow:hidden}.subcard .title{font-size:13px;font-weight:750;margin-bottom:5px;color:#344054}.subcard p{font-size:13.5px;overflow-wrap:anywhere}
+table{width:100%;border-collapse:collapse;font-size:13px;table-layout:fixed}td{padding:8px 10px;border-bottom:1px solid var(--border);vertical-align:top;overflow-wrap:anywhere}td.k{color:var(--muted);width:36%}td.v{font-weight:600}
+ul{padding-left:20px}.bullets li{margin:6px 0;font-size:13.5px}.sources{display:grid;gap:8px}.source{border:1px solid var(--border);background:var(--soft);border-radius:9px;padding:10px 12px;font-size:13px;overflow-wrap:anywhere}.source a{text-decoration:none;font-weight:650}.source-meta{font-size:11px;color:var(--muted);margin-top:3px}
+footer{margin-top:2px;font-size:11px;color:var(--muted);border-top:1px solid var(--border);padding-top:14px;line-height:1.75}footer b{color:#475467}
+@media(max-width:820px){.metrics{grid-template-columns:repeat(3,minmax(0,1fr))}.grid2{grid-template-columns:1fr}}
+@media(max-width:520px){.wrap{padding:0 10px}.card{padding:14px}.metrics{grid-template-columns:repeat(2,minmax(0,1fr))}.sym{font-size:25px}.back{margin-left:0;width:100%}td.k{width:42%}}
 </style>
 </head>
 <body>
-<div class="topbar">
-  <div class="brand">美股净利润断层 <small>个股详情</small></div>
-  <a class="back" href="../index.html">← 返回总览</a>
-</div>
-<div class="wrap">
-  <div class="card">
-    <div class="sym">MCS<span class="tag">缺口未回补</span></div>
-    <div class="name">Marcus Corporation (The) · Entertainment</div>
-  </div>
+<div class="topbar"><div class="brand">美股净利润断层 <small>个股研究</small></div><a class="back" href="../index.html">← 返回总览</a></div>
+<main class="wrap">
+  <section class="card hero">
+    <div class="hero-row"><div class="sym">MCS</div><span class="tag signal">缺口未回补</span><span class="tag deep">完整深研版</span></div>
+    <div class="name">Marcus Corporation (The) · Entertainment · 财报日 2026-07-30 pre</div>
+  </section>
+  <section class="card"><h2>断层核心数据</h2><div class="metrics"><div class="metric"><div class="k">缺口</div><div class="v up">+4.60%</div></div><div class="metric"><div class="k">缺口质量</div><div class="v ">98.20</div></div><div class="metric"><div class="k">断层日涨幅</div><div class="v ">18.95%</div></div><div class="metric"><div class="k">量比</div><div class="v ">2.55x</div></div><div class="metric"><div class="k">开盘幅度</div><div class="v ">6.45%</div></div><div class="metric"><div class="k">Comp_RPS</div><div class="v ">92.90</div></div></div><div class="note">EPS / 一致预期 / YoY：0.51usd / —</div></section>
+  <section class="card"><h2>断层原因 · 量化归因</h2><div class="callout">财报后形成 <b>4.60%</b> 的严格向上缺口，缺口质量 <b>98.20</b>，断层日涨幅 <b>18.95%</b>，量比 <b>2.55x</b>，Comp_RPS <b>92.90</b>。 EPS/预期/同比缓存：0.51usd / —。缺口暂未回补说明短期市场承接较强，但不等于长期基本面已经确认，仍需结合后续财报和关键经营指标验证。</div></section>
+  
+  <div class="card"><h2>30 秒结论</h2><div class="callout">The Marcus Corporation 是美国中西部区域型影院与高端酒店资产运营商。影院提供票房复苏、提价和高端银幕渗透带来的经营杠杆，酒店则提供集团会务、休闲旅行和不动产价值支撑；投资逻辑是两个周期不完全同步的实体体验业务共同推动利润与自由现金流修复。 2026Q2 收入约2.317亿美元，同比增长12.5%；GAAP净利润约1580万美元、普通股摊薄EPS 0.51美元，Adjusted EBITDA约4620万美元，同比增长43.0%。本季未见足以解释利润跃升的重大资产出售收益，经营改善主要由影院观影人次、票价、人均卖品及酒店入住率、ADR共同驱动；Q2处置资产净损失仅约10万美元，股权激励约160万美元。现金流量表只披露上半年累计口径：2026H1经营现金流约3870万美元，资本开支约1660万美元，较上年同期经营现金流净流出370万美元、资本开支3990万美元显著改善；其中应付账款付款时点、预付款下降、应计薪酬和约300万美元历史税收抵免出售现金均有贡献，因此不能把全部改善视为可持续单季自由现金流。期末净债务约1.327亿美元、净杠杆约1.14倍，循环信贷无余额。公司未在本次10-Q提供传统全年收入或EPS指引；酒店2026及2027年团体预订进度领先、影院后续片单是主要前瞻信号。</div></div>
+  <div class="card"><h2>核心定位与业务通俗解读</h2><div class="narr"><h3>核心定位</h3><p>The Marcus Corporation 是美国中西部区域型影院与高端酒店资产运营商。影院提供票房复苏、提价和高端银幕渗透带来的经营杠杆，酒店则提供集团会务、休闲旅行和不动产价值支撑；投资逻辑是两个周期不完全同步的实体体验业务共同推动利润与自由现金流修复。</p><h3>业务如何赚钱</h3><p>公司通过影院销售电影票、餐饮和会员相关服务，并经营或管理酒店、度假村及配套餐饮会议业务。影院收入受影片供给、观影人次、平均票价和人均卖品消费影响；酒店收入取决于入住率、平均房价、会议宴会活动和物业运营效率。两类业务都有较高固定成本，因此收入增量能够放大利润，也会在需求走弱时反向放大压力。</p></div></div>
+  <div class="card"><h2>业务架构与收入引擎</h2><div class="grid2"><div class="subcard"><div class="title">Theatres</div><p>核心利润引擎。2026Q2 分部收入约1.506亿美元，同比增长14.4%；可比影院票房收入增长16.6%，观影人次增长10.9%，平均票价增长5.2%，人均卖品收入增长2.4%。Adjusted EBITDA约3630万美元，同比增长36.8%，说明客流恢复与票价、卖品共同释放固定成本杠杆。</p></div><div class="subcard"><div class="title">Hotels and Resorts</div><p>资产与现金流多元化来源。2026Q2 扣除成本补偿前收入约7080万美元，同比增长9.6%；可比自有酒店入住率73.2%，同比提高5.9个百分点，ADR约205.51美元、增长4.7%，RevPAR约150.39美元、增长13.9%。分部Adjusted EBITDA约1470万美元，同比增长31.1%。</p></div></div></div>
+  <div class="card"><h2>财报预期差与盈利质量</h2><div class="narr lead">2026Q2 收入约2.317亿美元，同比增长12.5%；GAAP净利润约1580万美元、普通股摊薄EPS 0.51美元，Adjusted EBITDA约4620万美元，同比增长43.0%。本季未见足以解释利润跃升的重大资产出售收益，经营改善主要由影院观影人次、票价、人均卖品及酒店入住率、ADR共同驱动；Q2处置资产净损失仅约10万美元，股权激励约160万美元。现金流量表只披露上半年累计口径：2026H1经营现金流约3870万美元，资本开支约1660万美元，较上年同期经营现金流净流出370万美元、资本开支3990万美元显著改善；其中应付账款付款时点、预付款下降、应计薪酬和约300万美元历史税收抵免出售现金均有贡献，因此不能把全部改善视为可持续单季自由现金流。期末净债务约1.327亿美元、净杠杆约1.14倍，循环信贷无余额。公司未在本次10-Q提供传统全年收入或EPS指引；酒店2026及2027年团体预订进度领先、影院后续片单是主要前瞻信号。</div></div>
+  <div class="card"><h2>竞争格局与公司位置</h2><div class="narr">影院业务与大型院线、流媒体、家庭娱乐和其他线下娱乐争夺消费者时间与内容；竞争关键是优质地段、高端巨幕与座椅、定价、会员体系、餐饮体验以及对热门影片的运营转化。酒店业务面对国际连锁品牌和本地精品酒店，竞争取决于品牌、物业品质、会务能力、收益管理及目的地需求。MCS 的差异化是区域密度、高端影院占比和酒店资产组合，但规模、议价能力及地域分散度弱于全国性龙头。公开资料未充分披露最新可比市场份额和逐物业资本回报率。</div></div>
+  <div class="card"><h2>成长逻辑与催化</h2><div class="grid2"><div class="subcard"><div class="title">短期催化</div><ul class="bullets"><li>暑期及年末重点影片供给延续，观影人次继续跑赢美国整体票房。</li><li>平均票价与人均卖品收入保持增长，同时电影租赁成本率受更分散片单支持。</li><li>酒店团体客房及宴会预订进度转化为入住率、ADR和RevPAR增长。</li><li>资本开支维持纪律、净杠杆继续下降，使现金可用于分红、回购或高回报翻新。</li></ul></div><div class="subcard"><div class="title">中期驱动</div><ul class="bullets"><li>影片供给恢复正常化，提高影院客流、屏幕利用率和固定成本吸收。</li><li>高端大格式、豪华座椅、会员和餐饮升级提升每位观众收入。</li><li>酒店翻新、会务需求和收益管理推动RevPAR及物业层利润率。</li><li>双主业现金流改善与资产负债表降杠杆降低周期波动下的融资压力。</li></ul></div></div><h3>长期逻辑</h3><div class="narr">长期价值取决于影院能否在流媒体环境下维持差异化线下体验和稳定片源，以及酒店资产能否通过翻新、品牌管理和会务能力持续提升单房收益。若影院份额提升与酒店RevPAR增长可持续，公司可形成高现金转化的区域体验资产平台；若影片供给重新波动或物业需要持续高额维护资本开支，盈利仍会呈明显周期性。</div></div>
+  <div class="card"><h2>估值隐含预期</h2><div class="narr">更适合用中周期EV/EBITDA、正常化自由现金流和酒店不动产价值交叉估值，而不宜直接年化旺季Q2 EPS。市场已隐含影院片单正常化、公司持续跑赢行业及酒店高RevPAR能够延续；进一步重估需要证明客流恢复并非少数大片驱动、资本开支下降不以牺牲资产质量为代价，并让净杠杆持续改善。若票房回落或酒店需求转弱，高固定成本会使利润增速快于收入反转。</div><table><tr><td class="k">公司 / 行业</td><td class="v">The Marcus Corporation / Entertainment</td></tr><tr><td class="k">市值 / 企业价值</td><td class="v">$931.1M / $1.21B</td></tr><tr><td class="k">TTM 收入</td><td class="v">$747.9M</td></tr><tr><td class="k">TTM 经营现金流 / FCF</td><td class="v">$126.6M / $53.0M</td></tr><tr><td class="k">现金 / 总债务</td><td class="v">$26.3M / $320.0M</td></tr><tr><td class="k">Forward PE / P-S / P-B</td><td class="v">35.95x / 1.25x / 2.03x</td></tr></table><div class="note">上表为第三方行情与估值快照，仅作辅助；经营事实和研究判断优先采用下方公司 IR / SEC 来源。</div></div>
+  <div class="card"><h2>市场定价与预期差</h2><div class="grid2"><div class="subcard"><div class="title">市场已经知道</div><p>市场已知2026Q2影院客流和票房显著跑赢行业、酒店RevPAR双位数增长、Adjusted EBITDA增长43%，同时上半年现金流和净杠杆明显改善。</p></div><div class="subcard"><div class="title">可能尚未充分定价</div><p>可能尚未充分定价的是影院份额提升、高端体验提价与酒店会务预订共同形成的利润复利，以及低资本开支阶段带来的去杠杆速度；反面是市场可能把强片单和营运资金时点带来的现金流改善过度外推。</p></div></div><h3>最薄弱假设 / 证伪点</h3><div class="callout blue">最薄弱假设是影片供给正常化后观影人次能够持续增长并长期跑赢全国票房；院线无法控制影片质量和发行节奏，单季优异表现不必然代表结构性份额提升。</div></div>
+  <div class="card"><h2>主要风险</h2><ul class="bullets"><li>影片制作和发行档期集中，罢工、延期或少数大片失利会直接影响客流。</li><li>影院面临流媒体、短视频和其他娱乐方式对消费者时间的长期竞争。</li><li>票价上涨若超过消费者承受能力，可能以客流下降抵消单价提升。</li><li>酒店对商务会务、区域旅游、天气和宏观消费敏感。</li><li>上半年现金流改善包含营运资金时点及约300万美元税收抵免出售现金，不应机械外推。</li><li>影院和酒店均需持续翻新，资本开支若重新上升会压低自由现金流。</li><li>区域集中使公司更易受中西部经济和特定城市需求变化影响。</li></ul></div>
+  <div class="card"><h2>下一次验证指标</h2><ul class="bullets"><li>可比影院观影人次及相对美国票房的跑赢幅度</li><li>平均票价与人均卖品收入</li><li>影院电影租赁成本率及Adjusted EBITDA margin</li><li>酒店入住率、ADR、RevPAR及相对竞争组表现</li><li>未来12至18个月团体客房和宴会预订进度</li><li>上半年及全年经营现金流、资本开支与自由现金流</li><li>净债务、净杠杆率和循环信贷使用</li><li>重点影片档期与前五大影片票房集中度</li></ul></div>
+  <div class="card"><h2>一手与公开来源</h2><div class="sources"><div class="source"><a href="https://www.sec.gov/Archives/edgar/data/62234/000006223426000041/mcs-20260630.htm" target="_blank" rel="noopener noreferrer">The Marcus Corporation Form 10-Q for the quarter ended June 30, 2026</a><div class="source-meta">SEC 10-Q · 2026-07-30</div></div><div class="source"><a href="https://www.sec.gov/Archives/edgar/data/62234/000006223426000038/mcs-2026730xex991.htm" target="_blank" rel="noopener noreferrer">The Marcus Corporation Reports Second Quarter Fiscal 2026 Results</a><div class="source-meta">SEC 8-K附件/公司财报新闻稿 · 2026-07-30</div></div></div></div>
 
-  <div class="card">
-    <h2>基本信息</h2>
-    <div class="kv">
-      <div class="item"><span class="k">财报日 / 时点</span><span class="v">2026-07-30 pre</span></div>
-      <div class="item"><span class="k">行业</span><span class="v">Entertainment</span></div>
-    </div>
-  </div>
-
-  <div class="card">
-    <h2>断层核心数据</h2>
-    <table>
-      <tr><td class="k">缺口%</td><td class="v up">+4.60%</td></tr>
-      <tr><td class="k">缺口质量</td><td class="v">98.20</td></tr>
-      <tr><td class="k">收涨%</td><td class="v">18.95%</td></tr>
-      <tr><td class="k">量比</td><td class="v">2.55x</td></tr>
-      <tr><td class="k">开盘%</td><td class="v">6.45%</td></tr>
-      <tr><td class="k">Comp_RPS</td><td class="v">92.90</td></tr>
-    </table>
-  </div>
-
-  <div class="card">
-    <h2>业绩（EPS / YoY）</h2>
-    <div class="narr">0.51usd / —</div>
-  </div>
-
-  <div class="card">
-    <h2>断层原因 · 量化归因</h2>
-    <div class="qual-attrib">财报后形成跳空缺口 <b>4.60%</b>（缺口质量 <b>98.20</b>），断层日收涨 <b>18.95%</b>，量比 <b>2.55x</b>，Comp_RPS <b>92.90</b>。业绩端：EPS 0.51usd / —。缺口至今未回补，显示资金对业绩的认可；跳空幅度与放量程度反映断层强度。</div>
-  </div>
-
-  <div class="card">
-    <h2>断层催化 · 联网深挖</h2>
-    <div class="narr">Marcus Q2 EPS 0.51同比+121%超预期、营收2.32亿+12.5%；影院同店上座+16.6%、客流+10.9%跑赢行业，利润创纪录。</div>
-  </div>
-
-  <footer>
-    判定口径：财报后出现<b>跳空缺口</b>即记录（断层日 low &gt; 财报前最后交易日 high）；缺口 5 个交易日内回补则标记失效。<br>「断层原因·量化归因」由页面数据自动合成；「断层催化·联网深挖」来自公开财报报道检索（数据准确性优先，个别数字以公司公告为准）。本页为事件记录与策略研究工具，<b>非投资建议</b>。<br>数据时点：2026-08-24（ET）
-  </footer>
-</div>
+  <footer>判定口径：财报后出现跳空缺口即记录（断层日 low &gt; 财报前最后交易日 high）；缺口 5 个交易日内回补则标记失效。量化信号描述价格行为，不等同于长期基本面确认。研究内容基于本地缓存的一手披露与公开信息；行情估值快照来自第三方数据，应以最新市场数据和公司文件复核。本页仅作事件跟踪与研究参考，<b>不构成投资建议</b>。<br>页面构建时点：2026-08-24 12:27（ET）</footer>
+</main>
 </body>
 </html>

@@ -2,93 +2,55 @@
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>FRD · 净利润断层详情</title>
-<meta name="theme-color" content="#ff7a1a">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>FRD · 净利润断层研究</title>
+<meta name="theme-color" content="#f06a18">
 <style>
 :root{
-  --bg:#f5f7fa; --card:#ffffff; --card2:#f3f4f6; --border:#e5e7eb;
-  --ink:#1f2937; --muted:#6b7280; --accent:#ff7a1a;
-  --up:#16a34a; --down:#dc2626; --yellow:#d97706;
+  --bg:#f5f7fa;--card:#fff;--soft:#f8fafc;--border:#e5e7eb;--ink:#172033;
+  --muted:#667085;--accent:#f06a18;--accent-soft:#fff4e8;--up:#16803b;
+  --down:#c93636;--blue:#2563eb;--blue-soft:#eff6ff;--warn:#a16207;
 }
 *{box-sizing:border-box;margin:0;padding:0}
-body{background:var(--bg);color:var(--ink);font-family:-apple-system,"Segoe UI",Roboto,"PingFang SC","Microsoft YaHei",sans-serif;line-height:1.6;padding-bottom:48px}
-.topbar{position:sticky;top:0;z-index:10;background:rgba(255,255,255,.94);backdrop-filter:blur(8px);border-bottom:1px solid var(--border);padding:12px 16px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
-.brand{font-size:15px;font-weight:700;color:var(--accent);white-space:nowrap}
-.brand small{color:var(--muted);font-weight:400;font-size:11px;margin-left:6px}
-.back{margin-left:auto;font-size:13px;color:var(--accent);text-decoration:none;font-weight:600}
-.back:hover{text-decoration:underline}
-.wrap{max-width:880px;margin:16px auto;padding:0 14px;display:flex;flex-direction:column;gap:14px}
-.card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:16px;box-shadow:0 1px 2px rgba(16,24,40,.04)}
-.card h2{font-size:15px;font-weight:700;margin-bottom:10px;display:flex;align-items:center;gap:8px}
-.card h2::before{content:"";width:3px;height:15px;background:var(--accent);border-radius:2px;display:inline-block}
-.kv{display:grid;grid-template-columns:repeat(2,1fr);gap:10px 18px}
-.kv .item{display:flex;flex-direction:column;gap:2px;padding:6px 0;border-bottom:1px dashed var(--border)}
-.kv .k{font-size:11px;color:var(--muted)}
-.kv .v{font-size:14px;font-weight:600}
-.sym{font-size:26px;font-weight:800;color:var(--ink)}
-.name{font-size:13px;color:var(--muted);margin-top:2px}
-.tag{display:inline-block;padding:2px 10px;border-radius:999px;font-size:11px;font-weight:600;background:#dcfce7;color:#15803d;margin-left:8px;vertical-align:middle}
-table{width:100%;border-collapse:collapse;font-size:13px}
-td{padding:8px 10px;border-bottom:1px solid var(--border)}
-td.k{color:var(--muted);width:42%}
-td.v{font-weight:600}
-.up{color:var(--up)} .down{color:var(--down)}
-.narr{font-size:13.5px;line-height:1.8;color:var(--ink)}
-.narr b{color:var(--accent)}
-.qual-attrib{background:var(--card2);border-left:3px solid var(--accent);padding:10px 14px;border-radius:8px;font-size:13.5px;line-height:1.8}
-footer{margin-top:10px;font-size:11px;color:var(--muted);border-top:1px solid var(--border);padding-top:14px;line-height:1.7}
+body{background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"PingFang SC","Microsoft YaHei",sans-serif;line-height:1.72;padding-bottom:54px}
+a{color:var(--blue)}
+.topbar{position:sticky;top:0;z-index:10;background:rgba(255,255,255,.95);backdrop-filter:blur(8px);border-bottom:1px solid var(--border);padding:11px 18px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.brand{font-size:15px;font-weight:750;color:var(--accent)}.brand small{color:var(--muted);font-weight:400;font-size:11px;margin-left:6px}.back{margin-left:auto;font-size:13px;color:var(--accent);text-decoration:none;font-weight:650}
+.wrap{max-width:1060px;margin:18px auto;padding:0 15px;display:flex;flex-direction:column;gap:14px}.card{background:var(--card);border:1px solid var(--border);border-radius:15px;padding:18px;box-shadow:0 1px 3px rgba(16,24,40,.05);overflow:hidden}.hero{background:linear-gradient(135deg,#fff 0%,#fff8f1 100%)}
+.hero-row{display:flex;gap:12px;align-items:center;flex-wrap:wrap}.sym{font-size:29px;font-weight:850;letter-spacing:-.4px}.name{font-size:13px;color:var(--muted);margin-top:3px}.tag{display:inline-flex;align-items:center;padding:3px 10px;border-radius:999px;font-size:11px;font-weight:700}.tag.signal{background:#dcfce7;color:#15803d}.tag.deep{background:#ede9fe;color:#6d28d9}.tag.standard{background:var(--blue-soft);color:#1d4ed8}
+.card h2{font-size:16px;font-weight:760;margin-bottom:11px;display:flex;align-items:center;gap:8px}.card h2:before{content:"";width:3px;height:16px;background:var(--accent);border-radius:3px;display:inline-block;flex:0 0 auto}.card h3{font-size:14px;margin:15px 0 7px}.narr{font-size:14px;color:#273247;overflow-wrap:anywhere}.lead{font-size:15px;line-height:1.85}.note{font-size:12px;color:var(--muted);margin-top:8px}.callout{background:var(--accent-soft);border-left:4px solid var(--accent);padding:12px 15px;border-radius:9px;font-size:14px;overflow-wrap:anywhere}.callout.blue{background:var(--blue-soft);border-color:var(--blue)}
+.metrics{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:9px}.metric{background:var(--soft);border:1px solid var(--border);border-radius:10px;padding:10px;min-width:0}.metric .k{font-size:11px;color:var(--muted)}.metric .v{font-size:16px;font-weight:760;margin-top:3px;overflow-wrap:anywhere}.up{color:var(--up)}.down{color:var(--down)}
+.grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px}.subcard{background:var(--soft);border:1px solid var(--border);border-radius:11px;padding:13px;overflow:hidden}.subcard .title{font-size:13px;font-weight:750;margin-bottom:5px;color:#344054}.subcard p{font-size:13.5px;overflow-wrap:anywhere}
+table{width:100%;border-collapse:collapse;font-size:13px;table-layout:fixed}td{padding:8px 10px;border-bottom:1px solid var(--border);vertical-align:top;overflow-wrap:anywhere}td.k{color:var(--muted);width:36%}td.v{font-weight:600}
+ul{padding-left:20px}.bullets li{margin:6px 0;font-size:13.5px}.sources{display:grid;gap:8px}.source{border:1px solid var(--border);background:var(--soft);border-radius:9px;padding:10px 12px;font-size:13px;overflow-wrap:anywhere}.source a{text-decoration:none;font-weight:650}.source-meta{font-size:11px;color:var(--muted);margin-top:3px}
+footer{margin-top:2px;font-size:11px;color:var(--muted);border-top:1px solid var(--border);padding-top:14px;line-height:1.75}footer b{color:#475467}
+@media(max-width:820px){.metrics{grid-template-columns:repeat(3,minmax(0,1fr))}.grid2{grid-template-columns:1fr}}
+@media(max-width:520px){.wrap{padding:0 10px}.card{padding:14px}.metrics{grid-template-columns:repeat(2,minmax(0,1fr))}.sym{font-size:25px}.back{margin-left:0;width:100%}td.k{width:42%}}
 </style>
 </head>
 <body>
-<div class="topbar">
-  <div class="brand">美股净利润断层 <small>个股详情</small></div>
-  <a class="back" href="../index.html">← 返回总览</a>
-</div>
-<div class="wrap">
-  <div class="card">
-    <div class="sym">FRD<span class="tag">缺口未回补</span></div>
-    <div class="name">Friedman Industries Inc. · Steel</div>
-  </div>
+<div class="topbar"><div class="brand">美股净利润断层 <small>个股研究</small></div><a class="back" href="../index.html">← 返回总览</a></div>
+<main class="wrap">
+  <section class="card hero">
+    <div class="hero-row"><div class="sym">FRD</div><span class="tag signal">缺口未回补</span><span class="tag deep">完整深研版</span></div>
+    <div class="name">Friedman Industries Inc. · Steel · 财报日 2026-08-06 post</div>
+  </section>
+  <section class="card"><h2>断层核心数据</h2><div class="metrics"><div class="metric"><div class="k">缺口</div><div class="v up">+4.63%</div></div><div class="metric"><div class="k">缺口质量</div><div class="v ">64.90</div></div><div class="metric"><div class="k">断层日涨幅</div><div class="v ">16.41%</div></div><div class="metric"><div class="k">量比</div><div class="v ">4.98x</div></div><div class="metric"><div class="k">开盘幅度</div><div class="v ">7.13%</div></div><div class="metric"><div class="k">Comp_RPS</div><div class="v ">96.60</div></div></div><div class="note">EPS / 一致预期 / YoY：—</div></section>
+  <section class="card"><h2>断层原因 · 量化归因</h2><div class="callout">财报后形成 <b>4.63%</b> 的严格向上缺口，缺口质量 <b>64.90</b>，断层日涨幅 <b>16.41%</b>，量比 <b>4.98x</b>，Comp_RPS <b>96.60</b>。缺口暂未回补说明短期市场承接较强，但不等于长期基本面已经确认，仍需结合后续财报和关键经营指标验证。</div></section>
+  
+  <div class="card"><h2>30 秒结论</h2><div class="callout">Friedman Industries 是美国扁轧钢加工和管材制造商，通过钢卷加工、库存销售、代加工及管材业务服务区域客户。其盈利高度取决于销量、钢材买卖价差、库存成本、热轧卷价格和营运资金管理；Century Metals 收购扩大了地理覆盖和加工能力，但也提高了库存与借款规模。 截至 2026-06-30 的 FY2027 Q1 净销售额约 2.3997 亿美元，同比增长 78%；净利润约 1278 万美元，稀释 EPS 1.79 美元，EBITDA 约 1927 万美元。总销量约 20.6 万吨，同比增长 28%、环比增长 9%，创季度纪录；其中约 3.3 万吨同比增量来自原有设施，Century Metals 贡献其余增量。经营利润约 2103 万美元，但经济套期保值亏损约 276 万美元、利息费用约 122 万美元后，税前利润降至约 1698 万美元。经营现金流约 731 万美元，明显低于净利润，主要背景是库存从 1.722 亿美元升至 1.911 亿美元、应收账款增加；按经营现金流减资本开支估算的自由现金流约 514 万美元。期末资产基础贷款约 9149 万美元，显示盈利增长伴随较高营运资金和融资需求。该利润断层具有真实销量和经营利润支撑，但钢价、库存与并购共同放大，不能简单线性年化。</div></div>
+  <div class="card"><h2>核心定位与业务通俗解读</h2><div class="narr"><h3>核心定位</h3><p>Friedman Industries 是美国扁轧钢加工和管材制造商，通过钢卷加工、库存销售、代加工及管材业务服务区域客户。其盈利高度取决于销量、钢材买卖价差、库存成本、热轧卷价格和营运资金管理；Century Metals 收购扩大了地理覆盖和加工能力，但也提高了库存与借款规模。</p><h3>业务如何赚钱</h3><p>公司买入钢卷后进行矫平、分条、切割等加工并出售，也为客户提供不承担钢材价格风险的 toll processing；管材业务将钢材制造为管材出售。库存销售赚取钢价与加工后的价差，价格上涨期可能受益，但价格快速下跌时高成本库存会压缩利润。</p></div></div>
+  <div class="card"><h2>业务架构与收入引擎</h2><div class="grid2"><div class="subcard"><div class="title">Flat-roll Products</div><p>绝对收入主体，2027 财年第一季度销售额约 2.218 亿美元。季度库存销售约 17.5 万吨，另有约 1.75 万吨代加工；更高销量、平均售价、原有设施的有机增长和 Century Metals 并表共同推动业绩。</p></div><div class="subcard"><div class="title">Tubular Products</div><p>生产并销售管材，2027 财年第一季度销售额约 1820 万美元，销量约 1.35 万吨。业务受能源、工业与基础设施需求以及钢材投入成本影响。</p></div><div class="subcard"><div class="title">Century Metals 扩张平台</div><p>2025 年 8 月完成收购，扩大地域、客户和产品能力。2027 财年第一季度约 1.25 万吨同比增量来自 Century，其余约 3.3 万吨来自收购前设施的同店增长，说明当季增长并非全部依赖并购。</p></div></div></div>
+  <div class="card"><h2>财报预期差与盈利质量</h2><div class="narr lead">截至 2026-06-30 的 FY2027 Q1 净销售额约 2.3997 亿美元，同比增长 78%；净利润约 1278 万美元，稀释 EPS 1.79 美元，EBITDA 约 1927 万美元。总销量约 20.6 万吨，同比增长 28%、环比增长 9%，创季度纪录；其中约 3.3 万吨同比增量来自原有设施，Century Metals 贡献其余增量。经营利润约 2103 万美元，但经济套期保值亏损约 276 万美元、利息费用约 122 万美元后，税前利润降至约 1698 万美元。经营现金流约 731 万美元，明显低于净利润，主要背景是库存从 1.722 亿美元升至 1.911 亿美元、应收账款增加；按经营现金流减资本开支估算的自由现金流约 514 万美元。期末资产基础贷款约 9149 万美元，显示盈利增长伴随较高营运资金和融资需求。该利润断层具有真实销量和经营利润支撑，但钢价、库存与并购共同放大，不能简单线性年化。</div></div>
+  <div class="card"><h2>竞争格局与公司位置</h2><div class="narr">行业竞争来自大型钢材服务中心、区域加工商、管材制造商以及钢厂直销。规模较大的同类服务中心通常在采购、库存网络、产品广度和全国客户覆盖上更有优势；Friedman 的差异化更多在特定区域的加工能力、交付响应、客户关系和较小组织的灵活性。代加工业务价格风险较低但利润绝对额有限，库存销售利润更高但承担钢价风险。公开资料未充分披露公司在各区域与产品类别的最新市占率。</div></div>
+  <div class="card"><h2>成长逻辑与催化</h2><div class="grid2"><div class="subcard"><div class="title">短期催化</div><ul class="bullets"><li>原有设施的高销量和产能利用率延续，证明 FY2027 Q1 并非单纯并购或补库存峰值。</li><li>Century Metals 协同、客户交叉销售和设施利用率继续提升。</li><li>热轧卷价格与销售价差保持有利，同时套期保值损失收窄。</li><li>库存与应收增速放缓，使经营现金流更接近净利润。</li><li>后续季度披露稳定的订单、销量和平均售价。</li></ul></div><div class="subcard"><div class="title">中期驱动</div><ul class="bullets"><li>商业拓展和产能利用率提升推动原有设施销量增长。</li><li>Century Metals 扩大地域覆盖、产品组合和客户基础。</li><li>美国制造、能源和基础设施需求支撑钢材加工与管材销量。</li><li>在钢价波动中改善采购、库存周转和套保纪律，提高跨周期利润质量。</li></ul></div></div><h3>长期逻辑</h3><div class="narr">长期价值不在单季钢价红利，而在公司能否通过多地区加工网络、代加工占比、客户多元化和纪律化库存管理提高跨周期盈利中枢。如果并购平台持续贡献有机销量和更高产能利用率，FRD 可从小型区域加工商升级为更有韧性的钢材服务网络；如果扩张主要依赖库存和债务，公司仍将是高波动周期股。</div></div>
+  <div class="card"><h2>估值隐含预期</h2><div class="narr">FRD 应采用中周期 EBITDA、正常化自由现金流和有形账面价值综合估值，不宜用 FY2027 Q1 的 1.79 美元 EPS 直接年化。当前强劲利润中既有原设施销量增长，也有 Century 并表、更高售价及钢价环境贡献；估值隐含预期取决于高销量能否延续、库存能否顺利变现以及 ABL 借款是否下降。若热轧卷价格回落导致价差和库存价值承压，低表观 PE 可能是周期顶部的价值陷阱。</div><table><tr><td class="k">公司 / 行业</td><td class="v">Friedman Industries, Incorporated / Steel</td></tr><tr><td class="k">市值 / 企业价值</td><td class="v">$304.2M / $397.1M</td></tr><tr><td class="k">TTM 收入</td><td class="v">$752.1M</td></tr><tr><td class="k">TTM 经营现金流 / FCF</td><td class="v">$365.0K / $-51.4M</td></tr><tr><td class="k">现金 / 总债务</td><td class="v">$5.0M / $101.3M</td></tr><tr><td class="k">Forward PE / P-S / P-B</td><td class="v">— / 0.40x / 1.85x</td></tr></table><div class="note">上表为第三方行情与估值快照，仅作辅助；经营事实和研究判断优先采用下方公司 IR / SEC 来源。</div></div>
+  <div class="card"><h2>市场定价与预期差</h2><div class="grid2"><div class="subcard"><div class="title">市场已经知道</div><p>市场已知 FY2027 Q1 销售额增长 78%、销量创纪录、EPS 达 1.79 美元，Century Metals 和原有设施共同贡献增长。</p></div><div class="subcard"><div class="title">可能尚未充分定价</div><p>可能尚未充分定价的是约 3.3 万吨同比增量来自收购前设施，显示商业拓展和产能利用率改善具有一定结构性；反面是市场也可能低估库存增至约 1.91 亿美元、经营现金流低于净利润和 ABL 借款高企所反映的周期风险。</p></div></div><h3>最薄弱假设 / 证伪点</h3><div class="callout blue">最薄弱假设是创纪录销量和当前加工价差能在钢价周期变化后维持；钢材服务业务的收入、毛利和营运资金可能在价格反转时同时恶化。</div></div>
+  <div class="card"><h2>主要风险</h2><ul class="bullets"><li>热轧卷价格快速下跌会压缩销售价差，并可能导致高成本库存损失。</li><li>库存约 1.91 亿美元、应收约 9070 万美元，占用大量营运资金，现金流弱于会计利润。</li><li>资产基础贷款约 9150 万美元，利率和借款需求上升会侵蚀利润。</li><li>Century Metals 整合、客户留存和协同可能低于预期。</li><li>当季经济套期保值亏损约 276 万美元，套保无法消除所有基差和时点风险。</li><li>钢铁关税、进口政策、能源和制造业需求变化可能同时影响钢价和销量。</li><li>客户和供应商议价、钢厂直销及大型服务中心竞争可能压缩加工价差。</li></ul></div>
+  <div class="card"><h2>下一次验证指标</h2><ul class="bullets"><li>Flat-roll 库存销售吨数与 toll processing 吨数</li><li>Tubular 销量及平均售价</li><li>同设施有机销量与 Century Metals 增量的拆分</li><li>每吨平均售价、材料成本和加工价差</li><li>HRC 现货与期货价格</li><li>库存金额、库存周转和潜在减值</li><li>经营现金流、自由现金流及其与净利润的差异</li><li>ABL 借款、利息费用和可用额度</li><li>经济套期保值损益</li></ul></div>
+  <div class="card"><h2>一手与公开来源</h2><div class="sources"><div class="source"><a href="https://www.sec.gov/Archives/edgar/data/39092/000143774926026319/ex_1000391.htm" target="_blank" rel="noopener noreferrer">Friedman Industries, Incorporated Announces First Quarter Results</a><div class="source-meta">SEC 8-K附件/公司财报新闻稿 · 2026-08-06</div></div><div class="source"><a href="https://www.sec.gov/Archives/edgar/data/39092/000143774926026305/frd20260630_10q.htm" target="_blank" rel="noopener noreferrer">Friedman Industries Form 10-Q for the quarter ended June 30, 2026</a><div class="source-meta">SEC 10-Q · 2026-08-06</div></div><div class="source"><a href="https://ir.friedmanindustries.com/sec-filings/sec-filing/10-q/0001437749-26-026305" target="_blank" rel="noopener noreferrer">Friedman Industries 10-Q Filing Details</a><div class="source-meta">公司IR/SEC文件索引 · 2026-08-06</div></div></div></div>
 
-  <div class="card">
-    <h2>基本信息</h2>
-    <div class="kv">
-      <div class="item"><span class="k">财报日 / 时点</span><span class="v">2026-08-06 post</span></div>
-      <div class="item"><span class="k">行业</span><span class="v">Steel</span></div>
-    </div>
-  </div>
-
-  <div class="card">
-    <h2>断层核心数据</h2>
-    <table>
-      <tr><td class="k">缺口%</td><td class="v up">+4.63%</td></tr>
-      <tr><td class="k">缺口质量</td><td class="v">64.90</td></tr>
-      <tr><td class="k">收涨%</td><td class="v">16.41%</td></tr>
-      <tr><td class="k">量比</td><td class="v">4.98x</td></tr>
-      <tr><td class="k">开盘%</td><td class="v">7.13%</td></tr>
-      <tr><td class="k">Comp_RPS</td><td class="v">96.60</td></tr>
-    </table>
-  </div>
-
-  <div class="card">
-    <h2>业绩（EPS / YoY）</h2>
-    <div class="narr">—</div>
-  </div>
-
-  <div class="card">
-    <h2>断层原因 · 量化归因</h2>
-    <div class="qual-attrib">财报后形成跳空缺口 <b>4.63%</b>（缺口质量 <b>64.90</b>），断层日收涨 <b>16.41%</b>，量比 <b>4.98x</b>，Comp_RPS <b>96.60</b>。缺口至今未回补，显示资金对业绩的认可；跳空幅度与放量程度反映断层强度。</div>
-  </div>
-
-  <div class="card">
-    <h2>断层催化 · 联网深挖</h2>
-    <div class="narr">Friedman Q1营收2.4亿美元同比+78%、净利1280万(EPS 1.79)，销量创纪录+28%；有机增长叠加Century并购及均价上行共同推升利润。</div>
-  </div>
-
-  <footer>
-    判定口径：财报后出现<b>跳空缺口</b>即记录（断层日 low &gt; 财报前最后交易日 high）；缺口 5 个交易日内回补则标记失效。<br>「断层原因·量化归因」由页面数据自动合成；「断层催化·联网深挖」来自公开财报报道检索（数据准确性优先，个别数字以公司公告为准）。本页为事件记录与策略研究工具，<b>非投资建议</b>。<br>数据时点：2026-08-24（ET）
-  </footer>
-</div>
+  <footer>判定口径：财报后出现跳空缺口即记录（断层日 low &gt; 财报前最后交易日 high）；缺口 5 个交易日内回补则标记失效。量化信号描述价格行为，不等同于长期基本面确认。研究内容基于本地缓存的一手披露与公开信息；行情估值快照来自第三方数据，应以最新市场数据和公司文件复核。本页仅作事件跟踪与研究参考，<b>不构成投资建议</b>。<br>页面构建时点：2026-08-24 12:27（ET）</footer>
+</main>
 </body>
 </html>

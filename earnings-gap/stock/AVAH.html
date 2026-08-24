@@ -2,93 +2,55 @@
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AVAH · 净利润断层详情</title>
-<meta name="theme-color" content="#ff7a1a">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>AVAH · 净利润断层研究</title>
+<meta name="theme-color" content="#f06a18">
 <style>
 :root{
-  --bg:#f5f7fa; --card:#ffffff; --card2:#f3f4f6; --border:#e5e7eb;
-  --ink:#1f2937; --muted:#6b7280; --accent:#ff7a1a;
-  --up:#16a34a; --down:#dc2626; --yellow:#d97706;
+  --bg:#f5f7fa;--card:#fff;--soft:#f8fafc;--border:#e5e7eb;--ink:#172033;
+  --muted:#667085;--accent:#f06a18;--accent-soft:#fff4e8;--up:#16803b;
+  --down:#c93636;--blue:#2563eb;--blue-soft:#eff6ff;--warn:#a16207;
 }
 *{box-sizing:border-box;margin:0;padding:0}
-body{background:var(--bg);color:var(--ink);font-family:-apple-system,"Segoe UI",Roboto,"PingFang SC","Microsoft YaHei",sans-serif;line-height:1.6;padding-bottom:48px}
-.topbar{position:sticky;top:0;z-index:10;background:rgba(255,255,255,.94);backdrop-filter:blur(8px);border-bottom:1px solid var(--border);padding:12px 16px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
-.brand{font-size:15px;font-weight:700;color:var(--accent);white-space:nowrap}
-.brand small{color:var(--muted);font-weight:400;font-size:11px;margin-left:6px}
-.back{margin-left:auto;font-size:13px;color:var(--accent);text-decoration:none;font-weight:600}
-.back:hover{text-decoration:underline}
-.wrap{max-width:880px;margin:16px auto;padding:0 14px;display:flex;flex-direction:column;gap:14px}
-.card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:16px;box-shadow:0 1px 2px rgba(16,24,40,.04)}
-.card h2{font-size:15px;font-weight:700;margin-bottom:10px;display:flex;align-items:center;gap:8px}
-.card h2::before{content:"";width:3px;height:15px;background:var(--accent);border-radius:2px;display:inline-block}
-.kv{display:grid;grid-template-columns:repeat(2,1fr);gap:10px 18px}
-.kv .item{display:flex;flex-direction:column;gap:2px;padding:6px 0;border-bottom:1px dashed var(--border)}
-.kv .k{font-size:11px;color:var(--muted)}
-.kv .v{font-size:14px;font-weight:600}
-.sym{font-size:26px;font-weight:800;color:var(--ink)}
-.name{font-size:13px;color:var(--muted);margin-top:2px}
-.tag{display:inline-block;padding:2px 10px;border-radius:999px;font-size:11px;font-weight:600;background:#dcfce7;color:#15803d;margin-left:8px;vertical-align:middle}
-table{width:100%;border-collapse:collapse;font-size:13px}
-td{padding:8px 10px;border-bottom:1px solid var(--border)}
-td.k{color:var(--muted);width:42%}
-td.v{font-weight:600}
-.up{color:var(--up)} .down{color:var(--down)}
-.narr{font-size:13.5px;line-height:1.8;color:var(--ink)}
-.narr b{color:var(--accent)}
-.qual-attrib{background:var(--card2);border-left:3px solid var(--accent);padding:10px 14px;border-radius:8px;font-size:13.5px;line-height:1.8}
-footer{margin-top:10px;font-size:11px;color:var(--muted);border-top:1px solid var(--border);padding-top:14px;line-height:1.7}
+body{background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"PingFang SC","Microsoft YaHei",sans-serif;line-height:1.72;padding-bottom:54px}
+a{color:var(--blue)}
+.topbar{position:sticky;top:0;z-index:10;background:rgba(255,255,255,.95);backdrop-filter:blur(8px);border-bottom:1px solid var(--border);padding:11px 18px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.brand{font-size:15px;font-weight:750;color:var(--accent)}.brand small{color:var(--muted);font-weight:400;font-size:11px;margin-left:6px}.back{margin-left:auto;font-size:13px;color:var(--accent);text-decoration:none;font-weight:650}
+.wrap{max-width:1060px;margin:18px auto;padding:0 15px;display:flex;flex-direction:column;gap:14px}.card{background:var(--card);border:1px solid var(--border);border-radius:15px;padding:18px;box-shadow:0 1px 3px rgba(16,24,40,.05);overflow:hidden}.hero{background:linear-gradient(135deg,#fff 0%,#fff8f1 100%)}
+.hero-row{display:flex;gap:12px;align-items:center;flex-wrap:wrap}.sym{font-size:29px;font-weight:850;letter-spacing:-.4px}.name{font-size:13px;color:var(--muted);margin-top:3px}.tag{display:inline-flex;align-items:center;padding:3px 10px;border-radius:999px;font-size:11px;font-weight:700}.tag.signal{background:#dcfce7;color:#15803d}.tag.deep{background:#ede9fe;color:#6d28d9}.tag.standard{background:var(--blue-soft);color:#1d4ed8}
+.card h2{font-size:16px;font-weight:760;margin-bottom:11px;display:flex;align-items:center;gap:8px}.card h2:before{content:"";width:3px;height:16px;background:var(--accent);border-radius:3px;display:inline-block;flex:0 0 auto}.card h3{font-size:14px;margin:15px 0 7px}.narr{font-size:14px;color:#273247;overflow-wrap:anywhere}.lead{font-size:15px;line-height:1.85}.note{font-size:12px;color:var(--muted);margin-top:8px}.callout{background:var(--accent-soft);border-left:4px solid var(--accent);padding:12px 15px;border-radius:9px;font-size:14px;overflow-wrap:anywhere}.callout.blue{background:var(--blue-soft);border-color:var(--blue)}
+.metrics{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:9px}.metric{background:var(--soft);border:1px solid var(--border);border-radius:10px;padding:10px;min-width:0}.metric .k{font-size:11px;color:var(--muted)}.metric .v{font-size:16px;font-weight:760;margin-top:3px;overflow-wrap:anywhere}.up{color:var(--up)}.down{color:var(--down)}
+.grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px}.subcard{background:var(--soft);border:1px solid var(--border);border-radius:11px;padding:13px;overflow:hidden}.subcard .title{font-size:13px;font-weight:750;margin-bottom:5px;color:#344054}.subcard p{font-size:13.5px;overflow-wrap:anywhere}
+table{width:100%;border-collapse:collapse;font-size:13px;table-layout:fixed}td{padding:8px 10px;border-bottom:1px solid var(--border);vertical-align:top;overflow-wrap:anywhere}td.k{color:var(--muted);width:36%}td.v{font-weight:600}
+ul{padding-left:20px}.bullets li{margin:6px 0;font-size:13.5px}.sources{display:grid;gap:8px}.source{border:1px solid var(--border);background:var(--soft);border-radius:9px;padding:10px 12px;font-size:13px;overflow-wrap:anywhere}.source a{text-decoration:none;font-weight:650}.source-meta{font-size:11px;color:var(--muted);margin-top:3px}
+footer{margin-top:2px;font-size:11px;color:var(--muted);border-top:1px solid var(--border);padding-top:14px;line-height:1.75}footer b{color:#475467}
+@media(max-width:820px){.metrics{grid-template-columns:repeat(3,minmax(0,1fr))}.grid2{grid-template-columns:1fr}}
+@media(max-width:520px){.wrap{padding:0 10px}.card{padding:14px}.metrics{grid-template-columns:repeat(2,minmax(0,1fr))}.sym{font-size:25px}.back{margin-left:0;width:100%}td.k{width:42%}}
 </style>
 </head>
 <body>
-<div class="topbar">
-  <div class="brand">美股净利润断层 <small>个股详情</small></div>
-  <a class="back" href="../index.html">← 返回总览</a>
-</div>
-<div class="wrap">
-  <div class="card">
-    <div class="sym">AVAH<span class="tag">缺口未回补</span></div>
-    <div class="name">Aveanna Healthcare Holdings Inc. · Medical Care Facilities</div>
-  </div>
+<div class="topbar"><div class="brand">美股净利润断层 <small>个股研究</small></div><a class="back" href="../index.html">← 返回总览</a></div>
+<main class="wrap">
+  <section class="card hero">
+    <div class="hero-row"><div class="sym">AVAH</div><span class="tag signal">缺口未回补</span><span class="tag deep">完整深研版</span></div>
+    <div class="name">Aveanna Healthcare Holdings Inc. · Medical Care Facilities · 财报日 2026-08-13 pre</div>
+  </section>
+  <section class="card"><h2>断层核心数据</h2><div class="metrics"><div class="metric"><div class="k">缺口</div><div class="v up">+4.53%</div></div><div class="metric"><div class="k">缺口质量</div><div class="v ">87.50</div></div><div class="metric"><div class="k">断层日涨幅</div><div class="v ">24.75%</div></div><div class="metric"><div class="k">量比</div><div class="v ">5.95x</div></div><div class="metric"><div class="k">开盘幅度</div><div class="v ">11.49%</div></div><div class="metric"><div class="k">Comp_RPS</div><div class="v ">92.10</div></div></div><div class="note">EPS / 一致预期 / YoY：0.22usd (vs 0.17est, surprise +31.6%) / +22.2% YoY</div></section>
+  <section class="card"><h2>断层原因 · 量化归因</h2><div class="callout">财报后形成 <b>4.53%</b> 的严格向上缺口，缺口质量 <b>87.50</b>，断层日涨幅 <b>24.75%</b>，量比 <b>5.95x</b>，Comp_RPS <b>92.10</b>。 EPS/预期/同比缓存：0.22usd (vs 0.17est, surprise +31.6%) / +22.2% YoY。缺口暂未回补说明短期市场承接较强，但不等于长期基本面已经确认，仍需结合后续财报和关键经营指标验证。</div></section>
+  
+  <div class="card"><h2>30 秒结论</h2><div class="callout">Aveanna Healthcare 是面向医疗复杂患者的居家护理平台，以私人特护护理为规模基础，以居家健康与临终关怀和医疗用品扩大单患者服务深度。投资逻辑是护理小时、优选支付方合同和按episode付费占比提升推动有机增长，同时正自由现金流和贷款重定价支持高杠杆资产负债表逐步修复。 截至2026-07-04的Q2收入约6.705亿美元，同比增长13.7%；GAAP净利润约4030万美元、摊薄EPS 0.18美元，Adjusted EBITDA约9540万美元，同比增长8.0%，Adjusted EPS约0.22美元。收入增速高于Adjusted EBITDA增速，Q2合并毛利率由35.8%降至32.6%，Adjusted EBITDA margin由15.0%降至14.2%，说明增长伴随工资、支付方结构和并购等压力；因此盈利改善不能只看绝对额。三大分部收入均增长，但各分部毛利率均较上年略降。现金流量表为上半年累计口径：经营现金流约8530万美元，自由现金流约7540万美元；该自由现金流为公司Non-GAAP定义，应结合非收购资本开支、债务及衍生品相关调整理解，不能直接当作单季数据。期末现金约9720万美元，总债务约14.834亿美元，仍属高杠杆；利率上限覆盖约14亿美元名义本金，贷款重定价预计节省利息，但不能消除本金风险。公司将2026年收入指引上调至超过26.8亿美元、Adjusted EBITDA上调至超过3.65亿美元，并提高PDS与HHH长期有机增长目标。公开资料未充分披露本季所有GAAP至Adjusted EPS逐项税后调整的持续性。</div></div>
+  <div class="card"><h2>核心定位与业务通俗解读</h2><div class="narr"><h3>核心定位</h3><p>Aveanna Healthcare 是面向医疗复杂患者的居家护理平台，以私人特护护理为规模基础，以居家健康与临终关怀和医疗用品扩大单患者服务深度。投资逻辑是护理小时、优选支付方合同和按episode付费占比提升推动有机增长，同时正自由现金流和贷款重定价支持高杠杆资产负债表逐步修复。</p><h3>业务如何赚钱</h3><p>公司派遣护士和护理人员在患者家中提供长期私人特护，也提供居家康复、临终关怀以及营养和医疗用品。收入主要由获批准的护理小时或护理episode数量乘以支付方报销费率形成；利润取决于能否招募和留住护理人员、工资与报销费率之间的价差、支付方组合、临床效率和坏账管理。</p></div></div>
+  <div class="card"><h2>业务架构与收入引擎</h2><div class="grid2"><div class="subcard"><div class="title">Private Duty Services（PDS）</div><p>最大收入来源。2026Q2收入约5.539亿美元，同比增长14.0%；护理小时约1240万小时，同比增长12.3%，每小时收入约44.62美元，同比增长1.7%。优选支付方协议覆盖约64%的managed-care volume，有助于费率、授权和回款质量，但分部毛利率约28.9%，低于上年同期。</p></div><div class="subcard"><div class="title">Home Health &amp; Hospice（HHH）</div><p>高毛利成长业务。2026Q2收入约6900万美元，同比增长14.8%；总episodes约1.47万，同比增长18.5%，episodic mix约81%，Medicare每episode收入约3202美元。分部毛利率约53.9%，但低于上年同期约55.0%。</p></div><div class="subcard"><div class="title">Medical Solutions（MS）</div><p>向居家患者提供肠内营养和相关医疗用品。2026Q2收入约4750万美元，同比增长9.4%，服务独立患者约9.5万人，同比增长4.4%；毛利率约45.1%，略低于上年同期约45.6%。</p></div></div></div>
+  <div class="card"><h2>财报预期差与盈利质量</h2><div class="narr lead">截至2026-07-04的Q2收入约6.705亿美元，同比增长13.7%；GAAP净利润约4030万美元、摊薄EPS 0.18美元，Adjusted EBITDA约9540万美元，同比增长8.0%，Adjusted EPS约0.22美元。收入增速高于Adjusted EBITDA增速，Q2合并毛利率由35.8%降至32.6%，Adjusted EBITDA margin由15.0%降至14.2%，说明增长伴随工资、支付方结构和并购等压力；因此盈利改善不能只看绝对额。三大分部收入均增长，但各分部毛利率均较上年略降。现金流量表为上半年累计口径：经营现金流约8530万美元，自由现金流约7540万美元；该自由现金流为公司Non-GAAP定义，应结合非收购资本开支、债务及衍生品相关调整理解，不能直接当作单季数据。期末现金约9720万美元，总债务约14.834亿美元，仍属高杠杆；利率上限覆盖约14亿美元名义本金，贷款重定价预计节省利息，但不能消除本金风险。公司将2026年收入指引上调至超过26.8亿美元、Adjusted EBITDA上调至超过3.65亿美元，并提高PDS与HHH长期有机增长目标。公开资料未充分披露本季所有GAAP至Adjusted EPS逐项税后调整的持续性。</div></div>
+  <div class="card"><h2>竞争格局与公司位置</h2><div class="narr">公司与全国及区域居家护理机构、医院附属服务商、临终关怀机构和医疗用品供应商竞争，同时面对患者家属自行护理和机构护理替代。核心竞争不是单纯价格，而是护士供给、排班覆盖、临床质量、支付方合同、授权速度、合规和跨服务转介。Aveanna的规模、复杂儿科护理经验和支付方网络构成优势；短板是劳动密集、高度依赖政府及管理式医疗报销，并且债务负担高。公开资料未充分披露各州和细分服务的最新市占率。</div></div>
+  <div class="card"><h2>成长逻辑与催化</h2><div class="grid2"><div class="subcard"><div class="title">短期催化</div><ul class="bullets"><li>上调后的2026年收入超过26.8亿美元、Adjusted EBITDA超过3.65亿美元指引兑现。</li><li>优选支付方协议覆盖率由64%继续提高，并转化为更好的费率、授权和回款。</li><li>护理人员招聘和留存改善，使获批但未服务的护理小时转化为收入。</li><li>HHH护理episodes保持双位数增长且episodic mix稳定在高位。</li><li>贷款重定价和自由现金流用于降债，推动净杠杆向长期低于3倍目标靠拢。</li><li>加州儿科私人特护报销调整在2027年开始执行并改善护理人员供给。</li></ul></div><div class="subcard"><div class="title">中期驱动</div><ul class="bullets"><li>老龄化、复杂慢病和支付方降低总医疗成本推动护理向家庭转移。</li><li>州级Medicaid和managed-care费率改善支持护理工资与服务供给。</li><li>优选支付方模式扩大，改善单小时收入、授权流程和患者获取。</li><li>HHH通过episode增长、地域扩张和收购提高规模。</li><li>PDS、HHH和Medical Solutions之间的患者转介增加单患者生命周期价值。</li></ul></div></div><h3>长期逻辑</h3><div class="narr">长期价值取决于Aveanna能否把家庭护理需求增长转化为足够的护理人员供给和正的费率工资差，同时以自由现金流降低债务。若支付方认可居家护理的成本优势、公司形成跨服务转介并实现净杠杆低于3倍，股权价值可受益于经营与财务双重杠杆；若报销增长主要被工资吸收或监管处罚增加，高债务会放大下行。</div></div>
+  <div class="card"><h2>估值隐含预期</h2><div class="narr">更适合以EV/Adjusted EBITDA、自由现金流和净杠杆路径估值，不能只看GAAP PE，因为利率衍生品公允价值、债务成本和收购项目会造成波动。市场已计入三大分部双位数或接近双位数增长、指引上调和去杠杆预期；进一步重估需要Adjusted EBITDA margin稳定、毛利率不再下滑且现金实际用于降债。若收入增长持续低于工资和融资成本压力，高企业价值中的债务部分会限制股权上行。</div><table><tr><td class="k">公司 / 行业</td><td class="v">Aveanna Healthcare Holdings Inc. / Medical Care Facilities</td></tr><tr><td class="k">市值 / 企业价值</td><td class="v">$3.02B / $4.27B</td></tr><tr><td class="k">TTM 收入</td><td class="v">$2.60B</td></tr><tr><td class="k">TTM 经营现金流 / FCF</td><td class="v">$168.2M / $103.8M</td></tr><tr><td class="k">现金 / 总债务</td><td class="v">$109.2M / $1.51B</td></tr><tr><td class="k">Forward PE / P-S / P-B</td><td class="v">15.66x / 1.16x / 10.50x</td></tr></table><div class="note">上表为第三方行情与估值快照，仅作辅助；经营事实和研究判断优先采用下方公司 IR / SEC 来源。</div></div>
+  <div class="card"><h2>市场定价与预期差</h2><div class="grid2"><div class="subcard"><div class="title">市场已经知道</div><p>市场已知截至2026-07-04的Q2收入增长13.7%、Adjusted EBITDA增长8%、三大分部收入均增长，并上调全年收入和Adjusted EBITDA指引；市场也清楚公司仍有约14.83亿美元债务。</p></div><div class="subcard"><div class="title">可能尚未充分定价</div><p>可能尚未充分定价的是优选支付方覆盖提升、护理供给改善和HHH episode增长可使有机增长中枢上移，并通过现金流加速去杠杆；反面是毛利率和Adjusted EBITDA margin下滑可能说明新增收入的增量利润低于市场想象。</p></div></div><h3>最薄弱假设 / 证伪点</h3><div class="callout blue">最薄弱假设是报销费率改善能够持续快于护理工资和招聘成本；如果费率上涨主要被强制或市场化加薪吸收，收入增长不会按预期转化为利润与降债。</div></div>
+  <div class="card"><h2>主要风险</h2><ul class="bullets"><li>总债务约14.83亿美元，高杠杆使股权对利率、现金流和契约变化高度敏感。</li><li>护士和护理人员短缺可能限制获批护理小时的实际服务量。</li><li>Medicaid、Medicare及managed-care报销变化可能低于工资通胀。</li><li>Q2毛利率和Adjusted EBITDA margin同比下降，显示规模增长尚未完全转化为利润率。</li><li>政府项目审计、医疗合规、索赔和患者安全事件可能造成罚款或资格风险。</li><li>收购Family First等资产带来整合、估值和额外资本需求。</li><li>公司定义的自由现金流包含特定调整，与简单经营现金流减资本开支口径不完全相同。</li><li>加州等州级费率改善可能附带工资传导要求，限制净利润贡献。</li></ul></div>
+  <div class="card"><h2>下一次验证指标</h2><ul class="bullets"><li>PDS护理小时、每小时收入和护理人员填充率</li><li>优选支付方协议数量及覆盖managed-care volume比例</li><li>PDS、HHH和MS分部收入及毛利率</li><li>HHH总episodes、episodic mix和每episode收入</li><li>Medical Solutions独立患者数</li><li>Adjusted EBITDA margin与GAAP净利润</li><li>经营现金流、公司定义自由现金流和资本开支</li><li>总债务、净杠杆、利息费用和利率上限覆盖</li><li>州级报销费率、工资增速及监管变化</li></ul></div>
+  <div class="card"><h2>一手与公开来源</h2><div class="sources"><div class="source"><a href="https://ir.aveanna.com/news-releases/news-release-details/aveanna-healthcare-holdings-announces-second-quarter-financial-0" target="_blank" rel="noopener noreferrer">Aveanna Healthcare Holdings Announces Second Quarter Financial Results and Revised 2026 Guidance</a><div class="source-meta">公司财报新闻稿 · 2026-08-13</div></div><div class="source"><a href="https://ir.aveanna.com/node/9736/html" target="_blank" rel="noopener noreferrer">Aveanna Healthcare Holdings Form 10-Q for the quarter ended July 4, 2026</a><div class="source-meta">公司IR/SEC 10-Q · 2026-08-13</div></div><div class="source"><a href="https://ir.aveanna.com/node/9726/html" target="_blank" rel="noopener noreferrer">Aveanna Healthcare Q2 2026 Investor Presentation</a><div class="source-meta">公司投资者演示/SEC附件 · 2026-08-13</div></div></div></div>
 
-  <div class="card">
-    <h2>基本信息</h2>
-    <div class="kv">
-      <div class="item"><span class="k">财报日 / 时点</span><span class="v">2026-08-13 pre</span></div>
-      <div class="item"><span class="k">行业</span><span class="v">Medical Care Facilities</span></div>
-    </div>
-  </div>
-
-  <div class="card">
-    <h2>断层核心数据</h2>
-    <table>
-      <tr><td class="k">缺口%</td><td class="v up">+4.53%</td></tr>
-      <tr><td class="k">缺口质量</td><td class="v">87.50</td></tr>
-      <tr><td class="k">收涨%</td><td class="v">24.75%</td></tr>
-      <tr><td class="k">量比</td><td class="v">5.95x</td></tr>
-      <tr><td class="k">开盘%</td><td class="v">11.49%</td></tr>
-      <tr><td class="k">Comp_RPS</td><td class="v">92.10</td></tr>
-    </table>
-  </div>
-
-  <div class="card">
-    <h2>业绩（EPS / YoY）</h2>
-    <div class="narr">0.22usd (vs 0.17est, surprise +31.6%) / +22.2% YoY</div>
-  </div>
-
-  <div class="card">
-    <h2>断层原因 · 量化归因</h2>
-    <div class="qual-attrib">财报后形成跳空缺口 <b>4.53%</b>（缺口质量 <b>87.50</b>），断层日收涨 <b>24.75%</b>，量比 <b>5.95x</b>，Comp_RPS <b>92.10</b>。业绩端：EPS 0.22usd (vs 0.17est, surprise +31.6%) / +22.2% YoY。缺口至今未回补，显示资金对业绩的认可；跳空幅度与放量程度反映断层强度。</div>
-  </div>
-
-  <div class="card">
-    <h2>断层催化 · 联网深挖</h2>
-    <div class="narr">AVAH二季度EPS 0.22美元超预期(共识0.17,+29%),营收6.70亿美元同比+13.7%、超预期的6.39亿;调整后EBITDA +8%至9540万,各业务线全面增长,并上调2026年营收及EBITDA指引(加州儿科护理费率上调等报销改善驱动)。</div>
-  </div>
-
-  <footer>
-    判定口径：财报后出现<b>跳空缺口</b>即记录（断层日 low &gt; 财报前最后交易日 high）；缺口 5 个交易日内回补则标记失效。<br>「断层原因·量化归因」由页面数据自动合成；「断层催化·联网深挖」来自公开财报报道检索（数据准确性优先，个别数字以公司公告为准）。本页为事件记录与策略研究工具，<b>非投资建议</b>。<br>数据时点：2026-08-24（ET）
-  </footer>
-</div>
+  <footer>判定口径：财报后出现跳空缺口即记录（断层日 low &gt; 财报前最后交易日 high）；缺口 5 个交易日内回补则标记失效。量化信号描述价格行为，不等同于长期基本面确认。研究内容基于本地缓存的一手披露与公开信息；行情估值快照来自第三方数据，应以最新市场数据和公司文件复核。本页仅作事件跟踪与研究参考，<b>不构成投资建议</b>。<br>页面构建时点：2026-08-24 12:27（ET）</footer>
+</main>
 </body>
 </html>

@@ -2,93 +2,55 @@
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>OABI · 净利润断层详情</title>
-<meta name="theme-color" content="#ff7a1a">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>OABI · 净利润断层研究</title>
+<meta name="theme-color" content="#f06a18">
 <style>
 :root{
-  --bg:#f5f7fa; --card:#ffffff; --card2:#f3f4f6; --border:#e5e7eb;
-  --ink:#1f2937; --muted:#6b7280; --accent:#ff7a1a;
-  --up:#16a34a; --down:#dc2626; --yellow:#d97706;
+  --bg:#f5f7fa;--card:#fff;--soft:#f8fafc;--border:#e5e7eb;--ink:#172033;
+  --muted:#667085;--accent:#f06a18;--accent-soft:#fff4e8;--up:#16803b;
+  --down:#c93636;--blue:#2563eb;--blue-soft:#eff6ff;--warn:#a16207;
 }
 *{box-sizing:border-box;margin:0;padding:0}
-body{background:var(--bg);color:var(--ink);font-family:-apple-system,"Segoe UI",Roboto,"PingFang SC","Microsoft YaHei",sans-serif;line-height:1.6;padding-bottom:48px}
-.topbar{position:sticky;top:0;z-index:10;background:rgba(255,255,255,.94);backdrop-filter:blur(8px);border-bottom:1px solid var(--border);padding:12px 16px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
-.brand{font-size:15px;font-weight:700;color:var(--accent);white-space:nowrap}
-.brand small{color:var(--muted);font-weight:400;font-size:11px;margin-left:6px}
-.back{margin-left:auto;font-size:13px;color:var(--accent);text-decoration:none;font-weight:600}
-.back:hover{text-decoration:underline}
-.wrap{max-width:880px;margin:16px auto;padding:0 14px;display:flex;flex-direction:column;gap:14px}
-.card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:16px;box-shadow:0 1px 2px rgba(16,24,40,.04)}
-.card h2{font-size:15px;font-weight:700;margin-bottom:10px;display:flex;align-items:center;gap:8px}
-.card h2::before{content:"";width:3px;height:15px;background:var(--accent);border-radius:2px;display:inline-block}
-.kv{display:grid;grid-template-columns:repeat(2,1fr);gap:10px 18px}
-.kv .item{display:flex;flex-direction:column;gap:2px;padding:6px 0;border-bottom:1px dashed var(--border)}
-.kv .k{font-size:11px;color:var(--muted)}
-.kv .v{font-size:14px;font-weight:600}
-.sym{font-size:26px;font-weight:800;color:var(--ink)}
-.name{font-size:13px;color:var(--muted);margin-top:2px}
-.tag{display:inline-block;padding:2px 10px;border-radius:999px;font-size:11px;font-weight:600;background:#dcfce7;color:#15803d;margin-left:8px;vertical-align:middle}
-table{width:100%;border-collapse:collapse;font-size:13px}
-td{padding:8px 10px;border-bottom:1px solid var(--border)}
-td.k{color:var(--muted);width:42%}
-td.v{font-weight:600}
-.up{color:var(--up)} .down{color:var(--down)}
-.narr{font-size:13.5px;line-height:1.8;color:var(--ink)}
-.narr b{color:var(--accent)}
-.qual-attrib{background:var(--card2);border-left:3px solid var(--accent);padding:10px 14px;border-radius:8px;font-size:13.5px;line-height:1.8}
-footer{margin-top:10px;font-size:11px;color:var(--muted);border-top:1px solid var(--border);padding-top:14px;line-height:1.7}
+body{background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"PingFang SC","Microsoft YaHei",sans-serif;line-height:1.72;padding-bottom:54px}
+a{color:var(--blue)}
+.topbar{position:sticky;top:0;z-index:10;background:rgba(255,255,255,.95);backdrop-filter:blur(8px);border-bottom:1px solid var(--border);padding:11px 18px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.brand{font-size:15px;font-weight:750;color:var(--accent)}.brand small{color:var(--muted);font-weight:400;font-size:11px;margin-left:6px}.back{margin-left:auto;font-size:13px;color:var(--accent);text-decoration:none;font-weight:650}
+.wrap{max-width:1060px;margin:18px auto;padding:0 15px;display:flex;flex-direction:column;gap:14px}.card{background:var(--card);border:1px solid var(--border);border-radius:15px;padding:18px;box-shadow:0 1px 3px rgba(16,24,40,.05);overflow:hidden}.hero{background:linear-gradient(135deg,#fff 0%,#fff8f1 100%)}
+.hero-row{display:flex;gap:12px;align-items:center;flex-wrap:wrap}.sym{font-size:29px;font-weight:850;letter-spacing:-.4px}.name{font-size:13px;color:var(--muted);margin-top:3px}.tag{display:inline-flex;align-items:center;padding:3px 10px;border-radius:999px;font-size:11px;font-weight:700}.tag.signal{background:#dcfce7;color:#15803d}.tag.deep{background:#ede9fe;color:#6d28d9}.tag.standard{background:var(--blue-soft);color:#1d4ed8}
+.card h2{font-size:16px;font-weight:760;margin-bottom:11px;display:flex;align-items:center;gap:8px}.card h2:before{content:"";width:3px;height:16px;background:var(--accent);border-radius:3px;display:inline-block;flex:0 0 auto}.card h3{font-size:14px;margin:15px 0 7px}.narr{font-size:14px;color:#273247;overflow-wrap:anywhere}.lead{font-size:15px;line-height:1.85}.note{font-size:12px;color:var(--muted);margin-top:8px}.callout{background:var(--accent-soft);border-left:4px solid var(--accent);padding:12px 15px;border-radius:9px;font-size:14px;overflow-wrap:anywhere}.callout.blue{background:var(--blue-soft);border-color:var(--blue)}
+.metrics{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:9px}.metric{background:var(--soft);border:1px solid var(--border);border-radius:10px;padding:10px;min-width:0}.metric .k{font-size:11px;color:var(--muted)}.metric .v{font-size:16px;font-weight:760;margin-top:3px;overflow-wrap:anywhere}.up{color:var(--up)}.down{color:var(--down)}
+.grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px}.subcard{background:var(--soft);border:1px solid var(--border);border-radius:11px;padding:13px;overflow:hidden}.subcard .title{font-size:13px;font-weight:750;margin-bottom:5px;color:#344054}.subcard p{font-size:13.5px;overflow-wrap:anywhere}
+table{width:100%;border-collapse:collapse;font-size:13px;table-layout:fixed}td{padding:8px 10px;border-bottom:1px solid var(--border);vertical-align:top;overflow-wrap:anywhere}td.k{color:var(--muted);width:36%}td.v{font-weight:600}
+ul{padding-left:20px}.bullets li{margin:6px 0;font-size:13.5px}.sources{display:grid;gap:8px}.source{border:1px solid var(--border);background:var(--soft);border-radius:9px;padding:10px 12px;font-size:13px;overflow-wrap:anywhere}.source a{text-decoration:none;font-weight:650}.source-meta{font-size:11px;color:var(--muted);margin-top:3px}
+footer{margin-top:2px;font-size:11px;color:var(--muted);border-top:1px solid var(--border);padding-top:14px;line-height:1.75}footer b{color:#475467}
+@media(max-width:820px){.metrics{grid-template-columns:repeat(3,minmax(0,1fr))}.grid2{grid-template-columns:1fr}}
+@media(max-width:520px){.wrap{padding:0 10px}.card{padding:14px}.metrics{grid-template-columns:repeat(2,minmax(0,1fr))}.sym{font-size:25px}.back{margin-left:0;width:100%}td.k{width:42%}}
 </style>
 </head>
 <body>
-<div class="topbar">
-  <div class="brand">美股净利润断层 <small>个股详情</small></div>
-  <a class="back" href="../index.html">← 返回总览</a>
-</div>
-<div class="wrap">
-  <div class="card">
-    <div class="sym">OABI<span class="tag">缺口未回补</span></div>
-    <div class="name">OmniAb, Inc. · Biotechnology</div>
-  </div>
+<div class="topbar"><div class="brand">美股净利润断层 <small>个股研究</small></div><a class="back" href="../index.html">← 返回总览</a></div>
+<main class="wrap">
+  <section class="card hero">
+    <div class="hero-row"><div class="sym">OABI</div><span class="tag signal">缺口未回补</span><span class="tag deep">完整深研版</span></div>
+    <div class="name">OmniAb, Inc. · Biotechnology · 财报日 2026-08-06 post</div>
+  </section>
+  <section class="card"><h2>断层核心数据</h2><div class="metrics"><div class="metric"><div class="k">缺口</div><div class="v up">+3.61%</div></div><div class="metric"><div class="k">缺口质量</div><div class="v ">94.80</div></div><div class="metric"><div class="k">断层日涨幅</div><div class="v ">37.50%</div></div><div class="metric"><div class="k">量比</div><div class="v ">8.82x</div></div><div class="metric"><div class="k">开盘幅度</div><div class="v ">5.80%</div></div><div class="metric"><div class="k">Comp_RPS</div><div class="v ">95.90</div></div></div><div class="note">EPS / 一致预期 / YoY：-0.05usd / —</div></section>
+  <section class="card"><h2>断层原因 · 量化归因</h2><div class="callout">财报后形成 <b>3.61%</b> 的严格向上缺口，缺口质量 <b>94.80</b>，断层日涨幅 <b>37.50%</b>，量比 <b>8.82x</b>，Comp_RPS <b>95.90</b>。 EPS/预期/同比缓存：-0.05usd / —。缺口暂未回补说明短期市场承接较强，但不等于长期基本面已经确认，仍需结合后续财报和关键经营指标验证。</div></section>
+  
+  <div class="card"><h2>30 秒结论</h2><div class="callout">OmniAb 是以转基因动物抗体发现、计算抗体设计和离子通道药物发现为核心的平台型生物科技公司。公司不自行承担后期临床和商业化资本开支，而是通过技术许可、研究服务、开发与监管里程碑以及未来销售分成分享合作药物价值。投资逻辑本质上是购买一个由数百个合作项目组成的概率组合，而不是押注单一自研药。 2026Q2 收入约 1340 万美元，较上年同期约 390 万美元增长约 244%，主要由合作项目临床推进触发的里程碑收入增加，同时新离子通道项目和 xPloration 仪器、耗材销售也有贡献。净亏损约 590 万美元，较上年同期约 1590 万美元显著收窄；研发费用约 960 万美元、管理费用约 670 万美元，均同比下降。按报表收入和相关成本计算，当季毛利率约 64%，不能使用第三方 TTM 近 100% 的毛利率字段替代该单季口径。上半年收入约 2780 万美元，但其中里程碑收入占主导，不能简单年化。公司将 2026 年收入指引上调至 3200万至3600万美元，并预计年末现金 3700万至4100万美元；截至季末现金及短期投资约 5200 万美元。财报预期差来自里程碑提前兑现、项目组合推进和费用纪律，但盈利仍未稳定，未来季度可能因里程碑时点出现明显回落。</div></div>
+  <div class="card"><h2>核心定位与业务通俗解读</h2><div class="narr"><h3>核心定位</h3><p>OmniAb 是以转基因动物抗体发现、计算抗体设计和离子通道药物发现为核心的平台型生物科技公司。公司不自行承担后期临床和商业化资本开支，而是通过技术许可、研究服务、开发与监管里程碑以及未来销售分成分享合作药物价值。投资逻辑本质上是购买一个由数百个合作项目组成的概率组合，而不是押注单一自研药。</p><h3>业务如何赚钱</h3><p>药企利用 OmniAb 的 OmniRat、OmniChicken、OmniMouse 等转基因动物平台发现具有人源序列的抗体，也可使用 xPloration 高通量筛选系统和离子通道服务。OmniAb 在合作早期收取服务费或设备收入，在项目进入临床、获批和销售后获得里程碑与通常为低个位数的特许权使用费。由于项目推进由合作方控制，季度收入会随里程碑确认时点明显波动。</p></div></div>
+  <div class="card"><h2>业务架构与收入引擎</h2><div class="grid2"><div class="subcard"><div class="title">抗体发现许可与合作组合</div><p>核心长期价值来源。2026Q2 季末有约 110 家活跃合作伙伴、425 个活跃项目，约 98% 的活跃项目带有未来经济权益；34 个项目已进入临床或商业阶段。标准抗体许可组合的平均特许权使用费率约 3.4%，但单个项目成功概率和兑现时间差异很大。</p></div><div class="subcard"><div class="title">研究服务与离子通道平台</div><p>为合作伙伴提供发现、筛选和离子通道研究服务。2026Q2 服务收入约 250 万美元，高于上年同期约 190 万美元，主要由新离子通道项目启动推动。该业务可带来近期现金收入，也可能转化为后续里程碑和销售分成。</p></div><div class="subcard"><div class="title">xPloration 仪器与耗材</div><p>向客户销售高通量单细胞筛选仪器及相关耗材。2026Q2 售出 2 台设备，累计装机约 4 台；当季设备与耗材收入增长。该业务仍处早期，收入规模较小，但有助于扩大平台触达和形成耗材复购。</p></div></div></div>
+  <div class="card"><h2>财报预期差与盈利质量</h2><div class="narr lead">2026Q2 收入约 1340 万美元，较上年同期约 390 万美元增长约 244%，主要由合作项目临床推进触发的里程碑收入增加，同时新离子通道项目和 xPloration 仪器、耗材销售也有贡献。净亏损约 590 万美元，较上年同期约 1590 万美元显著收窄；研发费用约 960 万美元、管理费用约 670 万美元，均同比下降。按报表收入和相关成本计算，当季毛利率约 64%，不能使用第三方 TTM 近 100% 的毛利率字段替代该单季口径。上半年收入约 2780 万美元，但其中里程碑收入占主导，不能简单年化。公司将 2026 年收入指引上调至 3200万至3600万美元，并预计年末现金 3700万至4100万美元；截至季末现金及短期投资约 5200 万美元。财报预期差来自里程碑提前兑现、项目组合推进和费用纪律，但盈利仍未稳定，未来季度可能因里程碑时点出现明显回落。</div></div>
+  <div class="card"><h2>竞争格局与公司位置</h2><div class="narr">抗体发现平台竞争围绕抗体多样性与质量、难成药靶点能力、发现速度、知识产权、合作条款以及已验证临床项目数量展开。OmniAb 的优势是多物种平台、鸡源抗体对保守靶点的差异化、离子通道能力和较大的合作项目组合；竞争者包括 AbCellera、Adimab 等专业发现平台，以及大型药企内部发现团队。平台项目数量并不等于价值，真正壁垒要通过临床推进率、获批产品、平均经济权益和合作伙伴复购验证。公开资料未充分披露与主要平台在同口径下的项目成功率和单项目经济价值。</div></div>
+  <div class="card"><h2>成长逻辑与催化</h2><div class="grid2"><div class="subcard"><div class="title">短期催化</div><ul class="bullets"><li>合作项目继续进入临床或后期阶段，触发新的开发里程碑。</li><li>公司在投资者日披露平台技术、项目组合和 xPloration 商业化的新进展。</li><li>离子通道合作项目扩张并贡献服务收入或新许可经济权益。</li><li>2026 年上调后的 3200万至3600万美元收入和 3700万至4100万美元年末现金指引得到兑现。</li><li>现有临床项目公布积极数据或合作伙伴推进注册申报。</li></ul></div><div class="subcard"><div class="title">中期驱动</div><ul class="bullets"><li>活跃合作伙伴与项目数增加，使里程碑和未来 royalty 的概率组合扩大。</li><li>更多项目从临床前进入临床、从早期进入后期，提高组合风险调整后价值。</li><li>xPloration 装机量和耗材复购增长，形成比里程碑更连续的收入来源。</li><li>离子通道和计算设计能力扩大可服务靶点范围，提高单个合作伙伴的项目数。</li><li>已商业化合作药物销售增长，逐步形成经常性特许权使用费。</li></ul></div></div><h3>长期逻辑</h3><div class="narr">长期价值取决于平台能否持续产生临床成功并最终获批的合作药物。若数百个项目中形成多个商业化产品，低资本开支的 royalty 模式可产生高增量利润；若合作项目大量停滞、合作方削减管线或新平台无法形成差异化，公司将长期依赖不稳定的里程碑并持续亏损。</div></div>
+  <div class="card"><h2>估值隐含预期</h2><div class="narr">公司仍处亏损状态，不适合使用 PE。更合理的框架是现金净额、已商业化和临床阶段项目的风险调整后价值、活跃项目组合的未来里程碑与 royalty 期权，以及平台服务和 xPloration 的收入倍数。2026Q2 高增长主要由里程碑时点驱动，不能把 244% 增速外推。估值隐含的关键假设是活跃项目持续向临床和商业化推进、平均经济权益能够兑现，并且现金足以覆盖到更多价值节点。第三方市销率只能作为行情快照，不能替代项目组合逐层折现。</div><table><tr><td class="k">公司 / 行业</td><td class="v">OmniAb, Inc. / Biotechnology</td></tr><tr><td class="k">市值 / 企业价值</td><td class="v">$638.3M / $596.5M</td></tr><tr><td class="k">TTM 收入</td><td class="v">$38.5M</td></tr><tr><td class="k">TTM 经营现金流 / FCF</td><td class="v">$-17.7M / $-285.0K</td></tr><tr><td class="k">现金 / 总债务</td><td class="v">$52.0M / $18.9M</td></tr><tr><td class="k">Forward PE / P-S / P-B</td><td class="v">-14.88x / 16.60x / 2.45x</td></tr></table><div class="note">上表为第三方行情与估值快照，仅作辅助；经营事实和研究判断优先采用下方公司 IR / SEC 来源。</div></div>
+  <div class="card"><h2>市场定价与预期差</h2><div class="grid2"><div class="subcard"><div class="title">市场已经知道</div><p>市场已知 2026Q2 收入因里程碑大幅增长、亏损收窄、全年收入和现金指引上调，也知道公司拥有较大的合作项目组合和难成药靶点平台。</p></div><div class="subcard"><div class="title">可能尚未充分定价</div><p>可能尚未充分定价的是项目从早期临床向后期推进后，组合价值并非线性增长，以及离子通道与 xPloration 可扩大平台边界；反面是市场容易把合同潜在里程碑总额和单季收入跃升误当作高确定性经常收入。</p></div></div><h3>最薄弱假设 / 证伪点</h3><div class="callout blue">最薄弱假设是用活跃项目数量推导未来商业成功。项目数量只有在临床推进率、合作伙伴投入和最终销售分成同时兑现时才转化为股东价值。</div></div>
+  <div class="card"><h2>主要风险</h2><ul class="bullets"><li>里程碑收入取决于合作方进度，季度波动大且可预测性低。</li><li>绝大多数早期药物项目无法最终获批，合同中的潜在总里程碑不能视为确定收入。</li><li>合作伙伴可调整优先级、终止项目或推迟开发，OmniAb 对进度控制有限。</li><li>公司仍亏损并消耗现金，若里程碑不足可能需要融资并造成股本稀释。</li><li>抗体发现平台和大型药企内部能力竞争可能压低许可条款。</li><li>xPloration 装机基数仍小，设备销售和耗材复购尚未证明规模化。</li><li>知识产权争议或平台技术被替代会削弱长期 royalty 价值。</li></ul></div>
+  <div class="card"><h2>下一次验证指标</h2><ul class="bullets"><li>活跃合作伙伴数与活跃项目数</li><li>临床及商业阶段项目数、各阶段净新增</li><li>里程碑收入、服务收入、royalty 和 xPloration 收入拆分</li><li>标准抗体许可平均 royalty 率及剩余潜在里程碑</li><li>xPloration 装机量与耗材复购</li><li>现金成本与运营费用、季度经营现金流和年末现金指引</li><li>合作项目临床数据、注册申报和终止率</li><li>新增合作条款及合作伙伴复购</li></ul></div>
+  <div class="card"><h2>一手与公开来源</h2><div class="sources"><div class="source"><a href="https://www.sec.gov/Archives/edgar/data/1846253/000184625326000044/a2026q2ex991.htm" target="_blank" rel="noopener noreferrer">OmniAb Reports Second Quarter 2026 Financial Results and Business Highlights</a><div class="source-meta">SEC 8-K附件/公司财报新闻稿 · 2026-08-06</div></div><div class="source"><a href="https://investors.omniab.com/" target="_blank" rel="noopener noreferrer">OmniAb Investor Relations</a><div class="source-meta">公司IR · 2026-08-06</div></div></div></div>
 
-  <div class="card">
-    <h2>基本信息</h2>
-    <div class="kv">
-      <div class="item"><span class="k">财报日 / 时点</span><span class="v">2026-08-06 post</span></div>
-      <div class="item"><span class="k">行业</span><span class="v">Biotechnology</span></div>
-    </div>
-  </div>
-
-  <div class="card">
-    <h2>断层核心数据</h2>
-    <table>
-      <tr><td class="k">缺口%</td><td class="v up">+3.61%</td></tr>
-      <tr><td class="k">缺口质量</td><td class="v">94.80</td></tr>
-      <tr><td class="k">收涨%</td><td class="v">37.50%</td></tr>
-      <tr><td class="k">量比</td><td class="v">8.82x</td></tr>
-      <tr><td class="k">开盘%</td><td class="v">5.80%</td></tr>
-      <tr><td class="k">Comp_RPS</td><td class="v">95.90</td></tr>
-    </table>
-  </div>
-
-  <div class="card">
-    <h2>业绩（EPS / YoY）</h2>
-    <div class="narr">-0.05usd / —</div>
-  </div>
-
-  <div class="card">
-    <h2>断层原因 · 量化归因</h2>
-    <div class="qual-attrib">财报后形成跳空缺口 <b>3.61%</b>（缺口质量 <b>94.80</b>），断层日收涨 <b>37.50%</b>，量比 <b>8.82x</b>，Comp_RPS <b>95.90</b>。业绩端：EPS -0.05usd / —。缺口至今未回补，显示资金对业绩的认可；跳空幅度与放量程度反映断层强度。</div>
-  </div>
-
-  <div class="card">
-    <h2>断层催化 · 联网深挖</h2>
-    <div class="narr">OmniAb Q2营收1340万美元同比+244%远超预期(估469万)，EPS亏损0.05优于0.12预期；里程碑收入与xPloration仪器销售驱动，并上调全年指引。</div>
-  </div>
-
-  <footer>
-    判定口径：财报后出现<b>跳空缺口</b>即记录（断层日 low &gt; 财报前最后交易日 high）；缺口 5 个交易日内回补则标记失效。<br>「断层原因·量化归因」由页面数据自动合成；「断层催化·联网深挖」来自公开财报报道检索（数据准确性优先，个别数字以公司公告为准）。本页为事件记录与策略研究工具，<b>非投资建议</b>。<br>数据时点：2026-08-24（ET）
-  </footer>
-</div>
+  <footer>判定口径：财报后出现跳空缺口即记录（断层日 low &gt; 财报前最后交易日 high）；缺口 5 个交易日内回补则标记失效。量化信号描述价格行为，不等同于长期基本面确认。研究内容基于本地缓存的一手披露与公开信息；行情估值快照来自第三方数据，应以最新市场数据和公司文件复核。本页仅作事件跟踪与研究参考，<b>不构成投资建议</b>。<br>页面构建时点：2026-08-24 12:27（ET）</footer>
+</main>
 </body>
 </html>
