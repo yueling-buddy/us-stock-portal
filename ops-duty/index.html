@@ -95,9 +95,9 @@
 
   <div class="cards">
     <div class="card" id="cardDone"><div class="num" id="statDone">0</div><div class="lbl">已推送</div></div>
-    <div class="card" id="cardTodo"><div class="num" id="statTodo">0</div><div class="lbl">未推送（计划中）</div></div>
+    <div class="card" id="cardTodo"><div class="num" id="statTodo">0</div><div class="lbl">未推送</div></div>
     <div class="card"><div class="num" id="statPlan">9</div><div class="lbl">计划总数</div></div>
-    <div class="card" id="cardLeft"><div class="num" id="statLeft">9</div><div class="lbl">剩余可用（上限9）</div></div>
+    <div class="card" id="cardScheduled"><div class="num" id="statScheduled">0</div><div class="lbl">已排计划</div></div>
   </div>
   <div class="progress" id="progBar"><div id="progFill" style="width:0%"></div></div>
 
@@ -312,18 +312,18 @@ function render(){
   const done = all.filter(r=>r.status==="done").length;
   const todo = all.length - done;
   const planned = plans[curDate] ?? 9;
-  const left = LIMIT - done;
+  const scheduled = all.length;
 
   $("statDone").textContent = done;
   $("statTodo").textContent = todo;
   $("statPlan").textContent = planned;
-  $("statLeft").textContent = left;
+  $("statScheduled").textContent = scheduled;
 
   $("cardDone").className = "card" + (done>LIMIT?" alarm":done>=8?" warn":"");
-  $("cardLeft").className = "card" + (left<0?" alarm":left<=1?" warn":"");
+  $("cardScheduled").className = "card" + (scheduled>LIMIT?" alarm":scheduled>=8?" warn":"");
   const pb = $("progBar");
-  pb.className = "progress" + (done>LIMIT?" alarm":done>=8?" warn":"");
-  $("progFill").style.width = Math.min(100, (done/LIMIT)*100) + "%";
+  pb.className = "progress" + (scheduled>LIMIT?" alarm":scheduled>=8?" warn":"");
+  $("progFill").style.width = Math.min(100, (scheduled/LIMIT)*100) + "%";
 
   const visible = curFilter==="all" ? list : list.filter(r=>r.status===curFilter);
 
