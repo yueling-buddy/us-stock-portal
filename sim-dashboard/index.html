@@ -245,9 +245,9 @@ function renderTab(key){
       <div id="kpis-${prefix}"></div>
       <div id="chart-${prefix}"></div>
       <div id="dd-${prefix}"></div>
+      <div class="panel" id="cur-${prefix}"></div>
       <div class="panel"><h2>逐期调仓明细 <span class="hint">（最新档期在前；点击任一行展开该档期组合持仓）</span></h2>
         <div id="tbl-${prefix}"></div></div>
-      <div class="panel" id="cur-${prefix}"></div>
       <div class="panel" id="sens-${prefix}"></div>
       <div class="note">${d.note}</div>`;
     document.querySelectorAll('#'+prefix+'-sub .sb').forEach(btn=>{
