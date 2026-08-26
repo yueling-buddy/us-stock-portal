@@ -143,9 +143,9 @@ const APPS = [
     desc:'财报后跳空缺口（Earnings Gap）事件跟踪：新确认断层、持续有效缺口、回补失效与待观察。',
     tag:'公开', tagType:'pub' },
   { group:'tools', id:'paper', title:'模拟盘', ico:'💼',
-    desc:'基于选股信号的回测与每日模拟交易，接入 DPWD 大盘温度做仓位管理。',
-    url:'',
-    tag:'占位·待上线', tagType:'soon' },
+    desc:'美股模拟盘策略聚合：基本面版 / 技术面版选股栏目回测、净利润断层、季度平衡四策略净值曲线与收益对比。',
+    url:'sim-dashboard/',
+    tag:'公开', tagType:'pub' },
 ];
 
 /* ===== 栏目内容：单一数据源，按日期倒序 =====
@@ -204,7 +204,8 @@ const TOOL_FALLBACK = {
   'rps-gallery':      'https://yueling-buddy.github.io/us-stock-portal/rps-gallery/',
   'crowding':         'https://yueling-buddy.github.io/us-stock-portal/crowding/',
   'earnings-calendar':'https://yueling-buddy.github.io/us-stock-portal/earnings-calendar/',
-  'earnings-gap':'https://yueling-buddy.github.io/us-stock-portal/earnings-gap/'
+  'earnings-gap':'https://yueling-buddy.github.io/us-stock-portal/earnings-gap/',
+  'paper':'https://yueling-buddy.github.io/us-stock-portal/sim-dashboard/'
 };
 function resolveToolUrls(){
   return fetch('tools.json')
