@@ -142,7 +142,10 @@ function renderTable(el, table){
 function renderColTable(el, table){
   const head = '<thead><tr>'+table.cols.map(c=>`<th>${c}</th>`).join('')+'</tr></thead>';
   let body='<tbody>';
-  table.rows.forEach((r,idx)=>{
+  // 最新档期置顶；保留原下标以正确关联每期持仓明细
+  const order = table.rows.map((_,idx)=>idx).sort((a,b)=>String(table.rows[b][0]).localeCompare(String(table.rows[a][0])));
+  order.forEach(idx=>{
+    const r = table.rows[idx];
     body += `<tr class="rw" data-i="${idx}">`+r.map(c=>{
         let cls=''; const s=String(c);
         if(s.startsWith('+')) cls='pos'; else if(s.startsWith('-')&&s!=='-') cls='neg';
@@ -201,7 +204,7 @@ function renderTab(key){
       <div id="kpis-col"></div>
       <div id="chart-col"></div>
       <div id="dd-col"></div>
-      <div class="panel"><h2>逐期调仓明细 <span class="hint">（点击任一行展开该档期组合持仓）</span></h2>
+      <div class="panel"><h2>逐期调仓明细 <span class="hint">（最新档期在前；点击任一行展开该档期组合持仓）</span></h2>
         <div id="tbl-col"></div></div>
       <div class="note">${d.note}</div>`;
     document.querySelectorAll('#col-sub .sb').forEach(btn=>{
