@@ -329,7 +329,11 @@ function showTab(key){
     const btn = document.querySelector('.tab[data-t="'+k+'"]');
     if(btn) btn.classList.toggle('on', k===key);
   });
-  if(key==='qv') return;   // 价值策略面板为静态 iframe, 无需动态渲染
+  if(key==='qv'){
+    const qvif = document.querySelector('#panel-qv iframe');
+    if(qvif && qvif.contentWindow){ try{ qvif.contentWindow.postMessage('qv-resize','*'); }catch(e){} }
+    return;
+  }
   renderTab(key);
   if(charts[key+'_nav']) charts[key+'_nav'].resize();
   if(charts[key+'_dd']) charts[key+'_dd'].resize();
