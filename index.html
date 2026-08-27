@@ -142,11 +142,8 @@ const APPS = [
   { group:'tools', id:'earnings-gap', title:'美股净利润断层', ico:'⚡',
     desc:'财报后跳空缺口（Earnings Gap）事件跟踪：新确认断层、持续有效缺口、回补失效与待观察。',
     tag:'公开', tagType:'pub' },
-  { group:'tools', id:'qv-dashboard', title:'价值策略模拟盘', ico:'💡',
-    desc:'量化价值策略（QV）模拟盘：F-Score 排雷 + 质量/估值双重排序，季度再平衡，2000 年至今长历史净值曲线、滚动超额与持仓明细。',
-    tag:'公开', tagType:'pub' },
   { group:'tools', id:'paper', title:'模拟盘', ico:'💼',
-    desc:'美股模拟盘策略聚合：基本面版 / 技术面版选股栏目回测、净利润断层、季度平衡四策略净值曲线与收益对比。',
+    desc:'美股模拟盘策略聚合：选股栏目（动量版/基本面版）回测、净利润断层、季度平衡动量、量化价值（QV）五策略净值曲线与收益对比。',
     url:'sim-dashboard/',
     tag:'公开', tagType:'pub' },
 ];
@@ -208,7 +205,6 @@ const TOOL_FALLBACK = {
   'crowding':         'https://yueling-buddy.github.io/us-stock-portal/crowding/',
   'earnings-calendar':'https://yueling-buddy.github.io/us-stock-portal/earnings-calendar/',
   'earnings-gap':'https://yueling-buddy.github.io/us-stock-portal/earnings-gap/',
-  'qv-dashboard':'https://yueling-buddy.github.io/us-stock-portal/qv-dashboard/index.html',
   'paper':'https://yueling-buddy.github.io/us-stock-portal/sim-dashboard/'
 };
 function resolveToolUrls(){
