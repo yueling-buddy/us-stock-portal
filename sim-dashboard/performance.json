@@ -2,8 +2,8 @@
   "metrics": {
     "total_return": 39.15740324967161,
     "cagr": 0.14865775424062866,
-    "sharpe": 0.8535691961697239,
-    "max_drawdown": -0.5505107913378187,
+    "sharpe": 0.8535691961697235,
+    "max_drawdown": -0.5505107913378189,
     "rebalance_count": 108,
     "total_trades": 2398,
     "closed_trades": 258,
@@ -18,7 +18,7 @@
     "first_trade": "2000-01-04",
     "last_trade": "2026-08-17"
   },
-  "excess_sharpe": 0.5461150313844669,
+  "excess_sharpe": 0.5461150313844664,
   "day_win_rate": 0.5404356908385557,
   "start": "2000-01-01",
   "end": "2026-08-26"

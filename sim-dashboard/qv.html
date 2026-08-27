@@ -74,15 +74,11 @@ var D={"ts": [946857600000, 946944000000, 947030400000, 947116800000, 9472032000
 function nav(){var c=echarts.init(document.getElementById('nav'), 'dark');c.setOption({backgroundColor:'transparent',tooltip:{trigger:'axis'},legend:{data:['组合','SPY'],top:4},grid:{left:56,right:20,top:40,bottom:36},xAxis:{type:'time'},yAxis:{type:'value',name:'净值(1.0)'},series:[
 {name:'组合',type:'line',showSymbol:false,data:D.ts.map((t,i)=>[t,D.port[i]]),lineStyle:{width:2.4},color:'#ffc857'},
 {name:'SPY',type:'line',showSymbol:false,data:D.ts.map((t,i)=>[t,D.spy[i]]),color:'#7f8c8d',lineStyle:{type:'dashed'}}]});return c;}
-function ex(){var c=echarts.init(document.getElementById('ex'), 'dark');c.setOption({backgroundColor:'transparent',tooltip:{trigger:'axis',valueFormatter:v=>(v*100).toFixed(2)+'%'},grid:{left:56,right:20,top:20,bottom:60},xAxis:{type:'category',data:D.rx,axisLabel:{rotate:45,fontSize:9}},yAxis:{type:'value',axisLabel:{formatter:v=>(v*100).toFixed(0)+'%'}},series:[{type:'bar',data:D.ry,itemStyle:{color:p=>p.value>=0?'#26d07c':'#ff5a6a'}]});return c;}
+function ex(){var c=echarts.init(document.getElementById('ex'), 'dark');c.setOption({backgroundColor:'transparent',tooltip:{trigger:'axis',valueFormatter:v=>(v*100).toFixed(2)+'%'},grid:{left:56,right:20,top:20,bottom:60},xAxis:{type:'category',data:D.rx,axisLabel:{rotate:45,fontSize:9}},yAxis:{type:'value',axisLabel:{formatter:v=>(v*100).toFixed(0)+'%'}},series:[{type:'bar',data:D.ry,itemStyle:{color:p=>p.value>=0?'#26d07c':'#ff5a6a'}}]});return c;}
 function hold(){var c=echarts.init(document.getElementById('hold'), 'dark');var pts=D.pts;c.setOption({backgroundColor:'transparent',tooltip:{formatter:o=>o.value[3]+'(QV#'+o.value[4]+')<br>估值分位:'+(o.value[0]*100).toFixed(1)+'%<br>质量分位:'+(o.value[1]*100).toFixed(1)+'%<br>F-Score:'+o.value[2]},grid:{left:56,right:24,top:24,bottom:46},visualMap:{min:0,max:9,dimension:2,orient:'vertical',right:6,top:20,text:['稳','脆'],inRange:{color:['#ff5a6a','#f39c12','#26d07c']},formatter:v=>v.toFixed(0)},xAxis:{type:'value',name:'估值分位',min:0,max:1,axisLabel:{formatter:v=>(v*100).toFixed(0)+'%'}},yAxis:{type:'value',name:'质量分位',min:0,max:1,axisLabel:{formatter:v=>(v*100).toFixed(0)+'%'}},series:[{type:'scatter',symbolSize:12,data:pts,label:{show:true,formatter:o=>o.value[3],fontSize:9,position:'top'}}]});return c;}
 function resizeCharts(){setTimeout(()=>cs.forEach(c=>{try{c.resize();}catch(e){}}),30);}
-var cs=[nav(),ex(),hold()];
-window.addEventListener('resize',()=>cs.forEach(c=>c.resize()));
+var cs=[nav(),ex(),hold()];window.addEventListener('resize',()=>cs.forEach(c=>c.resize()));
 window.addEventListener('message',e=>{ if(e.data==='qv-resize') resizeCharts(); });
 if(document.hidden){document.addEventListener('visibilitychange',()=>{if(!document.hidden) resizeCharts();});}
-(function pollVisible(){
-  if(document.documentElement.clientWidth>0 && document.getElementById('nav').clientWidth>0){ resizeCharts(); return;}
-  setTimeout(pollVisible,150);
-})();
+(function pollVisible(){ if(document.documentElement.clientWidth>0 && document.getElementById('nav').clientWidth>0){ resizeCharts(); return; } setTimeout(pollVisible,150); })();
 </script></body></html>
