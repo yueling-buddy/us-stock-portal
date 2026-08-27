@@ -1,0 +1,226 @@
+{
+  "as_of": "2026-07-01",
+  "next_rebalance": "2027-07-01",
+  "holdings": [
+    {
+      "ticker": "VMC",
+      "rank": 1,
+      "ev_ebit": 24.76,
+      "value_pct": 96.9,
+      "quality_pct": 91.4,
+      "fscore": 8,
+      "roc": 10.4,
+      "roe": 12.6,
+      "period": "2026-07-01 → 2027-07-01"
+    },
+    {
+      "ticker": "EFX",
+      "rank": 2,
+      "ev_ebit": 24.82,
+      "value_pct": 98.4,
+      "quality_pct": 86.7,
+      "fscore": 6,
+      "roc": 11.6,
+      "roe": 14.3,
+      "period": "2026-07-01 → 2027-07-01"
+    },
+    {
+      "ticker": "BSX",
+      "rank": 3,
+      "ev_ebit": 21.76,
+      "value_pct": 79.7,
+      "quality_pct": 91.4,
+      "fscore": 8,
+      "roc": 9.8,
+      "roe": 12.0,
+      "period": "2026-07-01 → 2027-07-01"
+    },
+    {
+      "ticker": "STE",
+      "rank": 4,
+      "ev_ebit": 22.72,
+      "value_pct": 85.9,
+      "quality_pct": 82.0,
+      "fscore": 8,
+      "roc": 11.6,
+      "roe": 10.9,
+      "period": "2026-07-01 → 2027-07-01"
+    },
+    {
+      "ticker": "DGX",
+      "rank": 5,
+      "ev_ebit": 21.08,
+      "value_pct": 76.6,
+      "quality_pct": 89.1,
+      "fscore": 7,
+      "roc": 11.4,
+      "roe": 13.8,
+      "period": "2026-07-01 → 2027-07-01"
+    },
+    {
+      "ticker": "BKR",
+      "rank": 6,
+      "ev_ebit": 21.82,
+      "value_pct": 81.2,
+      "quality_pct": 84.4,
+      "fscore": 6,
+      "roc": 11.5,
+      "roe": 13.7,
+      "period": "2026-07-01 → 2027-07-01"
+    },
+    {
+      "ticker": "HST",
+      "rank": 7,
+      "ev_ebit": 19.95,
+      "value_pct": 67.2,
+      "quality_pct": 98.4,
+      "fscore": 7,
+      "roc": 9.1,
+      "roe": 11.7,
+      "period": "2026-07-01 → 2027-07-01"
+    },
+    {
+      "ticker": "SPGI",
+      "rank": 8,
+      "ev_ebit": 21.84,
+      "value_pct": 82.8,
+      "quality_pct": 75.0,
+      "fscore": 6,
+      "roc": 12.2,
+      "roe": 14.4,
+      "period": "2026-07-01 → 2027-07-01"
+    },
+    {
+      "ticker": "IBM",
+      "rank": 9,
+      "ev_ebit": 22.93,
+      "value_pct": 87.5,
+      "quality_pct": 68.8,
+      "fscore": 6,
+      "roc": 10.8,
+      "roe": 32.4,
+      "period": "2026-07-01 → 2027-07-01"
+    },
+    {
+      "ticker": "CRM",
+      "rank": 10,
+      "ev_ebit": 20.81,
+      "value_pct": 75.0,
+      "quality_pct": 76.6,
+      "fscore": 6,
+      "roc": 11.9,
+      "roe": 12.6,
+      "period": "2026-07-01 → 2027-07-01"
+    },
+    {
+      "ticker": "KVUE",
+      "rank": 11,
+      "ev_ebit": 18.77,
+      "value_pct": 54.7,
+      "quality_pct": 93.8,
+      "fscore": 6,
+      "roc": 11.5,
+      "roe": 13.7,
+      "period": "2026-07-01 → 2027-07-01"
+    },
+    {
+      "ticker": "ALGN",
+      "rank": 12,
+      "ev_ebit": 19.51,
+      "value_pct": 62.5,
+      "quality_pct": 82.0,
+      "fscore": 6,
+      "roc": 13.6,
+      "roe": 10.1,
+      "period": "2026-07-01 → 2027-07-01"
+    },
+    {
+      "ticker": "GD",
+      "rank": 13,
+      "ev_ebit": 20.55,
+      "value_pct": 71.9,
+      "quality_pct": 71.9,
+      "fscore": 7,
+      "roc": 13.6,
+      "roe": 16.4,
+      "period": "2026-07-01 → 2027-07-01"
+    },
+    {
+      "ticker": "DIS",
+      "rank": 14,
+      "ev_ebit": 16.95,
+      "value_pct": 45.3,
+      "quality_pct": 96.9,
+      "fscore": 7,
+      "roc": 8.5,
+      "roe": 11.3,
+      "period": "2026-07-01 → 2027-07-01"
+    },
+    {
+      "ticker": "PSX",
+      "rank": 15,
+      "ev_ebit": 17.89,
+      "value_pct": 48.4,
+      "quality_pct": 86.7,
+      "fscore": 7,
+      "roc": 10.8,
+      "roe": 15.1,
+      "period": "2026-07-01 → 2027-07-01"
+    },
+    {
+      "ticker": "EXPE",
+      "rank": 16,
+      "ev_ebit": 24.57,
+      "value_pct": 95.3,
+      "quality_pct": 35.9,
+      "fscore": 6,
+      "roc": 24.2,
+      "roe": 100.8,
+      "period": "2026-07-01 → 2027-07-01"
+    },
+    {
+      "ticker": "AMGN",
+      "rank": 17,
+      "ev_ebit": 24.95,
+      "value_pct": 100.0,
+      "quality_pct": 29.7,
+      "fscore": 7,
+      "roc": 18.0,
+      "roe": 89.1,
+      "period": "2026-07-01 → 2027-07-01"
+    },
+    {
+      "ticker": "CMI",
+      "rank": 18,
+      "ev_ebit": 20.43,
+      "value_pct": 70.3,
+      "quality_pct": 56.2,
+      "fscore": 6,
+      "roc": 17.6,
+      "roe": 23.0,
+      "period": "2026-07-01 → 2027-07-01"
+    },
+    {
+      "ticker": "TXT",
+      "rank": 19,
+      "ev_ebit": 14.42,
+      "value_pct": 25.0,
+      "quality_pct": 100.0,
+      "fscore": 6,
+      "roc": 9.2,
+      "roe": 11.7,
+      "period": "2026-07-01 → 2027-07-01"
+    },
+    {
+      "ticker": "OKE",
+      "rank": 20,
+      "ev_ebit": 14.76,
+      "value_pct": 28.1,
+      "quality_pct": 95.3,
+      "fscore": 6,
+      "roc": 10.4,
+      "roe": 15.1,
+      "period": "2026-07-01 → 2027-07-01"
+    }
+  ]
+}

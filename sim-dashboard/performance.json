@@ -1,0 +1,25 @@
+{
+  "metrics": {
+    "total_return": 39.15740324967161,
+    "cagr": 0.14865775424062866,
+    "sharpe": 0.8535691961697239,
+    "max_drawdown": -0.5505107913378187,
+    "rebalance_count": 108,
+    "total_trades": 2398,
+    "closed_trades": 258,
+    "win_rate": 0.6046511627906976,
+    "profit_loss_ratio": 2.6049131996105004,
+    "avg_win": 0.8161149224104032,
+    "avg_loss": 0.31329831739976316,
+    "benchmark_total_return": 7.406200813414943,
+    "benchmark_cagr": 0.08318089869552114,
+    "benchmark_max_drawdown": -0.5518944387205564,
+    "excess_return": 31.75120243625667,
+    "first_trade": "2000-01-04",
+    "last_trade": "2026-08-17"
+  },
+  "excess_sharpe": 0.5461150313844669,
+  "day_win_rate": 0.5404356908385557,
+  "start": "2000-01-01",
+  "end": "2026-08-26"
+}
