@@ -1,4 +1,4 @@
-const SW_VERSION = "2026-09-03 21:48:10";
+const SW_VERSION = "2026-09-03 22:03:16";
 const CACHE = 'screener-cache';
 self.addEventListener('install', e => self.skipWaiting());
 self.addEventListener('activate', e => e.waitUntil(self.clients.claim()));
