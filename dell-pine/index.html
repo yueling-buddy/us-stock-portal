@@ -49,13 +49,18 @@ plot(ma50, "MA50", color=color.new(color.blue, 0), linewidth=2)
 plot(ma200, "MA200", color=color.new(color.lime, 0), linewidth=2)
 
 // ── Horizontal key levels ────────────────────────────────────────────────
-// Drawn with plot()+style_linebr (a constant value never breaks) so linewidth
-// actually renders. Bright, thick lines so the levels read clearly on the chart.
-// Update the numbers if price moves.
-plot(533.88, "New High / Breakout", color=color.new(color.red, 0), linewidth=3, style=plot.style_linebr)
-plot(470.00, "MA20 support  (~-12%)", color=color.new(color.yellow, 0), linewidth=2, style=plot.style_linebr)
-plot(442.00, "MA50 support  (~-17%)", color=color.new(color.aqua, 0), linewidth=2, style=plot.style_linebr)
-plot(425.00, "Breakout base", color=color.new(color.fuchsia, 0), linewidth=2, style=plot.style_linebr)</pre>
+// Dashed, bright, thick lines. hline() ignores linewidth and plot() can't dash,
+// so we draw persistent lines once (var) with extend.both to span the chart.
+// Keep the colours / widths; edit the numbers if price moves.
+f_level(lv, col, w) =>
+    var line ln = line.new(bar_index, lv, bar_index, lv, xloc=xloc.bar_index, extend=extend.both, color=col, width=w, style=line.style_dashed)
+    line.set_y1(ln, lv)
+    line.set_y2(ln, lv)
+
+f_level(533.88, color.red,    3)  // New High / Breakout
+f_level(470.00, color.yellow, 2)  // MA20 support  (~-12%)
+f_level(442.00, color.aqua,   2)  // MA50 support  (~-17%)
+f_level(425.00, color.fuchsia, 2) // Breakout base</pre>
 
 <p style="margin-top:24px;color:#888;font-size:13px">Sahm Research · shared for the TradingView community post.</p>
 </body>
