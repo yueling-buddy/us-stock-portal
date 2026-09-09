@@ -1,0 +1,23 @@
+//@version=6
+// DELL Chart Levels — overlays the key technical elements from the post chart
+// (MA20 / MA50 / MA200 + new-high & support horizontal lines)
+// Companion to the DPWD Market Temperature script (add that one as a separate pane).
+// Not financial advice — educational overlay.
+indicator(title="DELL Chart Levels", shorttitle="DELL LV", overlay=true)
+
+// ── Moving averages (mirror the report's daily MAs) ──
+ma20 = ta.sma(close, 20)
+ma50 = ta.sma(close, 50)
+ma200 = ta.sma(close, 200)
+plot(ma20, "MA20", color=color.new(color.orange, 0), linewidth=2)
+plot(ma50, "MA50", color=color.new(color.blue, 0), linewidth=2)
+plot(ma200, "MA200", color=color.new(color.lime, 0), linewidth=2)
+
+// ── Horizontal key levels ────────────────────────────────────────────────
+// Drawn with plot()+style_linebr (a constant value never breaks) so linewidth
+// actually renders. Bright, thick lines so the levels read clearly on the chart.
+// Update the numbers if price moves.
+plot(533.88, "New High / Breakout", color=color.new(color.red, 0), linewidth=3, style=plot.style_linebr)
+plot(470.00, "MA20 support  (~-12%)", color=color.new(color.yellow, 0), linewidth=2, style=plot.style_linebr)
+plot(442.00, "MA50 support  (~-17%)", color=color.new(color.aqua, 0), linewidth=2, style=plot.style_linebr)
+plot(425.00, "Breakout base", color=color.new(color.fuchsia, 0), linewidth=2, style=plot.style_linebr)

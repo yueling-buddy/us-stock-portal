@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DELL Chart Levels — TradingView Pine Script</title>
+<style>
+  body{font-family:-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;max-width:820px;margin:40px auto;padding:0 20px;color:#1a1a1a;background:#fff;line-height:1.6}
+  h1{font-size:22px;margin-bottom:4px}
+  .sub{color:#666;font-size:14px;margin-bottom:20px}
+  .warn{background:#fff4f4;border:1px solid #e6b3b3;color:#a33;padding:12px 14px;border-radius:8px;font-size:14px;margin-bottom:20px}
+  .steps{background:#f6f8fa;border:1px solid #e1e4e8;border-radius:8px;padding:14px 18px;margin-bottom:20px;font-size:14px}
+  .steps ol{margin:6px 0 0;padding-left:20px}
+  pre{background:#1e1e1e;color:#e6e6e6;padding:16px;border-radius:8px;overflow-x:auto;font-size:13px;line-height:1.5;font-family:"SFMono-Regular",Consolas,Menlo,monospace}
+  .tag{display:inline-block;background:#eef2ff;color:#3b4cca;font-size:12px;padding:2px 8px;border-radius:6px;margin-bottom:10px}
+</style>
+</head>
+<body>
+<h1>DELL Chart Levels — TradingView Pine Script</h1>
+<div class="sub">Overlay companion to the DPWD Market Temperature script · Not financial advice</div>
+
+<div class="tag">Pine Script v6 · overlay=true</div>
+
+<div class="warn"><b>Before pasting:</b> TradingView auto-inserts a default <code>indicator("My Script")</code> line. Delete it first, then paste the full code below — otherwise you'll get the <i>"Your script has 2"</i> error.</div>
+
+<div class="steps">
+<b>How to use</b>
+<ol>
+  <li>Open DELL on a daily chart.</li>
+  <li>Pine Editor → paste the code below (after removing the default line) → <b>Add to Chart</b>. The MA20/50/200 lines and the key-level horizontal lines appear on the price pane.</li>
+  <li>For the full post chart, also add the <b>DPWD Market Temperature</b> script as a separate pane (right-click the indicator → Move to → New pane below) and add the native <b>Volume</b> indicator.</li>
+  <li>Levels are fixed from the post (533.88 new high, 470 / 442 / 425 support). Edit the numbers if price moves.</li>
+</ol>
+</div>
+
+<pre>//@version=6
+// DELL Chart Levels — overlays the key technical elements from the post chart
+// (MA20 / MA50 / MA200 + new-high & support horizontal lines)
+// Companion to the DPWD Market Temperature script (add that one as a separate pane).
+// Not financial advice — educational overlay.
+indicator(title="DELL Chart Levels", shorttitle="DELL LV", overlay=true)
+
+// ── Moving averages (mirror the report's daily MAs) ──
+ma20 = ta.sma(close, 20)
+ma50 = ta.sma(close, 50)
+ma200 = ta.sma(close, 200)
+plot(ma20, "MA20", color=color.new(color.orange, 0), linewidth=2)
+plot(ma50, "MA50", color=color.new(color.blue, 0), linewidth=2)
+plot(ma200, "MA200", color=color.new(color.lime, 0), linewidth=2)
+
+// ── Horizontal key levels ────────────────────────────────────────────────
+// Drawn with plot()+style_linebr (a constant value never breaks) so linewidth
+// actually renders. Bright, thick lines so the levels read clearly on the chart.
+// Update the numbers if price moves.
+plot(533.88, "New High / Breakout", color=color.new(color.red, 0), linewidth=3, style=plot.style_linebr)
+plot(470.00, "MA20 support  (~-12%)", color=color.new(color.yellow, 0), linewidth=2, style=plot.style_linebr)
+plot(442.00, "MA50 support  (~-17%)", color=color.new(color.aqua, 0), linewidth=2, style=plot.style_linebr)
+plot(425.00, "Breakout base", color=color.new(color.fuchsia, 0), linewidth=2, style=plot.style_linebr)</pre>
+
+<p style="margin-top:24px;color:#888;font-size:13px">Sahm Research · shared for the TradingView community post.</p>
+</body>
+</html>
