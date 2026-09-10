@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AAPL Chart Levels — TradingView Pine Script</title>
+<style>
+  body{font-family:-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;max-width:820px;margin:40px auto;padding:0 20px;color:#1a1a1a;background:#fff;line-height:1.6}
+  h1{font-size:22px;margin-bottom:4px}
+  .sub{color:#666;font-size:14px;margin-bottom:20px}
+  .warn{background:#fff4f4;border:1px solid #e6b3b3;color:#a33;padding:12px 14px;border-radius:8px;font-size:14px;margin-bottom:20px}
+  .steps{background:#f6f8fa;border:1px solid #e1e4e8;border-radius:8px;padding:14px 18px;margin-bottom:20px;font-size:14px}
+  .steps ol{margin:6px 0 0;padding-left:20px}
+  pre{background:#1e1e1e;color:#e6e6e6;padding:16px;border-radius:8px;overflow-x:auto;font-size:13px;line-height:1.5;font-family:"SFMono-Regular",Consolas,Menlo,monospace}
+  .tag{display:inline-block;background:#eef2ff;color:#3b4cca;font-size:12px;padding:2px 8px;border-radius:6px;margin-bottom:10px}
+</style>
+</head>
+<body>
+<h1>AAPL Chart Levels — TradingView Pine Script</h1>
+<div class="sub">Overlay companion to the DPWD Market Temperature script · Not financial advice</div>
+
+<div class="tag">Pine Script v6 · overlay=true</div>
+
+<div class="warn"><b>Before pasting:</b> TradingView auto-inserts a default <code>indicator("My Script")</code> line. Delete it first, then paste the full code below — otherwise you'll get the <i>"Your script has 2"</i> error.</div>
+
+<div class="steps">
+<b>How to use</b>
+<ol>
+  <li>Open AAPL on a daily chart.</li>
+  <li>Pine Editor → paste the code below (after removing the default line) → <b>Add to Chart</b>. The MA20/50/200 lines and the key-level horizontal lines appear on the price pane.</li>
+  <li>For the full post chart, also add the <b>DPWD Market Temperature</b> script as a separate pane (right-click the indicator → Move to → New pane below) and add the native <b>Volume</b> indicator.</li>
+  <li>Levels are fixed from the post (344.57 52-week high, 330.81 20-day high, 316.47 MA50, 300.57 20-day low, 284.35 MA200). Edit the numbers if price moves.</li>
+</ol>
+</div>
+
+<pre>//@version=6
+// AAPL Chart Levels — overlays MA + key levels from the post chart.
+// Companion to the DPWD Market Temperature script (add that one as a separate pane).
+// Not financial advice — educational overlay.
+indicator(title="AAPL Chart Levels", shorttitle="AAPL LV", overlay=true)
+
+// ── Moving averages (mirror the report's daily MAs) ──
+ma20  = ta.sma(close, 20)
+ma50  = ta.sma(close, 50)
+ma200 = ta.sma(close, 200)
+plot(ma20,  "MA20",  color=color.new(color.orange, 0), linewidth=2)
+plot(ma50,  "MA50",  color=color.new(color.blue,   0), linewidth=2)
+plot(ma200, "MA200", color=color.new(color.lime,   0), linewidth=2)
+
+// ── Horizontal key levels ────────────────────────────────────────────────
+// Dashed, bright, THICK lines. hline() ignores linewidth and plot() can't dash,
+// so we draw persistent lines once (var) with extend.both to span the chart.
+// Keep colours/widths bright; edit the numbers if price moves.
+f_level(lv, col, w) =>
+    var line ln = line.new(bar_index, lv, bar_index, lv, xloc=xloc.bar_index, extend=extend.both, color=col, width=w, style=line.style_dashed)
+    line.set_y1(ln, lv)
+    line.set_y2(ln, lv)
+
+f_level(344.57, color.red,    3)  // 52-week high — event failed to reclaim it
+f_level(330.81, color.yellow, 2)  // 20-day high — near-term resistance
+f_level(316.47, color.aqua,   2)  // MA50 — current pivot (price just below)
+f_level(300.57, color.fuchsia, 2) // 20-day low — support shelf
+f_level(284.35, color.purple, 2)  // MA200 — major bull/bear line</pre>
+
+<p style="margin-top:24px;color:#888;font-size:13px">Sahm Research · shared for the TradingView community post.</p>
+</body>
+</html>
