@@ -29,7 +29,7 @@
   <li>Open AAPL on a daily chart.</li>
   <li>Pine Editor → paste the code below (after removing the default line) → <b>Add to Chart</b>. The MA20/50/200 lines and the key-level horizontal lines appear on the price pane.</li>
   <li>For the full post chart, also add the <b>DPWD Market Temperature</b> script as a separate pane (right-click the indicator → Move to → New pane below) and add the native <b>Volume</b> indicator.</li>
-  <li>Levels are fixed from the post (344.57 52-week high, 330.81 20-day high, 316.47 MA50, 300.57 20-day low, 284.35 MA200). Edit the numbers if price moves.</li>
+  <li>Levels are fixed from the post (344.273 52-week high, 330.81 20-day high, 316.318 MA50, 300.57 20-day low, 283.924 MA200). Edit the numbers if price moves.</li>
 </ol>
 </div>
 
@@ -56,11 +56,11 @@ f_level(lv, col, w) =>
     line.set_y1(ln, lv)
     line.set_y2(ln, lv)
 
-f_level(344.57, color.red,    3)  // 52-week high — event failed to reclaim it
+f_level(344.273, color.red,    3)  // 52-week high — event failed to reclaim it
 f_level(330.81, color.yellow, 2)  // 20-day high — near-term resistance
-f_level(316.47, color.aqua,   2)  // MA50 — current pivot (price just below)
+f_level(316.318, color.aqua,   2)  // MA50 — current pivot (price just below)
 f_level(300.57, color.fuchsia, 2) // 20-day low — support shelf
-f_level(284.35, color.purple, 2)  // MA200 — major bull/bear line</pre>
+f_level(283.924, color.purple, 2)  // MA200 — major bull/bear line</pre>
 
 <p style="margin-top:24px;color:#888;font-size:13px">Sahm Research · shared for the TradingView community post.</p>
 </body>
