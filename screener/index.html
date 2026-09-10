@@ -992,7 +992,7 @@ function initSectorOptions() {
   function loadJSON(u){ return fetch(u, {cache:'no-cache'}).then(function(r){ if(!r.ok) throw new Error(u+' '+r.status); return r.json(); }); }
   var _bootEl = document.getElementById('dpwdTable');
   if (_bootEl) _bootEl.innerHTML = '<tr><td colspan="99" style="padding:28px;text-align:center;color:#888">数据加载中…（约2-3秒，个股链接随数据一起出现，请稍候）</td></tr>';
-  Promise.all([loadJSON('data.json?v=1788994783'), loadJSON('sector_hist.json')]).then(function(a){
+  Promise.all([loadJSON('data.json?v=1789047063'), loadJSON('sector_hist.json')]).then(function(a){
     DATA = a[0]; _SECTOR_HIST = a[1];
     initSectorOptions(); computeKPI(); computeSectorRank(); applyFilters(); computeSectorRank();
   }).catch(function(e){
