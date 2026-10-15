@@ -884,8 +884,8 @@ function renderPage() {
       if (isLocal) {
         href = '/chart/' + encodeURIComponent(code);
       } else if (r.composite != null && Number(r.composite) >= 60) {
-        const dir = (CHART_CODES && CHART_CODES[code]) || code;
-        href = CHART_BASE + '/charts/' + encodeURIComponent(dir) + '/index.html';
+        // 动态个股图页（chart.html?code=）已全量覆盖 composite>=60，不再依赖 CHART_CODES 白名单
+        href = CHART_BASE + '/chart.html?code=' + encodeURIComponent(code);
       }
       if (href) {
         inner = '<a class="chart-link" href="' + href + '" target="_blank" title="查看个股RPS图（K线+综合RPS）">' + inner + '</a>';
