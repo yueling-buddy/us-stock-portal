@@ -26,11 +26,14 @@ canvas{display:block;width:100%;}
 .btnrow{display:flex;gap:8px;margin:8px 0;}
 .btn{flex:1;text-align:center;background:#fff;border:1px solid #d8dce0;border-radius:8px;padding:7px 0;font-size:13px;color:#3a3f45;}
 .btn:active{background:#eef1f4;}
+.pat{font-size:11px;padding:2px 8px;border-radius:10px;background:#e8f5e9;color:#1e7e34;border:1px solid #c8e6c9;white-space:nowrap;}
+.pat:empty{display:none;}
 </style>
 </head>
 <body><div class="wrap">
   <div class="hd">
     <h1 id="chartTitle">加载中…</h1>
+    <span class="pat" id="patBadge"></span>
     <span class="sub">K线 · MA50/MA200 · 综合RPS(副图·独立坐标·&gt;70绿) · S&P500顶部趋势 · 量能</span>
   </div>
   <div id="metricbar" class="metricbar"></div>
@@ -57,7 +60,8 @@ canvas{display:block;width:100%;}
   <div class="foot">
     综合RPS = 0.4×RPS(3M) + 0.3×RPS(6M) + 0.3×RPS(1Y)，按选股器同口径将区间收益在全宇宙(~5312 只)百分位排名逐交易日复算。现已置于独立副图、拥有 0–100 专属坐标系，RPS&gt;70 段染绿以突出强势区。<br>
     S&P 500 顶部趋势 = ^GSPC 相对窗口首日累计涨跌幅，以独立顶部小图呈现，只看市场大致趋势、不与个股价格重叠。<br>
-    绿涨红跌（美股习惯）。K线/MA/成交量用未复权价；RPS 用复权收益。
+    绿涨红跌（美股习惯）。K线/MA/成交量用未复权价；RPS 用复权收益。<br>
+    形态标注（杯柄弧线/右沿突破线/深度%、口袋支点 PP·PP 变体、基底突破★）由形态识别自动绘制，杯柄=欧奈尔杯柄规则（深度/柄长/缩量/RS 过滤 + 近期化约束），PP/BB 来自全市场口袋支点扫描；仅为可视化提示，需人工复核，不构成任何操作建议。
   </div>
 </div>
 <script>
@@ -507,7 +511,32 @@ async function boot(){
   var stock = window.SHARDS && window.SHARDS[letter] && window.SHARDS[letter][code];
   if(!stock){ if(title) title.textContent=code+'：暂无数据（可能 composite<60 或数据不足）'; return; }
   DATA = stock;
+  await attachPatterns(code);
   initChart();
+}
+
+// ---- 形态标注（杯柄 / 口袋支点 / 基底突破）----
+// _patterns.js 由 rps/compute_patterns.py 产出：window.PATTERNS[CODE] = {cup,bo,pp,bb,annotations}
+// 仅「有形态」的票在列，按需加载一次；无形态则干净出图（不画任何东西）。
+async function attachPatterns(code){
+  window.PATTERNS = window.PATTERNS || {};
+  if(!window.PATTERNS_LOADED){
+    try{ await loadScript('chart_data/_patterns.js'); }
+    catch(e){ console.warn('patterns load failed', e); }
+    window.PATTERNS_LOADED = true;
+    window.PATTERNS = window.PATTERNS || {};
+  }
+  var pat = window.PATTERNS[code];
+  if(!pat) return;
+  if(pat.annotations && pat.annotations.length) DATA.annotations = pat.annotations;
+  DATA.cup = pat.cup; DATA.bo = pat.bo; DATA.pp = pat.pp; DATA.bb = pat.bb;
+  var labels = [];
+  if(pat.cup) labels.push(pat.cup === 'rising' ? '杯柄形态·上升变体' : '杯柄形态·经典');
+  if(pat.bo) labels.push('杯柄突破');
+  if(pat.pp) labels.push('口袋支点');
+  if(pat.bb) labels.push('基底突破');
+  var badge = document.getElementById('patBadge');
+  if(badge && labels.length) badge.textContent = labels.join(' · ');
 }
 boot();
 </script>
