@@ -107,7 +107,7 @@
    });
    list.sort((a,b)=>{let x=a[sortKey],y=b[sortKey];if(x==null)x=-1e9;if(y==null)y=-1e9;return (x-y)*sortDir;});
    const total=list.length;const pages=Math.max(1,Math.ceil(total/pageSize));if(page>=pages)page=pages-1;if(page<0)page=0;const start=page*pageSize;const view=list.slice(start,start+pageSize);tbody.innerHTML=view.map(r=>(
-     '<tr><td class="tk"><a href="../chart.html?code='+encodeURIComponent(r.t)+'" target="_blank">+encodeURIComponent(r.t)+'" target="_blank">'+r.t+'</a></td>'+
+     '<tr><td class="tk"><a href="../chart.html?code='+encodeURIComponent(r.t)+'" target="_blank">'+r.t+'</a></td>'+
      '<td>'+(r.c==null?'—':'$'+r.c.toFixed(2))+'</td>'+
      '<td class="'+rpsCls(r.r)+'">'+fmt(r.r)+'</td>'+
      '<td class="'+rpsCls(r.y)+'">'+fmt(r.y)+'</td>'+
