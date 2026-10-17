@@ -1,0 +1,8 @@
+# Windows reserved device-name artifacts
+# These files (NUL/CON/PRN/AUX) get created accidentally by SSH/redirect operations
+# during deploy on Windows and cannot be deleted or indexed by git (reserved names).
+# Ignore them so `git add -A` does not choke.
+/NUL
+/CON
+/PRN
+/AUX

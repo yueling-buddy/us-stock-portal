@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>美股个股 RPS 画廊</title>
+<style>
+ *{box-sizing:border-box;margin:0;padding:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"PingFang SC","Microsoft YaHei",sans-serif;}
+ body{background:#f7f8fa;color:#1f2329;padding:16px;max-width:1100px;margin:0 auto;}
+ h1{font-size:20px;margin-bottom:4px;}
+ .sub{color:#8a9099;font-size:12px;margin-bottom:4px;}
+ .refresh-ts{color:#8a9099;font-size:11px;margin-bottom:12px;}
+ .stats{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:12px;}
+ .stat{background:#fff;border:1px solid #e6e8eb;border-radius:8px;padding:8px 14px;}
+ .stat .n{font-size:20px;font-weight:700;}
+ .stat .l{font-size:11px;color:#8a9099;}
+ .toolbar{display:flex;gap:10px;margin-bottom:10px;align-items:center;flex-wrap:wrap;}
+ .toolbar input{padding:7px 10px;border:1px solid #d8dce0;border-radius:8px;font-size:13px;min-width:200px;}
+ .toolbar select{padding:7px 10px;border:1px solid #d8dce0;border-radius:8px;font-size:13px;}
+ .toolbar button{background:#fff;border:1px solid #d8dce0;border-radius:8px;padding:7px 14px;font-size:13px;cursor:pointer;}
+ .toolbar button:hover{background:#eef1f4;}
+ .tblwrap{background:#fff;border:1px solid #e6e8eb;border-radius:10px;overflow:auto;max-height:78vh;}
+ table{width:100%;border-collapse:collapse;}
+ th,td{padding:9px 10px;text-align:right;font-size:13px;border-bottom:1px solid #f0f1f3;white-space:nowrap;}
+ th{background:#fafbfc;color:#5b6168;cursor:pointer;user-select:none;position:sticky;top:0;z-index:1;}
+ th:hover{color:#2d7ff9;}
+ td.tk{text-align:left;font-weight:700;}
+ a{color:#2d7ff9;text-decoration:none;}
+ a:hover{text-decoration:underline;}
+ tr:hover{background:#f7faff;}
+ .tag{display:inline-block;padding:2px 8px;border-radius:10px;font-size:11px;}
+ .tag.bo{background:#e6f4ea;color:#1e7e34;}
+ .tag.cup{background:#fff4e5;color:#b26a00;}
+ .tag.none{background:#f1f2f4;color:#9aa0a6;}
+ .tag.pp{background:#e3f2fd;color:#1565c0;}
+ .tag.bb{background:#fde7e9;color:#c62828;}
+ .pos{color:#26a69a;} .neg{color:#ef5350;}
+ .foot{color:#9aa0a6;font-size:11px;margin-top:12px;line-height:1.6;}
+
+  .pager{display:flex;gap:8px;align-items:center;margin-top:10px;flex-wrap:wrap;}
+  .pager button{padding:6px 12px;border:1px solid #d8dce0;border-radius:8px;background:#fff;font-size:13px;cursor:pointer;}
+  .pager button:hover:not(:disabled){background:#eef1f4;}
+  .pager button:disabled{color:#c4c8cc;cursor:default;}
+  .pager .pginfo{font-size:12px;color:#5b6168;}
+  .pager .pgnum{font-size:12px;color:#5b6168;}
+  .pager input{padding:6px 8px;border:1px solid #d8dce0;border-radius:8px;font-size:13px;}
+</style>
+</head>
+<body>
+ <h1>美股个股 RPS 画廊</h1>
+ <div class="sub" id="sub"></div>
+ <div class="refresh-ts">行情时间：2026-10-16 04:00（北京时间 · 对应最新交易日收盘）</div>
+ <div class="stats" id="stats"><div class="stat"><div class="n">47</div><div class="l">全部</div></div><div class="stat"><div class="n">0</div><div class="l">杯柄形态</div></div><div class="stat"><div class="n">0</div><div class="l">杯柄突破</div></div><div class="stat"><div class="n">0</div><div class="l">口袋支点</div></div><div class="stat"><div class="n">0</div><div class="l">基底突破</div></div></div>
+ <div class="toolbar">
+   <input id="q" placeholder="搜索代码…">
+   <select id="fcup">
+     <option value="">全部</option>
+     <option value="cup">杯柄形态</option>
+     <option value="bo">杯柄突破</option>
+     <option value="pp">口袋支点</option>
+     <option value="bb">基底突破</option>
+   </select>
+   <button id="reset">重置排序/筛选</button>
+ </div>
+ <div class="tblwrap">
+ <table id="tbl">
+   <thead><tr>
+     <th data-k="t">代码</th><th data-k="c">末价</th>
+     <th data-k="r">综合RPS</th><th data-k="y">1Y</th><th data-k="m">6M</th><th data-k="q">3M</th>
+     <th data-k="cup">杯柄</th>
+     <th data-k="pp">口袋支点</th>
+     <th data-k="bb">基底突破</th>
+   </tr></thead>
+   <tbody id="tbody"></tbody>
+ </table>
+ </div>
+ <div class="pager" id="pager"></div>
+ <div class="foot">综合RPS = 0.4×RPS(3M)+0.3×RPS(6M)+0.3×RPS(1Y)，全宇宙百分位排名（与选股器同口径）。绿涨红跌·美股习惯。点击代码在新标签打开个股图。杯柄识别为实验性规则，仅供可视化提示，不构成任何操作建议。</div>
+<script>
+ const DATA = [{"t": "KOD", "d": "KOD", "c": 88.12, "r": 99.3, "y": 99.8, "m": 98.5, "q": 99.5, "cup": null, "bo": false, "pp": false, "bb": false}, {"t": "XHG", "d": "XHG", "c": 1.69, "r": 97.9, "y": 95.1, "m": 98.5, "q": 99.7, "cup": null, "bo": false, "pp": false, "bb": false}, {"t": "KRSA", "d": "KRSA", "c": 33.65, "r": 94.9, "y": 96.2, "m": 95.5, "q": 93.4, "cup": null, "bo": false, "pp": false, "bb": false}, {"t": "OMER", "d": "OMER", "c": 18.79, "r": 94.7, "y": 94.6, "m": 89.4, "q": 98.8, "cup": null, "bo": false, "pp": false, "bb": false}, {"t": "MU", "d": "MU", "c": 931.24, "r": 91.4, "y": 99.7, "m": 97.7, "q": 80.5, "cup": null, "bo": false, "pp": false, "bb": false}, {"t": "PRCH", "d": "PRCH", "c": 17.57, "r": 88.6, "y": 70.9, "m": 99.0, "q": 94.0, "cup": null, "bo": false, "pp": false, "bb": false}, {"t": "WCCB", "d": "WCCB", "c": 60.2, "r": 86.9, "y": 88.0, "m": 88.4, "q": 85.0, "cup": null, "bo": false, "pp": false, "bb": false}, {"t": "FEIM", "d": "FEIM", "c": 69.98, "r": 86.8, "y": 93.4, "m": 76.8, "q": 89.5, "cup": null, "bo": false, "pp": false, "bb": false}, {"t": "SVRN", "d": "SVRN", "c": 41.78, "r": 85.8, "y": 52.8, "m": 99.9, "q": 100.0, "cup": null, "bo": false, "pp": false, "bb": false}, {"t": "NCPL", "d": "NCPL", "c": 1.98, "r": 85.6, "y": 52.0, "m": 100.0, "q": 100.0, "cup": null, "bo": false, "pp": false, "bb": false}, {"t": "BE", "d": "BE", "c": 236.3, "r": 83.0, "y": 95.5, "m": 69.2, "q": 84.0, "cup": null, "bo": false, "pp": false, "bb": false}, {"t": "PSNL", "d": "PSNL", "c": 15.93, "r": 83.0, "y": 95.2, "m": 99.1, "q": 61.9, "cup": null, "bo": false, "pp": false, "bb": false}, {"t": "RVMD", "d": "RVMD", "c": 189.26, "r": 82.7, "y": 99.5, "m": 84.5, "q": 68.8, "cup": null, "bo": false, "pp": false, "bb": false}, {"t": "ARQT", "d": "ARQT", "c": 29.1, "r": 81.0, "y": 83.4, "m": 82.9, "q": 77.8, "cup": null, "bo": false, "pp": false, "bb": false}, {"t": "LITE", "d": "LITE", "c": 869.54, "r": 80.6, "y": 99.8, "m": 47.1, "q": 91.3, "cup": null, "bo": false, "pp": false, "bb": false}, {"t": "ESYN", "d": "ESYN", "c": 1.98, "r": 78.6, "y": 34.9, "m": 95.8, "q": 98.4, "cup": null, "bo": false, "pp": false, "bb": false}, {"t": "QXL", "d": "QXL", "c": 3.88, "r": 75.3, "y": 83.7, "m": 97.9, "q": 52.2, "cup": null, "bo": false, "pp": false, "bb": false}, {"t": "FEAM", "d": "FEAM", "c": 3.16, "r": 75.2, "y": 19.8, "m": 97.7, "q": 99.7, "cup": null, "bo": false, "pp": false, "bb": false}, {"t": "PDSB", "d": "PDSB", "c": 1.3, "r": 73.9, "y": 73.7, "m": 41.7, "q": 98.1, "cup": null, "bo": false, "pp": false, "bb": false}, {"t": "SLS", "d": "SLS", "c": 11.34, "r": 73.9, "y": 99.8, "m": 98.0, "q": 36.5, "cup": null, "bo": false, "pp": false, "bb": false}, {"t": "TVTX", "d": "TVTX", "c": 52.79, "r": 73.9, "y": 95.2, "m": 86.7, "q": 48.2, "cup": null, "bo": false, "pp": false, "bb": false}, {"t": "SCZM", "d": "SCZM", "c": 8.32, "r": 73.8, "y": 73.1, "m": 44.2, "q": 96.5, "cup": null, "bo": false, "pp": false, "bb": false}, {"t": "SVIA", "d": "SVIA", "c": 3.89, "r": 73.8, "y": 16.1, "m": 97.9, "q": 99.1, "cup": null, "bo": false, "pp": false, "bb": false}, {"t": "SKYA", "d": "SKYA", "c": 2.74, "r": 73.7, "y": 20.8, "m": 91.9, "q": 99.6, "cup": null, "bo": false, "pp": false, "bb": false}, {"t": "AXTI", "d": "AXTI", "c": 57.91, "r": 72.7, "y": 100.0, "m": 22.3, "q": 90.0, "cup": null, "bo": false, "pp": false, "bb": false}, {"t": "DEC", "d": "DEC", "c": 14.43, "r": 72.6, "y": 73.2, "m": 59.0, "q": 82.3, "cup": null, "bo": false, "pp": false, "bb": false}, {"t": "USBC", "d": "USBC", "c": 0.45, "r": 71.8, "y": 22.4, "m": 90.2, "q": 95.0, "cup": null, "bo": false, "pp": false, "bb": false}, {"t": "DAVE", "d": "DAVE", "c": 369.0, "r": 71.6, "y": 92.9, "m": 95.2, "q": 38.0, "cup": null, "bo": false, "pp": false, "bb": false}, {"t": "STX", "d": "STX", "c": 690.81, "r": 71.6, "y": 99.0, "m": 83.6, "q": 42.0, "cup": null, "bo": false, "pp": false, "bb": false}, {"t": "ADIL", "d": "ADIL", "c": 3.14, "r": 71.0, "y": 15.8, "m": 98.8, "q": 91.5, "cup": null, "bo": false, "pp": false, "bb": false}, {"t": "CADL", "d": "CADL", "c": 8.91, "r": 70.3, "y": 85.7, "m": 95.4, "q": 39.9, "cup": null, "bo": false, "pp": false, "bb": false}, {"t": "SYRE", "d": "SYRE", "c": 80.1, "r": 68.3, "y": 99.5, "m": 81.1, "q": 35.1, "cup": null, "bo": false, "pp": false, "bb": false}, {"t": "ALZN", "d": "ALZN", "c": 1.28, "r": 68.0, "y": 24.8, "m": 88.2, "q": 85.2, "cup": null, "bo": false, "pp": false, "bb": false}, {"t": "DRK", "d": "DRK", "c": 2.16, "r": 67.3, "y": 9.9, "m": 90.7, "q": 92.8, "cup": null, "bo": false, "pp": false, "bb": false}, {"t": "TPC", "d": "TPC", "c": 78.65, "r": 66.9, "y": 77.2, "m": 47.5, "q": 73.9, "cup": null, "bo": false, "pp": false, "bb": false}, {"t": "DFTX", "d": "DFTX", "c": 34.26, "r": 65.8, "y": 98.5, "m": 92.9, "q": 20.9, "cup": null, "bo": false, "pp": false, "bb": false}, {"t": "SEZL", "d": "SEZL", "c": 132.37, "r": 65.6, "y": 92.6, "m": 96.6, "q": 22.1, "cup": null, "bo": false, "pp": false, "bb": false}, {"t": "BRLS", "d": "BRLS", "c": 1.09, "r": 65.0, "y": 14.7, "m": 80.6, "q": 91.0, "cup": null, "bo": false, "pp": false, "bb": false}, {"t": "TVGN", "d": "TVGN", "c": 7.08, "r": 64.8, "y": 9.6, "m": 75.2, "q": 98.3, "cup": null, "bo": false, "pp": false, "bb": false}, {"t": "SLE", "d": "SLE", "c": 4.65, "r": 64.4, "y": 5.6, "m": 78.1, "q": 98.2, "cup": null, "bo": false, "pp": false, "bb": false}, {"t": "SUNE", "d": "SUNE", "c": 2.16, "r": 64.1, "y": 81.7, "m": 91.0, "q": 30.8, "cup": null, "bo": false, "pp": false, "bb": false}, {"t": "CNSP", "d": "CNSP", "c": 5.18, "r": 63.4, "y": 22.6, "m": 97.4, "q": 68.4, "cup": null, "bo": false, "pp": false, "bb": false}, {"t": "MAAS", "d": "MAAS", "c": 12.61, "r": 62.8, "y": 99.6, "m": 95.8, "q": 10.4, "cup": null, "bo": false, "pp": false, "bb": false}, {"t": "HSDT", "d": "HSDT", "c": 2.35, "r": 62.5, "y": 7.7, "m": 74.0, "q": 95.0, "cup": null, "bo": false, "pp": false, "bb": false}, {"t": "ENSC", "d": "ENSC", "c": 0.6, "r": 62.4, "y": 10.6, "m": 65.5, "q": 99.0, "cup": null, "bo": false, "pp": false, "bb": false}, {"t": "OLB", "d": "OLB", "c": 0.44, "r": 62.4, "y": 15.0, "m": 71.9, "q": 90.8, "cup": null, "bo": false, "pp": false, "bb": false}, {"t": "CRDO", "d": "CRDO", "c": 178.5, "r": 61.3, "y": 80.2, "m": 70.7, "q": 40.1, "cup": null, "bo": false, "pp": false, "bb": false}];
+  let pageSize=100, page=0;
+ const META = {"label": "全部", "mainrps": true};
+ const subEl=document.getElementById('sub');
+ const tbody=document.getElementById('tbody');
+ const qEl=document.getElementById('q');
+ const fcup=document.getElementById('fcup');
+ subEl.textContent='共 '+DATA.length+' 只 · 显示窗口 '+META.label+(META.mainrps?' · 副图RPS':'');
+ let sortKey='r', sortDir=-1;
+ function cupTag(r){
+   if(r.bo) return '<span class="tag bo">突破</span>';
+   if(r.cup) return '<span class="tag cup">'+(r.cup==='rising'?'杯柄·上升':'杯柄·经典')+'</span>';
+   return '<span class="tag none">—</span>';
+ }
+ function sigTag(v,txt,cls){return v?'<span class="tag '+cls+'">'+txt+'</span>':'<span class="tag none">—</span>';}
+ function fmt(v){return v==null?'—':v.toFixed(1);}
+ function rpsCls(v){return v==null?'':(v>=80?'pos':(v<30?'neg':''));}
+ function render(){
+   const q=qEl.value.trim().toUpperCase();
+   const fc=fcup.value;
+   let list=DATA.filter(r=>{
+     if(q && !r.t.includes(q)) return false;
+     if(fc==='cup' && !r.cup) return false;
+     if(fc==='bo' && !r.bo) return false;
+     if(fc==='pp' && !r.pp) return false;
+     if(fc==='bb' && !r.bb) return false;
+     return true;
+   });
+   list.sort((a,b)=>{let x=a[sortKey],y=b[sortKey];if(x==null)x=-1e9;if(y==null)y=-1e9;return (x-y)*sortDir;});
+   const total=list.length;const pages=Math.max(1,Math.ceil(total/pageSize));if(page>=pages)page=pages-1;if(page<0)page=0;const start=page*pageSize;const view=list.slice(start,start+pageSize);tbody.innerHTML=view.map(r=>(
+     '<tr><td class="tk"><a href="charts/'+r.d+'/index.html" target="_blank">'+r.t+'</a></td>'+
+     '<td>'+(r.c==null?'—':'$'+r.c.toFixed(2))+'</td>'+
+     '<td class="'+rpsCls(r.r)+'">'+fmt(r.r)+'</td>'+
+     '<td class="'+rpsCls(r.y)+'">'+fmt(r.y)+'</td>'+
+     '<td class="'+rpsCls(r.m)+'">'+fmt(r.m)+'</td>'+
+     '<td class="'+rpsCls(r.q)+'">'+fmt(r.q)+'</td>'+
+     '<td>'+cupTag(r)+'</td>'+
+     '<td>'+sigTag(r.pp,'口袋支点','pp')+'</td>'+
+     '<td>'+sigTag(r.bb,'基底突破','bb')+'</td></tr>'
+   )).join('');
+  renderPager(total,pages,start,view.length);
+ }
+ document.querySelectorAll('th').forEach(th=>{
+   th.addEventListener('click',()=>{
+     const k=th.dataset.k;
+     if(sortKey===k) sortDir*=-1; else {sortKey=k;sortDir=(k==='t')?1:-1;}
+     page=0;render();
+   });
+ });
+ qEl.addEventListener('input',()=>{page=0;render();});
+ fcup.addEventListener('change',()=>{page=0;render();});
+ document.getElementById('reset').addEventListener('click',()=>{sortKey='r';sortDir=-1;qEl.value='';fcup.value='';page=0;render();});
+ page=0;render();
+
+  function renderPager(total,pages,start,shown){
+    const pager=document.getElementById('pager');
+    if(total===0){pager.innerHTML='';return;}
+    let html='<span class="pginfo">显示 '+(start+1)+'–'+(start+shown)+' / 共 '+total+' 只</span>';
+    html+='<button id="pgprev" '+(page<=0?'disabled':'')+'>‹ 上一页</button>';
+    html+='<span class="pgnum">第 '+(page+1)+' / '+pages+' 页</span>';
+    html+='<button id="pgnext" '+(page>=pages-1?'disabled':'')+'>下一页 ›</button>';
+    html+='<input id="pgjump" type="number" min="1" max="'+pages+'" placeholder="页码" style="width:64px;">';
+    html+='<button id="pggo">跳转</button>';
+    pager.innerHTML=html;
+    document.getElementById('pgprev').onclick=()=>{if(page>0){page--;render();}};
+    document.getElementById('pgnext').onclick=()=>{if(page<pages-1){page++;render();}};
+    document.getElementById('pggo').onclick=()=>{const v=parseInt(document.getElementById('pgjump').value,10);if(!isNaN(v)&&v>=1&&v<=pages){page=v-1;render();}};
+  }
+
+</script>
+</body></html>
