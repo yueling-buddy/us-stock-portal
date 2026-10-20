@@ -60,7 +60,7 @@ canvas{display:block;width:100%;}
   <div class="foot">
     综合RPS = 0.4×RPS(3M) + 0.3×RPS(6M) + 0.3×RPS(1Y)，按选股器同口径将区间收益在全宇宙(~5312 只)百分位排名逐交易日复算。现已置于独立副图、拥有 0–100 专属坐标系，RPS&gt;70 段染绿以突出强势区。<br>
     S&P 500 顶部趋势 = ^GSPC 相对窗口首日累计涨跌幅，以独立顶部小图呈现，只看市场大致趋势、不与个股价格重叠。<br>
-    绿涨红跌（美股习惯）。K线/MA/成交量用未复权价；RPS 用复权收益。<br>
+    绿涨红跌（美股习惯）。K线/MA/成交量用未复权价；RPS 用复权收益。视窗内 K 线过密时（如「全部」5 年）自动按多日合并成周/月级蜡烛以保证红绿分明，放大到 3 月/6 月恢复日线。<br>
     形态标注（杯柄弧线/右沿突破线/深度%、口袋支点 PP·PP 变体、基底突破★）由形态识别自动绘制，杯柄=欧奈尔杯柄规则（深度/柄长/缩量/RS 过滤 + 近期化约束），PP/BB 来自全市场口袋支点扫描；仅为可视化提示，需人工复核，不构成任何操作建议。
   </div>
 </div>
@@ -171,8 +171,30 @@ function draw(){
   const pad=(pmax-pmin)*0.06; pmin-=pad; pmax+=pad;
   const yP = v => L.priceBot - (v-pmin)/(pmax-pmin)*(L.priceBot-L.priceTop);
 
-  // 成交量范围
-  let vmax=0; for(let i=a;i<=b;i++){ const v=DATA.vol[i], vm=DATA.volma20[i]; if(v!=null&&v>vmax)vmax=v; if(vm!=null&&vm>vmax)vmax=vm; }
+  // ---- 自适应聚合：可见 K 线过密时按多日合并，保证每根蜡烛有足够宽度、红绿分明 ----
+  const plotW = W-PADL-PADR;
+  const spanBars = b-a+1;
+  const MIN_SLOT = 2.6;                                   // 每根蜡烛最小水平间距(px)
+  const aggK = Math.max(1, Math.ceil(spanBars / Math.max(1, plotW/MIN_SLOT)));
+  const nB = Math.ceil(spanBars/aggK);
+  const cw = Math.max(1, plotW/nB*0.7);
+  const B = [];
+  for(let bi=0; bi<nB; bi++){
+    const s=a+bi*aggK, e=Math.min(b, s+aggK-1);
+    let hi=-1e18, lo=1e18, vsum=0, vmsum=0, hasV=false, hasVm=false;
+    for(let i=s;i<=e;i++){
+      const hh=DATA.high[i], ll=DATA.low[i], vv=DATA.vol[i], vm=DATA.volma20[i];
+      if(hh!=null){ if(hh>hi)hi=hh; if(ll!=null&&ll<lo)lo=ll; }
+      if(vv!=null){ vsum+=vv; hasV=true; }
+      if(vm!=null){ vmsum+=vm; hasVm=true; }
+    }
+    B.push({x:xOf((s+e)/2), o:DATA.open[s], c:DATA.close[e],
+            h:(hi>-1e17?hi:null), l:(lo<1e17?lo:null),
+            v:(hasV?vsum:null), vm:(hasVm?vmsum:null)});
+  }
+  // 成交量范围（聚合后）
+  let vmax=0;
+  for(const bkt of B){ if(bkt.v!=null&&bkt.v>vmax)vmax=bkt.v; if(bkt.vm!=null&&bkt.vm>vmax)vmax=bkt.vm; }
   const yV = v => L.volBot - (v/(vmax||1))*(L.volBot-L.volTop);
 
   // SPX 累计收益范围（独立顶部小图，只看大致趋势）
@@ -227,32 +249,35 @@ function draw(){
     ctx.fillText(v.toFixed(1), 4, y);
   }
 
-  const cw=Math.max(1,(W-PADL-PADR)/(b-a+1)*0.62);
-
-  // ---- 成交量柱（副区） ----
-  for(let i=a;i<=b;i++){
-    const v=DATA.vol[i]; if(v==null) continue;
-    const x=xOf(i); const y=yV(v);
-    const up = DATA.close[i]>=DATA.open[i];
+  // ---- 成交量柱（副区，聚合后） ----
+  for(const bkt of B){
+    if(bkt.v==null) continue;
+    const y=yV(bkt.v);
+    const up = (bkt.o!=null&&bkt.c!=null)? bkt.c>=bkt.o : true;
     ctx.fillStyle = up? 'rgba(38,166,154,.55)':'rgba(239,83,80,.55)';
-    ctx.fillRect(x-cw/2, y, cw, L.volBot-y);
+    ctx.fillRect(bkt.x-cw/2, y, cw, L.volBot-y);
   }
   // 成交量 MA
   ctx.strokeStyle='#5b6168'; ctx.lineWidth=1.2; ctx.beginPath(); let started=false;
-  for(let i=a;i<=b;i++){ const v=DATA.volma20[i]; if(v==null){started=false;continue;} const x=xOf(i),y=yV(v); if(!started){ctx.moveTo(x,y);started=true;} else ctx.lineTo(x,y);} ctx.stroke();
+  for(const bkt of B){ const v=bkt.vm; if(v==null){started=false;continue;} if(!started){ctx.moveTo(bkt.x,yV(v));started=true;} else ctx.lineTo(bkt.x,yV(v));} ctx.stroke();
 
-  // ---- K线 ----
-  for(let i=a;i<=b;i++){
-    const x=xOf(i); const o=DATA.open[i],cl=DATA.close[i],hi=DATA.high[i],lo=DATA.low[i];
-    if(o==null||cl==null) continue;
+  // ---- K线（聚合后：红绿分明） ----
+  for(const bkt of B){
+    const o=bkt.o, cl=bkt.c, hi=bkt.h, lo=bkt.l;
+    if(o==null||cl==null||hi==null||lo==null) continue;
     const up=cl>=o;
     ctx.strokeStyle= up?'#26a69a':'#ef5350';
     ctx.fillStyle= up?'#26a69a':'#ef5350';
     ctx.lineWidth=1;
-    ctx.beginPath(); ctx.moveTo(x,yP(hi)); ctx.lineTo(x,yP(lo)); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(bkt.x,yP(hi)); ctx.lineTo(bkt.x,yP(lo)); ctx.stroke();
     const yo=yP(o), yc=yP(cl);
     const top=Math.min(yo,yc), hgt=Math.max(1,Math.abs(yc-yo));
-    ctx.fillRect(x-cw/2, top, cw, hgt);
+    ctx.fillRect(bkt.x-cw/2, top, cw, hgt);
+  }
+  // 聚合提示（视窗过密合并时）
+  if(aggK>1){
+    ctx.fillStyle='#b7bcc2'; ctx.font='10px sans-serif'; ctx.textAlign='left'; ctx.textBaseline='top';
+    ctx.fillText((aggK<=7?'周线·':'')+'每根≈'+aggK+'日', PADL+4, L.priceTop+2);
   }
 
   // ---- MA ----
