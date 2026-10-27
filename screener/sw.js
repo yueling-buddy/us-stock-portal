@@ -1,4 +1,4 @@
-const SW_VERSION = "2026-10-28 03:38:00";
+const SW_VERSION = "2026-10-28 03:53:23";
 const CACHE = 'screener-cache';
 const NETWORK_FIRST = [/data\.json/, /sector_hist\.json/, /index\.html?$/, /\/screener\/$/];
 self.addEventListener('install', e => self.skipWaiting());
