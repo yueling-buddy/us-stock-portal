@@ -1,4 +1,4 @@
-const SW_VERSION = "2026-11-11 01:34:18";
+const SW_VERSION = "2026-11-11 01:49:33";
 const CACHE = 'screener-cache';
 const DATA_RE = [/data\.json/, /sector_hist\.json/];
 const FRESH_MS = 10 * 60 * 1000;
