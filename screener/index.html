@@ -2,7 +2,7 @@
 <html lang="zh-CN">
 <head>
 <meta charset="utf-8">
-<link rel="preload" href="data.json?v=1794439386" as="fetch" type="application/json" crossorigin="anonymous">
+<link rel="preload" href="data.json?v=1794493862" as="fetch" type="application/json" crossorigin="anonymous">
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
@@ -1009,7 +1009,7 @@ function initSectorOptions() {
     try { initSectorOptions(); computeKPI(); computeSectorRank(); applyFilters(); computeSectorRank(); }
     catch (e) { console.error(e); }
   }
-  loadJSON('data.json?v=1794439386', 25000).then(function(d){
+  loadJSON('data.json?v=1794493862', 25000).then(function(d){
     DATA = d || [];
     _paintMain();
     loadJSON('sector_hist.json', 20000).then(function(h){
