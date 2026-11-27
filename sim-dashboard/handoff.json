@@ -1,0 +1,31 @@
+{
+  "schema": "us-momentum-chain.handoff/1",
+  "stage": "sim_dashboard",
+  "generated_at": "2026-11-28T07:08:57",
+  "anchor": null,
+  "basis": "2026-11-25",
+  "current": {
+    "buy": "2026-11-25",
+    "asof": "2026-11-27",
+    "signal_date": "2026-11-25",
+    "top5": [
+      "GMAB",
+      "KNSA",
+      "SN",
+      "ANF",
+      "TGTX"
+    ]
+  },
+  "latest_completed": {
+    "buy": "2026-11-19",
+    "sell": "2026-11-25",
+    "top5": [
+      "HNGE",
+      "GMAB",
+      "SN",
+      "TGTX",
+      "KNSA"
+    ]
+  },
+  "status": "ready"
+}
